@@ -27,6 +27,5 @@ jobs:
             --verbose
             --no-progress
             --offline
-            --exclude-mail
             "./README.md"
             "./docs/**/*.md"
