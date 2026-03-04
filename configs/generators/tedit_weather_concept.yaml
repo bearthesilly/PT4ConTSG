@@ -1,0 +1,72 @@
+condition:
+  attribute:
+    enabled: true
+  fusion: concat
+  label:
+    enabled: false
+  text:
+    enabled: false
+    input_dim: 1024
+data:
+  data_folder: ./datasets/weather_concept
+  n_var: 10
+  name: weather_concept
+  normalize: true
+  seq_length: 36
+device: cuda:0
+eval:
+  batch_size: 128
+  cache_folder: ./cache/weather_concept
+  clip_config_path: ./configs/cttp/cttp_weather_concept.yaml
+  clip_model_path: ./checkpoints/cttp/<CTTP_CHECKPOINT>.ckpt
+  metrics:
+  - dtw
+  - wape
+  - ed
+  - crps
+  - acd
+  - sd
+  - kd
+  - mdd
+  - fid
+  - jftsd
+  - prdc_f1
+  - joint_prdc_f1
+  - cttp
+  n_samples: 10
+  save_samples: true
+  viz:
+    enable: true
+    n_cases: 20
+    output_type: pdf
+  clip_normalize_embeddings: false
+model:
+  L_patch_len: 3
+  attention_mask_type: parallel
+  attr_heads: 8
+  attr_layers: 2
+  attr_proj_type: avg
+  base_patch: 1
+  beta_end: 0.5
+  beta_start: 0.0001
+  channels: 64
+  diffusion_steps: 50
+  feature_ratio: 0.5
+  layers: 3
+  multipatch_num: 3
+  n_attrs: 4
+  name: tedit
+  nheads: 8
+  noise_schedule: quad
+  side_time_emb: 112
+  side_var_emb: 16
+seed: 42
+train:
+  batch_size: 256
+  early_stopping_patience: 50
+  epochs: 700
+  gradient_clip_val: 1.0
+  lr: 0.001
+  num_workers: 4
+  scheduler: cosine
+  weight_decay: 0.0001

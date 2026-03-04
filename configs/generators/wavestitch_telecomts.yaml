@@ -1,0 +1,62 @@
+condition:
+  attribute:
+    enabled: true
+  fusion: concat
+  label:
+    enabled: false
+  text:
+    enabled: false
+    input_dim: 1024
+data:
+  data_folder: ./datasets/telecomts_segment
+  n_var: 2
+  name: telecomts_segment
+  normalize: false
+  seq_length: 128
+device: cuda:0
+eval:
+  batch_size: 128
+  cache_folder: ./cache/telecomts_segment
+  clip_config_path: ./configs/cttp/cttp_telecomts_instance.yaml
+  clip_model_path: ./checkpoints/cttp/<CTTP_CHECKPOINT>.ckpt
+  metrics:
+  - dtw
+  - wape
+  - ed
+  - crps
+  - acd
+  - sd
+  - kd
+  - mdd
+  - fid
+  - jftsd
+  - prdc_f1
+  - joint_prdc_f1
+  - cttp
+  n_samples: 10
+  save_samples: true
+  use_cache: true
+  viz:
+    enable: true
+    n_cases: 20
+    output_type: pdf
+model:
+  base_patch: 4
+  beta_end: 0.5
+  beta_start: 0.0001
+  channels: 64
+  diffusion_steps: 50
+  layers: 3
+  name: wavestitch
+  nheads: 8
+  noise_schedule: quad
+seed: 42
+train:
+  batch_size: 256
+  early_stopping_patience: 50
+  epochs: 700
+  gradient_clip_val: 1.0
+  lr: 0.001
+  num_workers: 4
+  scheduler: cosine
+  weight_decay: 0.0001

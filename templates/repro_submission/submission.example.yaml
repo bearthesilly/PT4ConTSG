@@ -1,0 +1,38 @@
+model:
+  name: my_model
+  model_type: diffusion
+  native_condition: text
+  org: "My Lab"
+  paper_link: "https://arxiv.org/abs/2401.xxxxx"
+  code_link: "https://github.com/my-org/my-model-repo"
+  model_link: "https://huggingface.co/my-org/my-model-ckpt"  # HF model repo for checkpoints
+  ckpt_scope: ["synth-u", "synth-m"]  # datasets with publicly available checkpoints
+  reproducibility:
+    script_link: "https://github.com/my-org/my-model-repo/blob/main/scripts/reproduce_contsg.sh"
+    command: "bash scripts/reproduce_contsg.sh --dataset synth-u --seed 0"
+    commit: "0123456789abcdef0123456789abcdef01234567"
+    notes: "One-click script downloads checkpoints and writes metrics JSON."
+  params: "45M"
+  notes: "Optional short description"
+
+results:
+  - dataset: synth-u
+    condition_modality: text
+    n_runs: 3
+    metrics:
+      dtw: { mean: 5.12, std: 0.10 }
+      wape: { mean: 85.2, std: 1.3 }
+      ed: { mean: 8.51, std: 0.08 }
+      crps: { mean: 0.44, std: 0.02 }
+      acd: { mean: 0.06, std: 0.01 }
+      sd: { mean: 4.5, std: 0.2 }
+      kd: { mean: 470.0, std: 10.0 }
+      mdd: { mean: 0.017, std: 0.001 }
+      fid: { mean: 103.1, std: 7.5 }
+      jftsd: { mean: 108.8, std: 8.0 }
+      prdc_f1.precision: { mean: 0.70, std: 0.02 }
+      prdc_f1.recall: { mean: 0.33, std: 0.01 }
+      joint_prdc_f1.precision: { mean: 0.87, std: 0.02 }
+      joint_prdc_f1.recall: { mean: 0.49, std: 0.02 }
+      cttp: { mean: 5.9, std: 0.3 }
+

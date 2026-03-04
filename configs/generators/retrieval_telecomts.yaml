@@ -1,0 +1,54 @@
+seed: 42
+device: cuda:0
+train:
+  epochs: 1
+  batch_size: 256
+  lr: 0.001
+  weight_decay: 0.0001
+  scheduler: cosine
+  early_stopping_patience: 50
+  gradient_clip_val: 1.0
+  num_workers: 4
+data:
+  name: telecomts_segment
+  data_folder: ./datasets/telecomts_segment
+  n_var: 2
+  seq_length: 128
+  normalize: false
+model:
+  name: retrieval
+condition:
+  text:
+    enabled: true
+    input_dim: 1024
+  attribute:
+    enabled: false
+  label:
+    enabled: false
+  fusion: concat
+eval:
+  metrics:
+  - dtw
+  - wape
+  - ed
+  - crps
+  - acd
+  - sd
+  - kd
+  - mdd
+  - fid
+  - jftsd
+  - prdc_f1
+  - joint_prdc_f1
+  - cttp
+  n_samples: 10
+  batch_size: 128
+  save_samples: true
+  clip_config_path: ./configs/cttp/cttp_telecomts_instance.yaml
+  clip_model_path: ./checkpoints/cttp/<CTTP_CHECKPOINT>.ckpt
+  cache_folder: ./cache/telecomts_segment
+  use_cache: true
+  viz:
+    enable: true
+    n_cases: 20
+    output_type: pdf

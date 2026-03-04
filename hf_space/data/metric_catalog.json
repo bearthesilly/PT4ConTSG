@@ -1,0 +1,122 @@
+[
+  {
+    "metric_name": "acd",
+    "display_name": "ACD",
+    "metric_group": "fidelity",
+    "direction": "lower_better",
+    "default_weight": 1.0,
+    "required_for_rank": false
+  },
+  {
+    "metric_name": "sd",
+    "display_name": "SD",
+    "metric_group": "fidelity",
+    "direction": "lower_better",
+    "default_weight": 1.0,
+    "required_for_rank": false
+  },
+  {
+    "metric_name": "kd",
+    "display_name": "KD",
+    "metric_group": "fidelity",
+    "direction": "lower_better",
+    "default_weight": 1.0,
+    "required_for_rank": false
+  },
+  {
+    "metric_name": "mdd",
+    "display_name": "MDD",
+    "metric_group": "fidelity",
+    "direction": "lower_better",
+    "default_weight": 1.0,
+    "required_for_rank": false
+  },
+  {
+    "metric_name": "fid",
+    "display_name": "FID",
+    "metric_group": "fidelity",
+    "direction": "lower_better",
+    "default_weight": 1.0,
+    "required_for_rank": true
+  },
+  {
+    "metric_name": "prdc_f1.precision",
+    "display_name": "kNN-PRF Precision",
+    "metric_group": "fidelity",
+    "direction": "higher_better",
+    "default_weight": 1.0,
+    "required_for_rank": false
+  },
+  {
+    "metric_name": "prdc_f1.recall",
+    "display_name": "kNN-PRF Recall",
+    "metric_group": "fidelity",
+    "direction": "higher_better",
+    "default_weight": 1.0,
+    "required_for_rank": false
+  },
+  {
+    "metric_name": "jftsd",
+    "display_name": "JFTSD",
+    "metric_group": "adherence",
+    "direction": "lower_better",
+    "default_weight": 1.0,
+    "required_for_rank": true
+  },
+  {
+    "metric_name": "joint_prdc_f1.precision",
+    "display_name": "Joint kNN-PRF Precision",
+    "metric_group": "adherence",
+    "direction": "higher_better",
+    "default_weight": 1.0,
+    "required_for_rank": false
+  },
+  {
+    "metric_name": "joint_prdc_f1.recall",
+    "display_name": "Joint kNN-PRF Recall",
+    "metric_group": "adherence",
+    "direction": "higher_better",
+    "default_weight": 1.0,
+    "required_for_rank": false
+  },
+  {
+    "metric_name": "cttp",
+    "display_name": "CTTP",
+    "metric_group": "adherence",
+    "direction": "higher_better",
+    "default_weight": 1.0,
+    "required_for_rank": true
+  },
+  {
+    "metric_name": "dtw",
+    "display_name": "DTW",
+    "metric_group": "utility",
+    "direction": "lower_better",
+    "default_weight": 1.0,
+    "required_for_rank": false
+  },
+  {
+    "metric_name": "crps",
+    "display_name": "CRPS",
+    "metric_group": "utility",
+    "direction": "lower_better",
+    "default_weight": 1.0,
+    "required_for_rank": false
+  },
+  {
+    "metric_name": "ed",
+    "display_name": "ED",
+    "metric_group": "utility",
+    "direction": "lower_better",
+    "default_weight": 1.0,
+    "required_for_rank": false
+  },
+  {
+    "metric_name": "wape",
+    "display_name": "WAPE",
+    "metric_group": "utility",
+    "direction": "lower_better",
+    "default_weight": 1.0,
+    "required_for_rank": false
+  }
+]

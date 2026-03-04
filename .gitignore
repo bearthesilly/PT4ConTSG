@@ -1,0 +1,162 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+experiments/
+datasets/
+scripts/
+!contsg/data/datasets/
+!contsg/data/datasets/**
+contsg/data/datasets/**/__pycache__/
+contsg/data/datasets/**/*.pyc
+checkpoints/
+*.ckpt
+*.pt
+*.pth
+
+# Config experiment directories
+configs/debug/
+configs/grid/
+configs/grid_backup/
+configs/grid_backup1/
+configs/grid_backup2/
+
+# Cache
+.cache/
+cache/
+*.cache
+
+# Logs
+logs/
+*.log
+slurm_log/
+slurm-*.out
+
+# Model weights
+*.bin
+*.safetensors
+
+# Temporary files
+tmp/
+temp/
+
+references
+
+node_modules/
+package-lock.json
+package.json
+
+disc_auc_outputs/
+
+claude-switch.py
+
+img/
+
+results/
+
+*.csv
+
+scripts/RQ5/memcheck_no_sdforger/
+scripts/RQ5/memcheck/
+
+python310_sandbox/
+*.sif
+
+
+scripts/dataset_construction/synth-u/outputs
+scripts/RQ3/synth_u_shapelet/outputs
+
+scripts/RQ4/results_hamming/
+scripts/RQ4/results_hamming/airquality_beijing_extrinsic/plots/
+scripts/RQ4_new/outputs/
+scripts/RQ4_new/outputs_retrieval_*/
+
+# Human evaluation output (tasks, annotations, NPZ data)
+human_eval_output/
+
+# HF Space generated data (mock experiments)
+# But keep the actual snapshot data for local testing
+!hf_space/data/
+!hf_space/data/**
+hf_space/data/_mock_experiments/
+hf_space/data/snapshots/
+
+# Internal documentation (not for open source release)
+AGENTS.md
+docs/hf_frontend_framework.md

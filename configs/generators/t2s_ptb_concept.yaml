@@ -1,0 +1,66 @@
+seed: 42
+device: cuda:0
+train:
+  epochs: 700
+  batch_size: 256
+  lr: 0.001
+  weight_decay: 0.0001
+  scheduler: cosine
+  early_stopping_patience: 50
+  gradient_clip_val: 1.0
+  num_workers: 4
+  stages:
+  - name: ae_pretrain
+    epochs: 200
+    lr: 0.001
+    use_condition: false
+  - name: finetune
+    epochs: 500
+    lr: 0.001
+    use_condition: true
+    load_from_stage: ae_pretrain
+data:
+  name: ptbxl_concept
+  data_folder: ./datasets/ptbxl_concept
+  n_var: 12
+  seq_length: 1000
+  normalize: false
+model:
+  name: t2s
+  flow_steps: 10
+  cfg_scale: 9
+condition:
+  text:
+    enabled: true
+    input_dim: 1024
+  attribute:
+    enabled: false
+  label:
+    enabled: false
+  fusion: concat
+eval:
+  metrics:
+  - dtw
+  - wape
+  - ed
+  - crps
+  - acd
+  - sd
+  - kd
+  - mdd
+  - fid
+  - jftsd
+  - prdc_f1
+  - joint_prdc_f1
+  - cttp
+  n_samples: 10
+  batch_size: 128
+  save_samples: true
+  viz:
+    enable: true
+    n_cases: 20
+    output_type: pdf
+  clip_config_path: ./configs/cttp/<CTTP_CONFIG>.yaml
+  clip_model_path: ./checkpoints/cttp/<CTTP_CHECKPOINT>.ckpt
+  clip_normalize_embeddings: false
+  cache_folder: ./cache/ptbxl_concept

@@ -1,0 +1,583 @@
+model:
+  name: bridge
+  model_type: diffusion
+  native_condition: text
+  org: ConTSG
+  code_link: "https://github.com/microsoft/TimeCraft/tree/main/BRIDGE"
+  model_link: "https://huggingface.co/mldi-lab/ConTSG-Bench-Checkpoints"
+  ckpt_scope: ["synth-u", "synth-m"]
+results:
+- dataset: airquality_beijing
+  condition_modality: attribute
+  n_runs: 3
+  metrics:
+    acd:
+      mean: 0.033694
+      std: 0.006883
+    crps:
+      mean: 0.327185
+      std: 0.010405
+    cttp:
+      mean: 5.210157
+      std: 0.703693
+    disc_auc:
+      mean: 0.999431
+      std: 1.0e-06
+    dtw:
+      mean: 7.095146
+      std: 0.198182
+    ed:
+      mean: 7.563048
+      std: 0.204894
+    fid:
+      mean: 159.694512
+      std: 20.331324
+    jftsd:
+      mean: 160.635784
+      std: 20.462325
+    joint_prdc_f1.f1:
+      mean: 0.391234
+      std: 0.083656
+    joint_prdc_f1.precision:
+      mean: 0.808058
+      std: 0.036203
+    joint_prdc_f1.recall:
+      mean: 0.260167
+      std: 0.068986
+    kd:
+      mean: 0.737141
+      std: 0.069492
+    mdd:
+      mean: 0.028966
+      std: 0.001222
+    prdc_f1.f1:
+      mean: 0.087062
+      std: 0.014162
+    prdc_f1.precision:
+      mean: 0.895667
+      std: 0.003991
+    prdc_f1.recall:
+      mean: 0.0458
+      std: 0.007866
+    sd:
+      mean: 0.209398
+      std: 0.056001
+    wape:
+      mean: 86.960185
+      std: 2.963105
+- dataset: ettm1
+  condition_modality: text
+  n_runs: 3
+  metrics:
+    acd:
+      mean: 0.106947
+      std: 0.020971
+    crps:
+      mean: 0.55029
+      std: 0.009119
+    cttp:
+      mean: 1.815645
+      std: 0.385105
+    disc_auc:
+      mean: 0.884915
+      std: 0.030972
+    dtw:
+      mean: 8.079838
+      std: 0.171059
+    ed:
+      mean: 9.221168
+      std: 0.11947
+    fid:
+      mean: 42.007614
+      std: 9.470083
+    jftsd:
+      mean: 42.600493
+      std: 9.572459
+    joint_prdc_f1.f1:
+      mean: 0.536027
+      std: 0.020197
+    joint_prdc_f1.precision:
+      mean: 0.608858
+      std: 0.006947
+    joint_prdc_f1.recall:
+      mean: 0.47931
+      std: 0.030512
+    kd:
+      mean: 3.352055
+      std: 0.065639
+    mdd:
+      mean: 0.027164
+      std: 0.002116
+    prdc_f1.f1:
+      mean: 0.54654
+      std: 0.03096
+    prdc_f1.precision:
+      mean: 0.669786
+      std: 0.035669
+    prdc_f1.recall:
+      mean: 0.461634
+      std: 0.027597
+    sd:
+      mean: 0.492529
+      std: 0.032246
+    wape:
+      mean: 104.972755
+      std: 1.765428
+- dataset: istanbul_traffic
+  condition_modality: text
+  n_runs: 3
+  metrics:
+    acd:
+      mean: 0.029979
+      std: 0.001955
+    crps:
+      mean: 0.524667
+      std: 0.070427
+    cttp:
+      mean: 4.700345
+      std: 0.022779
+    disc_auc:
+      mean: 0.920421
+      std: 0.022505
+    dtw:
+      mean: 8.298109
+      std: 1.98216
+    ed:
+      mean: 9.313734
+      std: 1.800021
+    fid:
+      mean: 15.146059
+      std: 2.158214
+    jftsd:
+      mean: 15.667813
+      std: 2.136166
+    joint_prdc_f1.f1:
+      mean: 0.625809
+      std: 0.045143
+    joint_prdc_f1.precision:
+      mean: 0.676492
+      std: 0.055362
+    joint_prdc_f1.recall:
+      mean: 0.582628
+      std: 0.040908
+    kd:
+      mean: 0.189743
+      std: 0.217149
+    mdd:
+      mean: 0.037755
+      std: 0.005209
+    prdc_f1.f1:
+      mean: 0.438174
+      std: 0.016632
+    prdc_f1.precision:
+      mean: 0.93718
+      std: 0.008601
+    prdc_f1.recall:
+      mean: 0.286088
+      std: 0.014793
+    sd:
+      mean: 0.417538
+      std: 0.271372
+    wape:
+      mean: 83.489549
+      std: 16.814034
+- dataset: ptbxl_concept
+  condition_modality: text
+  n_runs: 3
+  metrics:
+    acd:
+      mean: 0.056054
+      std: 0.006909
+    crps:
+      mean: 0.431719
+      std: 0.003321
+    cttp:
+      mean: 140.690178
+      std: 12.300402
+    disc_auc:
+      mean: 1.0
+    dtw:
+      mean: 97.58983
+      std: 0.261455
+    ed:
+      mean: 101.659096
+      std: 0.246648
+    fid:
+      mean: 500.818091
+      std: 26.067751
+    jftsd:
+      mean: 513.666419
+      std: 22.765306
+    joint_prdc_f1.f1:
+      mean: 0.002116
+      std: 0.000522
+    joint_prdc_f1.precision:
+      mean: 0.342281
+      std: 0.010064
+    joint_prdc_f1.recall:
+      mean: 0.001062
+      std: 0.000263
+    kd:
+      mean: 184.277544
+      std: 0.087553
+    mdd:
+      mean: 0.015814
+      std: 0.000352
+    prdc_f1.f1:
+      mean: 0.0
+    prdc_f1.precision:
+      mean: 0.589475
+      std: 0.369309
+    prdc_f1.recall:
+      mean: 0.0
+    sd:
+      mean: 2.816002
+      std: 0.026373
+    wape:
+      mean: 100.623307
+      std: 0.131478
+- dataset: ptbxl_morphology
+  condition_modality: text
+  n_runs: 3
+  metrics:
+    acd:
+      mean: 0.062313
+      std: 0.010883
+    crps:
+      mean: 0.42558
+      std: 0.002646
+    cttp:
+      mean: 219.306373
+      std: 2.93853
+    disc_auc:
+      mean: 1.0
+    dtw:
+      mean: 97.354443
+      std: 0.15899
+    ed:
+      mean: 102.252498
+      std: 0.18894
+    fid:
+      mean: 324.813168
+      std: 8.837167
+    jftsd:
+      mean: 336.59408
+      std: 8.495987
+    joint_prdc_f1.f1:
+      mean: 0.000303
+      std: 0.000525
+    joint_prdc_f1.precision:
+      mean: 0.588565
+      std: 0.01569
+    joint_prdc_f1.recall:
+      mean: 0.000152
+      std: 0.000263
+    kd:
+      mean: 184.409337
+      std: 0.231623
+    mdd:
+      mean: 0.014881
+      std: 0.000411
+    prdc_f1.f1:
+      mean: 0.0
+    prdc_f1.precision:
+      mean: 0.999393
+      std: 0.001051
+    prdc_f1.recall:
+      mean: 0.0
+    sd:
+      mean: 2.809805
+      std: 0.020901
+    wape:
+      mean: 101.060128
+      std: 0.400107
+- dataset: synth-m
+  condition_modality: text
+  n_runs: 3
+  metrics:
+    acd:
+      mean: 0.057976
+      std: 0.02391
+    crps:
+      mean: 0.596379
+      std: 0.024552
+    cttp:
+      mean: 18.839686
+      std: 0.578303
+    disc_auc:
+      mean: 0.999728
+      std: 3.4e-05
+    dtw:
+      mean: 12.590906
+      std: 1.062673
+    ed:
+      mean: 15.057789
+      std: 0.858685
+    fid:
+      mean: 46.155601
+      std: 12.682056
+    jftsd:
+      mean: 53.589146
+      std: 12.686838
+    joint_prdc_f1.f1:
+      mean: 0.291438
+      std: 0.087032
+    joint_prdc_f1.precision:
+      mean: 0.403
+      std: 0.08317
+    joint_prdc_f1.recall:
+      mean: 0.233333
+      std: 0.086118
+    kd:
+      mean: 0.422026
+      std: 0.247065
+    mdd:
+      mean: 0.029414
+      std: 0.000285
+    prdc_f1.f1:
+      mean: 0.243795
+      std: 0.063379
+    prdc_f1.precision:
+      mean: 0.696167
+      std: 0.076023
+    prdc_f1.recall:
+      mean: 0.151
+      std: 0.048285
+    sd:
+      mean: 0.138204
+      std: 0.170294
+    wape:
+      mean: 99.927703
+      std: 5.439413
+- dataset: synth-u
+  condition_modality: text
+  n_runs: 3
+  metrics:
+    acd:
+      mean: 0.031395
+      std: 0.011633
+    crps:
+      mean: 0.517179
+      std: 0.017497
+    cttp:
+      mean: 22.99194
+      std: 0.764872
+    disc_auc:
+      mean: 0.999536
+      std: 4.8e-05
+    dtw:
+      mean: 5.879353
+      std: 0.426076
+    ed:
+      mean: 8.888138
+      std: 0.364274
+    fid:
+      mean: 50.181366
+      std: 3.881581
+    jftsd:
+      mean: 55.140064
+      std: 2.839799
+    joint_prdc_f1.f1:
+      mean: 0.602336
+      std: 0.028454
+    joint_prdc_f1.precision:
+      mean: 0.822833
+      std: 0.0404
+    joint_prdc_f1.recall:
+      mean: 0.475167
+      std: 0.023965
+    kd:
+      mean: 0.641662
+      std: 0.056181
+    mdd:
+      mean: 0.028231
+      std: 0.000146
+    prdc_f1.f1:
+      mean: 0.132006
+      std: 0.015828
+    prdc_f1.precision:
+      mean: 0.590583
+      std: 0.041128
+    prdc_f1.recall:
+      mean: 0.0745
+      std: 0.010449
+    sd:
+      mean: 0.09736
+      std: 0.077451
+    wape:
+      mean: 85.552678
+      std: 3.058604
+- dataset: telecomts_segment
+  condition_modality: text
+  n_runs: 3
+  metrics:
+    acd:
+      mean: 0.043502
+      std: 0.002374
+    crps:
+      mean: 0.537447
+      std: 0.004731
+    cttp:
+      mean: 2.231148
+      std: 0.956648
+    disc_auc:
+      mean: 0.998542
+      std: 0.001297
+    dtw:
+      mean: 13.804923
+      std: 0.361468
+    ed:
+      mean: 14.935972
+      std: 0.21782
+    fid:
+      mean: 76.377666
+      std: 10.062908
+    jftsd:
+      mean: 80.349849
+      std: 9.79155
+    joint_prdc_f1.f1:
+      mean: 0.198058
+      std: 0.017366
+    joint_prdc_f1.precision:
+      mean: 0.165521
+      std: 0.028713
+    joint_prdc_f1.recall:
+      mean: 0.274688
+      std: 0.089598
+    kd:
+      mean: 8.852462
+      std: 2.805204
+    mdd:
+      mean: 0.028259
+      std: 0.000823
+    prdc_f1.f1:
+      mean: 0.351181
+      std: 0.027277
+    prdc_f1.precision:
+      mean: 0.535729
+      std: 0.062308
+    prdc_f1.recall:
+      mean: 0.263125
+      std: 0.031775
+    sd:
+      mean: 0.770784
+      std: 0.221962
+    wape:
+      mean: 100.805568
+      std: 4.554906
+- dataset: weather_concept
+  condition_modality: text
+  n_runs: 3
+  metrics:
+    acd:
+      mean: 0.043394
+      std: 0.005586
+    crps:
+      mean: 0.458254
+      std: 0.017346
+    cttp:
+      mean: 9.350927
+      std: 0.64113
+    disc_auc:
+      mean: 0.999851
+      std: 0.000161
+    dtw:
+      mean: 17.800743
+      std: 0.581627
+    ed:
+      mean: 17.962846
+      std: 0.584204
+    fid:
+      mean: 64.894423
+      std: 13.270928
+    jftsd:
+      mean: 66.276859
+      std: 13.200602
+    joint_prdc_f1.f1:
+      mean: 0.431871
+      std: 0.073102
+    joint_prdc_f1.precision:
+      mean: 0.594766
+      std: 0.031448
+    joint_prdc_f1.recall:
+      mean: 0.34248
+      std: 0.079832
+    kd:
+      mean: 2332.318711
+      std: 23.788796
+    mdd:
+      mean: 0.024672
+      std: 0.001862
+    prdc_f1.f1:
+      mean: 0.097918
+      std: 0.052183
+    prdc_f1.precision:
+      mean: 0.696646
+      std: 0.038178
+    prdc_f1.recall:
+      mean: 0.053608
+      std: 0.029817
+    sd:
+      mean: 20.213674
+      std: 1.093571
+    wape:
+      mean: 93.303025
+      std: 0.51388
+- dataset: weather_morphology
+  condition_modality: text
+  n_runs: 3
+  metrics:
+    acd:
+      mean: 0.034333
+      std: 0.002558
+    crps:
+      mean: 0.405267
+      std: 0.027556
+    cttp:
+      mean: 27.310125
+      std: 2.279966
+    disc_auc:
+      mean: 0.999298
+      std: 0.000598
+    dtw:
+      mean: 15.725385
+      std: 0.667398
+    ed:
+      mean: 16.004276
+      std: 0.723594
+    fid:
+      mean: 45.06458
+      std: 12.757385
+    jftsd:
+      mean: 47.78096
+      std: 13.050138
+    joint_prdc_f1.f1:
+      mean: 0.356722
+      std: 0.062992
+    joint_prdc_f1.precision:
+      mean: 0.630081
+      std: 0.080264
+    joint_prdc_f1.recall:
+      mean: 0.249746
+      std: 0.052322
+    kd:
+      mean: 2320.626597
+      std: 0.561422
+    mdd:
+      mean: 0.020485
+      std: 0.000195
+    prdc_f1.f1:
+      mean: 0.056246
+      std: 0.006633
+    prdc_f1.precision:
+      mean: 0.753303
+      std: 0.036723
+    prdc_f1.recall:
+      mean: 0.029217
+      std: 0.00352
+    sd:
+      mean: 19.567208
+      std: 0.089158
+    wape:
+      mean: 77.795504
+      std: 4.038437

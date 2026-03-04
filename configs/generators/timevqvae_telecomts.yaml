@@ -1,0 +1,86 @@
+condition:
+  attribute:
+    enabled: true
+  fusion: concat
+  label:
+    enabled: true
+    num_classes: 10
+  text:
+    enabled: false
+    input_dim: 1024
+data:
+  data_folder: ./datasets/telecomts_segment
+  n_var: 2
+  name: telecomts_segment
+  normalize: false
+  seq_length: 128
+device: cuda:0
+eval:
+  batch_size: 128
+  cache_folder: ./cache/telecomts_segment
+  clip_config_path: ./configs/cttp/cttp_telecomts_instance.yaml
+  clip_model_path: ./checkpoints/cttp/<CTTP_CHECKPOINT>.ckpt
+  metrics:
+  - dtw
+  - wape
+  - ed
+  - crps
+  - acd
+  - sd
+  - kd
+  - mdd
+  - fid
+  - jftsd
+  - prdc_f1
+  - joint_prdc_f1
+  - cttp
+  n_samples: 10
+  save_samples: true
+  use_cache: true
+  viz:
+    enable: true
+    n_cases: 20
+    output_type: pdf
+model:
+  MaskGIT:
+    T:
+      hf: 10
+      lf: 10
+    cfg_scale: 1.0
+    choice_temperatures:
+      hf: 0.0
+      lf: 10.0
+  VQ-VAE:
+    codebook_dim: 8
+    codebook_sizes:
+      hf: 1024
+      lf: 1024
+    n_fft: 4
+  decoder:
+    n_resnet_blocks: 2
+  encoder:
+    downsampled_width:
+      hf: 32
+      lf: 8
+    hid_dim: 128
+    init_dim: 4
+    n_resnet_blocks: 2
+  name: timevqvae
+  prior:
+    ff_mult: 1.0
+    heads: 2
+    hidden_dim: 128
+    n_layers: 4
+    p_unconditional: 0.2
+    use_rmsnorm: true
+seed: 42
+train:
+  batch_size: 256
+  early_stopping_patience: 50
+  epochs: 700
+  gradient_clip_val: 1.0
+  lr: 0.001
+  num_workers: 4
+  scheduler: cosine
+  stages_preset: two_stage
+  weight_decay: 0.0001

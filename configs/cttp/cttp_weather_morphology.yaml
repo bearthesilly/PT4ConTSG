@@ -1,0 +1,46 @@
+seed: 42
+device: cuda:0
+train:
+  epochs: 500
+  batch_size: 128
+  lr: 0.0001
+  weight_decay: 0.0001
+  scheduler: cosine
+  early_stopping_patience: 50
+  gradient_clip_val: 1.0
+  num_workers: 4
+data:
+  name: weather_morphology
+  data_folder: ./datasets/weather_morphology
+  n_var: 10
+  seq_length: 36
+  normalize: true
+model:
+  name: cttp
+  d_model: 64
+  coemb_dim: 512
+  patch_len: 32
+  stride: 32
+  padding: 24
+  d_ff: 256
+  e_layers: 2
+  factor: 1
+  activation: gelu
+  nheads: 8
+  dropout: 0.1
+  textemb_hidden_dim: 1024
+  pretrain_model_path: ./checkpoints/longclip
+  pretrain_model_dim: 768
+  loss_type: ce
+  temperature: 0.07
+  normalize_embeddings: true
+  ts_encoder_type: patchtst_mae
+condition:
+  text:
+    enabled: true
+    input_dim: 768
+  attribute:
+    enabled: false
+  label:
+    enabled: false
+  fusion: concat
