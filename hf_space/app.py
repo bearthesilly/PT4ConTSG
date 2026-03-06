@@ -35,6 +35,17 @@ logger = logging.getLogger(__name__)
 
 
 CUSTOM_CSS = """
+.top-link-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 10px 0 18px;
+}
+
+.top-link-row a {
+  display: inline-flex;
+}
+
 /* Keep metric values fully visible in the slices dataframe */
 #slices-results-table {
   width: 100%;
@@ -62,6 +73,28 @@ CUSTOM_CSS = """
 #slices-results-table .slices-grid td {
   padding: 6px 8px;
 }
+"""
+
+HEADER_MARKDOWN = """
+# ConTSG-Bench Leaderboard
+
+**A Comprehensive Benchmark for Conditional Time Series Generation**
+
+Evaluating generative models across **Fidelity** and **Condition Adherence**
+"""
+
+HEADER_LINKS_MARKDOWN = """
+<div class="top-link-row">
+  <a href="https://github.com/seqml/ConTSG-Bench" target="_blank">
+    <img alt="GitHub repository" src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white">
+  </a>
+  <a href="https://huggingface.co/spaces/mldi-lab/ConTSG-Bench-Leaderboard" target="_blank">
+    <img alt="Hugging Face leaderboard" src="https://img.shields.io/badge/Hugging%20Face-FFB000?style=for-the-badge&logo=huggingface&logoColor=black">
+  </a>
+  <a href="https://arxiv.org/abs/2603.04767" target="_blank">
+    <img alt="arXiv paper" src="https://img.shields.io/badge/arXiv-2603.04767-B31B1B?style=for-the-badge&logo=arxiv&logoColor=white">
+  </a>
+</div>
 """
 
 
@@ -97,15 +130,8 @@ def create_app() -> gr.Blocks:
     with gr.Blocks(
         title="ConTSG-Bench Leaderboard",
     ) as app:
-        gr.Markdown(
-            """
-# ConTSG-Bench Leaderboard
-
-**A Comprehensive Benchmark for Conditional Time Series Generation**
-
-Evaluating generative models across **Fidelity** and **Condition Adherence**
-"""
-        )
+        gr.Markdown(HEADER_MARKDOWN)
+        gr.Markdown(HEADER_LINKS_MARKDOWN)
 
         with gr.Tabs():
             with gr.Tab("Overview"):
