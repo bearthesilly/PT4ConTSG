@@ -42,8 +42,36 @@ CUSTOM_CSS = """
   margin: 10px 0 18px;
 }
 
-.top-link-row a {
+.top-link-badge {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  color: inherit;
   display: inline-flex;
+  gap: 8px;
+  padding: 8px 14px;
+  text-decoration: none;
+  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+
+.top-link-badge:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.24);
+  transform: translateY(-1px);
+}
+
+.top-link-icon {
+  align-items: center;
+  display: inline-flex;
+  font-size: 16px;
+  justify-content: center;
+  width: 18px;
+}
+
+.top-link-label {
+  font-size: 14px;
+  font-weight: 600;
 }
 
 /* Keep metric values fully visible in the slices dataframe */
@@ -83,16 +111,19 @@ HEADER_MARKDOWN = """
 Evaluating generative models across **Fidelity** and **Condition Adherence**
 """
 
-HEADER_LINKS_MARKDOWN = """
+HEADER_LINKS_HTML = """
 <div class="top-link-row">
-  <a href="https://github.com/seqml/ConTSG-Bench" target="_blank">
-    <img alt="GitHub repository" src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white">
+  <a class="top-link-badge" href="https://github.com/seqml/ConTSG-Bench" target="_blank" rel="noopener noreferrer">
+    <span class="top-link-icon">⌘</span>
+    <span class="top-link-label">GitHub</span>
   </a>
-  <a href="https://huggingface.co/spaces/mldi-lab/ConTSG-Bench-Leaderboard" target="_blank">
-    <img alt="Hugging Face leaderboard" src="https://img.shields.io/badge/Hugging%20Face-FFB000?style=for-the-badge&logo=huggingface&logoColor=black">
+  <a class="top-link-badge" href="https://huggingface.co/spaces/mldi-lab/ConTSG-Bench-Leaderboard" target="_blank" rel="noopener noreferrer">
+    <span class="top-link-icon">🤗</span>
+    <span class="top-link-label">Hugging Face</span>
   </a>
-  <a href="https://arxiv.org/abs/2603.04767" target="_blank">
-    <img alt="arXiv paper" src="https://img.shields.io/badge/arXiv-2603.04767-B31B1B?style=for-the-badge&logo=arxiv&logoColor=white">
+  <a class="top-link-badge" href="https://arxiv.org/abs/2603.04767" target="_blank" rel="noopener noreferrer">
+    <span class="top-link-icon">∿</span>
+    <span class="top-link-label">arXiv</span>
   </a>
 </div>
 """
@@ -131,7 +162,7 @@ def create_app() -> gr.Blocks:
         title="ConTSG-Bench Leaderboard",
     ) as app:
         gr.Markdown(HEADER_MARKDOWN)
-        gr.Markdown(HEADER_LINKS_MARKDOWN)
+        gr.HTML(HEADER_LINKS_HTML)
 
         with gr.Tabs():
             with gr.Tab("Overview"):

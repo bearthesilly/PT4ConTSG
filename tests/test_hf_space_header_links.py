@@ -11,7 +11,7 @@ def _read_hf_space_app_source() -> str:
 def test_header_links_markdown_exposes_primary_project_links():
     source = _read_hf_space_app_source()
 
-    assert "HEADER_LINKS_MARKDOWN" in source
+    assert "HEADER_LINKS_HTML" in source
     assert "https://github.com/seqml/ConTSG-Bench" in source
     assert "https://huggingface.co/spaces/mldi-lab/ConTSG-Bench-Leaderboard" in source
     assert "https://arxiv.org/abs/2603.04767" in source
