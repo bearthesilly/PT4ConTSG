@@ -13,5 +13,6 @@ def test_header_links_markdown_exposes_primary_project_links():
 
     assert "HEADER_LINKS_HTML" in source
     assert "https://github.com/seqml/ConTSG-Bench" in source
-    assert "https://huggingface.co/spaces/mldi-lab/ConTSG-Bench-Leaderboard" in source
     assert "https://arxiv.org/abs/2603.04767" in source
+    assert "https://cdn.simpleicons.org/github/111111" in source
+    assert "https://upload.wikimedia.org/wikipedia/commons/b/bc/ArXiv_logo_2022.svg" in source

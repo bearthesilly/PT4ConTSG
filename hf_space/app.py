@@ -64,9 +64,22 @@ CUSTOM_CSS = """
 .top-link-icon {
   align-items: center;
   display: inline-flex;
-  font-size: 16px;
   justify-content: center;
+  min-width: 18px;
+}
+
+.top-link-icon img {
+  display: block;
+  height: 18px;
+  width: auto;
+}
+
+.top-link-icon--github img {
   width: 18px;
+}
+
+.top-link-icon--arxiv img {
+  height: 16px;
 }
 
 .top-link-label {
@@ -114,15 +127,15 @@ Evaluating generative models across **Fidelity** and **Condition Adherence**
 HEADER_LINKS_HTML = """
 <div class="top-link-row">
   <a class="top-link-badge" href="https://github.com/seqml/ConTSG-Bench" target="_blank" rel="noopener noreferrer">
-    <span class="top-link-icon">⌘</span>
+    <span class="top-link-icon top-link-icon--github">
+      <img src="https://cdn.simpleicons.org/github/111111" alt="GitHub icon">
+    </span>
     <span class="top-link-label">GitHub</span>
   </a>
-  <a class="top-link-badge" href="https://huggingface.co/spaces/mldi-lab/ConTSG-Bench-Leaderboard" target="_blank" rel="noopener noreferrer">
-    <span class="top-link-icon">🤗</span>
-    <span class="top-link-label">Hugging Face</span>
-  </a>
   <a class="top-link-badge" href="https://arxiv.org/abs/2603.04767" target="_blank" rel="noopener noreferrer">
-    <span class="top-link-icon">∿</span>
+    <span class="top-link-icon top-link-icon--arxiv">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/b/bc/ArXiv_logo_2022.svg" alt="arXiv icon">
+    </span>
     <span class="top-link-label">arXiv</span>
   </a>
 </div>
