@@ -313,16 +313,18 @@ class Evaluator:
         # Load config
         config = ExperimentConfig.from_yaml(experiment_dir / "config.yaml")
 
-        # Ensure model/dataset registrations are loaded
-        import contsg.data.datasets  # noqa: F401
-        import contsg.models  # noqa: F401
-
         # Keep model schema validation behavior consistent with train path.
         config = validate_model_config(config, strict_schema=False).config
+
+        # Dataset registration is still needed in cache-only mode.
+        import contsg.data.datasets  # noqa: F401
 
         # Load model (skip if cache_only)
         model = None
         if not cache_only:
+            # Load model registrations only when a generator instance is required.
+            import contsg.models  # noqa: F401
+
             # Determine checkpoint path
             ckpt_path = None
             if checkpoint == "best":
