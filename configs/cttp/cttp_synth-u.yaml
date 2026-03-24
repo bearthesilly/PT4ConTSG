@@ -18,9 +18,9 @@ data:
 model:
   name: cttp
   mode: instance
-  d_model: 64
+  d_model: 128
   coemb_dim: 512
-  patch_len: 4
+  patch_len: 16
   stride: 4
   padding: 0
   d_ff: 256

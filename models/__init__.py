@@ -17,7 +17,5 @@ from contsg.models import timevqvae  # VQ-VAE + MaskGIT (label-conditioned)
 from contsg.models import wavestitch  # WaveStitch core diffusion (SSSDS4Imputer)
 from contsg.models import text2motion  # Text-to-Motion (CVPR'22) backbone adapted for time series
 from contsg.models import ttscgan  # TTS-CGAN: Transformer GAN (label-conditioned)
-from contsg.models import pt4contsg          # PT4ConTSG: ST-PT backbone as DDPM denoiser
-from contsg.models import pt_factor_generator  # PTFactorGenerator: dynamic-factor PT (all 4 improvements)
-
+from contsg.models import pt_factor_generator_model
 __all__ = ["BaseGeneratorModule", "BaseGANModule", "DiffusionMixin"]

@@ -20,7 +20,7 @@ model:
   mode: instance
   d_model: 64
   coemb_dim: 512
-  patch_len: 4
+  patch_len: 32
   stride: 4
   padding: 0
   d_ff: 256

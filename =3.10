@@ -1,0 +1,112 @@
+Collecting package metadata (current_repodata.json): ...working... done
+Solving environment: ...working... done
+
+## Package Plan ##
+
+  environment location: /public/home/xiongzhzh2023/Anaconda/envs/contsg
+
+  added / updated specs:
+    - python
+
+
+The following packages will be downloaded:
+
+    package                    |            build
+    ---------------------------|-----------------
+    ca-certificates-2025.12.2  |       h06a4308_0         125 KB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+    expat-2.7.4                |       hecca717_0         142 KB  http://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge
+    ld_impl_linux-64-2.45.1    |default_hbd61a6d_101         709 KB  http://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge
+    libexpat-2.7.4             |       hecca717_0          75 KB  http://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge
+    libgcc-15.2.0              |      he0feb66_18        1017 KB  http://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge
+    libgcc-ng-15.2.0           |      h69a702a_18          27 KB  http://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge
+    libgomp-15.2.0             |      he0feb66_18         589 KB  http://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge
+    libsqlite-3.52.0           |       h0c1763c_0         928 KB  http://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge
+    libstdcxx-15.2.0           |      h934c35e_18         5.6 MB  http://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge
+    libstdcxx-ng-15.2.0        |      hdf11a46_18          27 KB  http://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge
+    openssl-3.6.1              |       h35e630c_1         3.0 MB  http://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge
+    packaging-25.0             |  py312h06a4308_1         186 KB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+    pip-26.0.1                 |     pyhc872135_0         1.1 MB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+    python-3.12.12             |       hd17a9e1_1        30.4 MB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+    setuptools-80.10.2         |  py312h06a4308_0         1.7 MB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+    sqlite-3.52.0              |       hbc0de68_0         199 KB  http://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge
+    tzdata-2026a               |       he532380_0         117 KB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+    wheel-0.46.3               |  py312h06a4308_0          69 KB  https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+    zstd-1.5.7                 |       hb78ec9c_6         587 KB  http://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge
+    ------------------------------------------------------------
+                                           Total:        46.5 MB
+
+The following NEW packages will be INSTALLED:
+
+  _libgcc_mutex      anaconda/pkgs/main/linux-64::_libgcc_mutex-0.1-main
+  _openmp_mutex      anaconda/pkgs/main/linux-64::_openmp_mutex-5.1-1_gnu
+  bzip2              anaconda/pkgs/main/linux-64::bzip2-1.0.8-h5eee18b_6
+  ca-certificates    anaconda/pkgs/main/linux-64::ca-certificates-2025.12.2-h06a4308_0
+  expat              anaconda/cloud/conda-forge/linux-64::expat-2.7.4-hecca717_0
+  ld_impl_linux-64   anaconda/cloud/conda-forge/linux-64::ld_impl_linux-64-2.45.1-default_hbd61a6d_101
+  libexpat           anaconda/cloud/conda-forge/linux-64::libexpat-2.7.4-hecca717_0
+  libffi             anaconda/pkgs/main/linux-64::libffi-3.4.4-h6a678d5_1
+  libgcc             anaconda/cloud/conda-forge/linux-64::libgcc-15.2.0-he0feb66_18
+  libgcc-ng          anaconda/cloud/conda-forge/linux-64::libgcc-ng-15.2.0-h69a702a_18
+  libgomp            anaconda/cloud/conda-forge/linux-64::libgomp-15.2.0-he0feb66_18
+  libnsl             anaconda/pkgs/main/linux-64::libnsl-2.0.0-h5eee18b_0
+  libsqlite          anaconda/cloud/conda-forge/linux-64::libsqlite-3.52.0-h0c1763c_0
+  libstdcxx          anaconda/cloud/conda-forge/linux-64::libstdcxx-15.2.0-h934c35e_18
+  libstdcxx-ng       anaconda/cloud/conda-forge/linux-64::libstdcxx-ng-15.2.0-hdf11a46_18
+  libuuid            anaconda/pkgs/main/linux-64::libuuid-1.41.5-h5eee18b_0
+  libxcb             anaconda/pkgs/main/linux-64::libxcb-1.17.0-h9b100fa_0
+  libzlib            anaconda/pkgs/main/linux-64::libzlib-1.3.1-hb25bd0a_0
+  ncurses            anaconda/pkgs/main/linux-64::ncurses-6.5-h7934f7d_0
+  openssl            anaconda/cloud/conda-forge/linux-64::openssl-3.6.1-h35e630c_1
+  packaging          anaconda/pkgs/main/linux-64::packaging-25.0-py312h06a4308_1
+  pip                anaconda/pkgs/main/noarch::pip-26.0.1-pyhc872135_0
+  pthread-stubs      anaconda/pkgs/main/linux-64::pthread-stubs-0.3-h0ce48e5_1
+  python             anaconda/pkgs/main/linux-64::python-3.12.12-hd17a9e1_1
+  readline           anaconda/pkgs/main/linux-64::readline-8.3-hc2a1206_0
+  setuptools         anaconda/pkgs/main/linux-64::setuptools-80.10.2-py312h06a4308_0
+  sqlite             anaconda/cloud/conda-forge/linux-64::sqlite-3.52.0-hbc0de68_0
+  tk                 anaconda/pkgs/main/linux-64::tk-8.6.15-h54e0aa7_0
+  tzdata             anaconda/pkgs/main/noarch::tzdata-2026a-he532380_0
+  wheel              anaconda/pkgs/main/linux-64::wheel-0.46.3-py312h06a4308_0
+  xorg-libx11        anaconda/pkgs/main/linux-64::xorg-libx11-1.8.12-h9b100fa_1
+  xorg-libxau        anaconda/pkgs/main/linux-64::xorg-libxau-1.0.12-h9b100fa_0
+  xorg-libxdmcp      anaconda/pkgs/main/linux-64::xorg-libxdmcp-1.1.5-h9b100fa_0
+  xorg-xorgproto     anaconda/pkgs/main/linux-64::xorg-xorgproto-2024.1-h5eee18b_1
+  xz                 anaconda/pkgs/main/linux-64::xz-5.6.4-h5eee18b_1
+  zlib               anaconda/pkgs/main/linux-64::zlib-1.3.1-hb25bd0a_0
+  zstd               anaconda/cloud/conda-forge/linux-64::zstd-1.5.7-hb78ec9c_6
+
+
+Proceed ([y]/n)? 
+
+Downloading and Extracting Packages
+libstdcxx-15.2.0     | 5.6 MB    |            |   0% libstdcxx-15.2.0     | 5.6 MB    |            |   0% libstdcxx-15.2.0     | 5.6 MB    |            |   1% libstdcxx-15.2.0     | 5.6 MB    | 1          |   2% libstdcxx-15.2.0     | 5.6 MB    | 3          |   3% libstdcxx-15.2.0     | 5.6 MB    | 5          |   5% libstdcxx-15.2.0     | 5.6 MB    | 9          |   9% libstdcxx-15.2.0     | 5.6 MB    | #6         |  17% libstdcxx-15.2.0     | 5.6 MB    | ###        |  31% libstdcxx-15.2.0     | 5.6 MB    | ####5      |  46% libstdcxx-15.2.0     | 5.6 MB    | #####3     |  53% libstdcxx-15.2.0     | 5.6 MB    | #######2   |  73% libstdcxx-15.2.0     | 5.6 MB    | ########## | 100% libstdcxx-15.2.0     | 5.6 MB    | ########## | 100% 
+wheel-0.46.3         | 69 KB     |            |   0% wheel-0.46.3         | 69 KB     | ##3        |  23% wheel-0.46.3         | 69 KB     | #######    |  70% wheel-0.46.3         | 69 KB     | ########## | 100% wheel-0.46.3         | 69 KB     | ########## | 100% 
+pip-26.0.1           | 1.1 MB    |            |   0% pip-26.0.1           | 1.1 MB    | 1          |   1% pip-26.0.1           | 1.1 MB    | 6          |   7% pip-26.0.1           | 1.1 MB    | #8         |  18% pip-26.0.1           | 1.1 MB    | ###1       |  32% pip-26.0.1           | 1.1 MB    | ####       |  40% pip-26.0.1           | 1.1 MB    | #######6   |  76% pip-26.0.1           | 1.1 MB    | ########## | 100% pip-26.0.1           | 1.1 MB    | ########## | 100% 
+sqlite-3.52.0        | 199 KB    |            |   0% sqlite-3.52.0        | 199 KB    | 8          |   8% sqlite-3.52.0        | 199 KB    | ####8      |  48% sqlite-3.52.0        | 199 KB    | #########6 |  96% sqlite-3.52.0        | 199 KB    | ########## | 100% 
+libexpat-2.7.4       | 75 KB     |            |   0% libexpat-2.7.4       | 75 KB     | ##1        |  21% libexpat-2.7.4       | 75 KB     | ####2      |  43% libexpat-2.7.4       | 75 KB     | ########5  |  85% libexpat-2.7.4       | 75 KB     | ########## | 100% 
+openssl-3.6.1        | 3.0 MB    |            |   0% openssl-3.6.1        | 3.0 MB    |            |   1% openssl-3.6.1        | 3.0 MB    | 2          |   2% openssl-3.6.1        | 3.0 MB    | 3          |   4% openssl-3.6.1        | 3.0 MB    | 5          |   6% openssl-3.6.1        | 3.0 MB    | 7          |   7% openssl-3.6.1        | 3.0 MB    | 9          |   9% openssl-3.6.1        | 3.0 MB    | #          |  11% openssl-3.6.1        | 3.0 MB    | #2         |  13% openssl-3.6.1        | 3.0 MB    | #5         |  15% openssl-3.6.1        | 3.0 MB    | #7         |  17% openssl-3.6.1        | 3.0 MB    | #9         |  19% openssl-3.6.1        | 3.0 MB    | ##1        |  21% openssl-3.6.1        | 3.0 MB    | ##2        |  23% openssl-3.6.1        | 3.0 MB    | ##7        |  27% openssl-3.6.1        | 3.0 MB    | ##9        |  30% openssl-3.6.1        | 3.0 MB    | ###4       |  34% openssl-3.6.1        | 3.0 MB    | ###6       |  36% openssl-3.6.1        | 3.0 MB    | ###9       |  39% openssl-3.6.1        | 3.0 MB    | ####1      |  41% openssl-3.6.1        | 3.0 MB    | ####4      |  44% openssl-3.6.1        | 3.0 MB    | ####6      |  46% openssl-3.6.1        | 3.0 MB    | ####8      |  48% openssl-3.6.1        | 3.0 MB    | #####      |  50% openssl-3.6.1        | 3.0 MB    | #####2     |  52% openssl-3.6.1        | 3.0 MB    | #####7     |  57% openssl-3.6.1        | 3.0 MB    | ######     |  60% openssl-3.6.1        | 3.0 MB    | ######2    |  63% openssl-3.6.1        | 3.0 MB    | ######5    |  65% openssl-3.6.1        | 3.0 MB    | ######7    |  68% openssl-3.6.1        | 3.0 MB    | #######    |  70% openssl-3.6.1        | 3.0 MB    | #######3   |  73% openssl-3.6.1        | 3.0 MB    | #######6   |  76% openssl-3.6.1        | 3.0 MB    | #######9   |  80% openssl-3.6.1        | 3.0 MB    | ########3  |  84% openssl-3.6.1        | 3.0 MB    | ########6  |  87% openssl-3.6.1        | 3.0 MB    | #########  |  90% openssl-3.6.1        | 3.0 MB    | #########6 |  97% openssl-3.6.1        | 3.0 MB    | ########## | 100% 
+ld_impl_linux-64-2.4 | 709 KB    |            |   0% ld_impl_linux-64-2.4 | 709 KB    | 2          |   2% ld_impl_linux-64-2.4 | 709 KB    | #3         |  14% ld_impl_linux-64-2.4 | 709 KB    | ##         |  20% ld_impl_linux-64-2.4 | 709 KB    | ####       |  41% ld_impl_linux-64-2.4 | 709 KB    | #####1     |  52% ld_impl_linux-64-2.4 | 709 KB    | ######3    |  63% ld_impl_linux-64-2.4 | 709 KB    | #######2   |  72% ld_impl_linux-64-2.4 | 709 KB    | ########1  |  81% ld_impl_linux-64-2.4 | 709 KB    | #########  |  90% ld_impl_linux-64-2.4 | 709 KB    | #########9 |  99% ld_impl_linux-64-2.4 | 709 KB    | ########## | 100% 
+expat-2.7.4          | 142 KB    |            |   0% expat-2.7.4          | 142 KB    | #1         |  11% expat-2.7.4          | 142 KB    | #####6     |  56% expat-2.7.4          | 142 KB    | #########  |  90% expat-2.7.4          | 142 KB    | ########## | 100% 
+libstdcxx-ng-15.2.0  | 27 KB     |            |   0% libstdcxx-ng-15.2.0  | 27 KB     | #####9     |  59% libstdcxx-ng-15.2.0  | 27 KB     | ########## | 100% libstdcxx-ng-15.2.0  | 27 KB     | ########## | 100% 
+libsqlite-3.52.0     | 928 KB    |            |   0% libsqlite-3.52.0     | 928 KB    | 1          |   2% libsqlite-3.52.0     | 928 KB    | #5         |  16% libsqlite-3.52.0     | 928 KB    | ##4        |  24% libsqlite-3.52.0     | 928 KB    | ###9       |  40% libsqlite-3.52.0     | 928 KB    | ####8      |  48% libsqlite-3.52.0     | 928 KB    | #####6     |  57% libsqlite-3.52.0     | 928 KB    | #######4   |  74% libsqlite-3.52.0     | 928 KB    | ########2  |  83% libsqlite-3.52.0     | 928 KB    | #########1 |  91% libsqlite-3.52.0     | 928 KB    | ########## | 100% libsqlite-3.52.0     | 928 KB    | ########## | 100% 
+ca-certificates-2025 | 125 KB    |            |   0% ca-certificates-2025 | 125 KB    | #2         |  13% ca-certificates-2025 | 125 KB    | ########## | 100% ca-certificates-2025 | 125 KB    | ########## | 100% 
+packaging-25.0       | 186 KB    |            |   0% packaging-25.0       | 186 KB    | 8          |   9% packaging-25.0       | 186 KB    | ########## | 100% packaging-25.0       | 186 KB    | ########## | 100% 
+libgcc-ng-15.2.0     | 27 KB     |            |   0% libgcc-ng-15.2.0     | 27 KB     | #####9     |  60% libgcc-ng-15.2.0     | 27 KB     | ########## | 100% libgcc-ng-15.2.0     | 27 KB     | ########## | 100% 
+libgcc-15.2.0        | 1017 KB   |            |   0% libgcc-15.2.0        | 1017 KB   | 1          |   2% libgcc-15.2.0        | 1017 KB   | 7          |   8% libgcc-15.2.0        | 1017 KB   | #5         |  16% libgcc-15.2.0        | 1017 KB   | ##2        |  22% libgcc-15.2.0        | 1017 KB   | ##9        |  30% libgcc-15.2.0        | 1017 KB   | ####5      |  46% libgcc-15.2.0        | 1017 KB   | #####5     |  55% libgcc-15.2.0        | 1017 KB   | ######2    |  63% libgcc-15.2.0        | 1017 KB   | #######8   |  79% libgcc-15.2.0        | 1017 KB   | ########9  |  90% libgcc-15.2.0        | 1017 KB   | #########9 |  99% libgcc-15.2.0        | 1017 KB   | ########## | 100% 
+libgomp-15.2.0       | 589 KB    |            |   0% libgomp-15.2.0       | 589 KB    | 2          |   3% libgomp-15.2.0       | 589 KB    | ###5       |  35% libgomp-15.2.0       | 589 KB    | #####4     |  54% libgomp-15.2.0       | 589 KB    | ######7    |  68% libgomp-15.2.0       | 589 KB    | ########## | 100% libgomp-15.2.0       | 589 KB    | ########## | 100% 
+zstd-1.5.7           | 587 KB    |            |   0% zstd-1.5.7           | 587 KB    | 2          |   3% zstd-1.5.7           | 587 KB    | #6         |  16% zstd-1.5.7           | 587 KB    | ##9        |  30% zstd-1.5.7           | 587 KB    | ####3      |  44% zstd-1.5.7           | 587 KB    | #####7     |  57% zstd-1.5.7           | 587 KB    | #######    |  71% zstd-1.5.7           | 587 KB    | ########4  |  84% zstd-1.5.7           | 587 KB    | ########## | 100% zstd-1.5.7           | 587 KB    | ########## | 100% 
+setuptools-80.10.2   | 1.7 MB    |            |   0% setuptools-80.10.2   | 1.7 MB    |            |   1% setuptools-80.10.2   | 1.7 MB    | #5         |  15% setuptools-80.10.2   | 1.7 MB    | ##9        |  29% setuptools-80.10.2   | 1.7 MB    | ####4      |  44% setuptools-80.10.2   | 1.7 MB    | ######1    |  61% setuptools-80.10.2   | 1.7 MB    | ########   |  81% setuptools-80.10.2   | 1.7 MB    | ########## | 100% setuptools-80.10.2   | 1.7 MB    | ########## | 100% 
+python-3.12.12       | 30.4 MB   |            |   0% python-3.12.12       | 30.4 MB   |            |   0% python-3.12.12       | 30.4 MB   | 1          |   1% python-3.12.12       | 30.4 MB   | 2          |   3% python-3.12.12       | 30.4 MB   | 3          |   4% python-3.12.12       | 30.4 MB   | 4          |   4% python-3.12.12       | 30.4 MB   | 8          |   9% python-3.12.12       | 30.4 MB   | #          |  11% python-3.12.12       | 30.4 MB   | #2         |  13% python-3.12.12       | 30.4 MB   | #4         |  14% python-3.12.12       | 30.4 MB   | #5         |  16% python-3.12.12       | 30.4 MB   | ##1        |  22% python-3.12.12       | 30.4 MB   | ##4        |  24% python-3.12.12       | 30.4 MB   | ##6        |  27% python-3.12.12       | 30.4 MB   | ##8        |  29% python-3.12.12       | 30.4 MB   | ###1       |  31% python-3.12.12       | 30.4 MB   | ###2       |  33% python-3.12.12       | 30.4 MB   | ###7       |  38% python-3.12.12       | 30.4 MB   | ###9       |  40% python-3.12.12       | 30.4 MB   | ####3      |  44% python-3.12.12       | 30.4 MB   | ####5      |  46% python-3.12.12       | 30.4 MB   | ####8      |  49% python-3.12.12       | 30.4 MB   | #####4     |  55% python-3.12.12       | 30.4 MB   | #####7     |  58% python-3.12.12       | 30.4 MB   | ######     |  60% python-3.12.12       | 30.4 MB   | ######2    |  62% python-3.12.12       | 30.4 MB   | ######8    |  69% python-3.12.12       | 30.4 MB   | #######1   |  72% python-3.12.12       | 30.4 MB   | #######4   |  74% python-3.12.12       | 30.4 MB   | #######6   |  76% python-3.12.12       | 30.4 MB   | #######8   |  78% python-3.12.12       | 30.4 MB   | ########   |  80% python-3.12.12       | 30.4 MB   | ########2  |  82% python-3.12.12       | 30.4 MB   | ########3  |  84% python-3.12.12       | 30.4 MB   | ########6  |  86% python-3.12.12       | 30.4 MB   | ########8  |  88% python-3.12.12       | 30.4 MB   | #########  |  90% python-3.12.12       | 30.4 MB   | #########1 |  92% python-3.12.12       | 30.4 MB   | #########3 |  94% python-3.12.12       | 30.4 MB   | #########4 |  95% python-3.12.12       | 30.4 MB   | #########7 |  98% python-3.12.12       | 30.4 MB   | #########9 | 100% python-3.12.12       | 30.4 MB   | ########## | 100% 
+tzdata-2026a         | 117 KB    |            |   0% tzdata-2026a         | 117 KB    | ####       |  41% tzdata-2026a         | 117 KB    | ########## | 100% tzdata-2026a         | 117 KB    | ########## | 100% 
+Preparing transaction: ...working... done
+Verifying transaction: ...working... done
+Executing transaction: ...working... done
+#
+# To activate this environment, use
+#
+#     $ conda activate contsg
+#
+# To deactivate an active environment, use
+#
+#     $ conda deactivate
+

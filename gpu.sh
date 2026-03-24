@@ -1,0 +1,1 @@
+salloc -N 1 -n 4 -p normal --gres=gpu:NVIDIAGeForceRTX2080Ti:1
