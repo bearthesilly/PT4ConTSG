@@ -105,7 +105,6 @@ cache/
 *.cache
 
 # Logs
-*.log
 slurm_log/
 slurm-*.out
 
