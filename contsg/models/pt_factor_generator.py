@@ -1,12 +1,13 @@
+# -*- coding: utf-8 -*-
 """
-PTFactorGenerator V2 — Dynamic-factor PT denoiser for ConTSG.
+PTFactorGenerator V2 -- Dynamic-factor PT denoiser for ConTSG.
 
 Key improvements over pt4contsg.py (V1)
 ----------------------------------------
   [1] Dynamic factor architecture: condition instantiates factor matrices
       (U/V ternary, W binary) so the full graph topology changes per sample.
       Per-patch segment gate enables fine-grained temporal control.
-  [2] Benchmark-standard diffusion schedule: quad, T=50, beta_end=0.5 —
+  [2] Benchmark-standard diffusion schedule: quad, T=50, beta_end=0.5 --
       matching all baselines (VerbalTS, WaveStitch, TEdit, TimeWeaver, …).
       CFG disabled (cfg_scale=1.0) for fair comparison.
   [3] Scaled dimensions: d_model=128, d_ff=256, e_layers=4,
@@ -25,11 +26,11 @@ V2 additions
       missing in V1; critical for temporal shape fidelity (DTW, CRPS).
   [8] H-variable regularizer changed from 1/sqrt(d_head) to 1/d_head,
       matching the original PT paper's mean-field scaling.
-  [9] v-prediction parameterization: predicts v = √ᾱ·ε − √(1−ᾱ)·x₀
+  [9] v-prediction parameterization: predicts v = sqrt(a_bar)*eps - sqrt(1-a_bar)*x0
       instead of ε; more numerically stable across all noise levels.
   [10] Spectral auxiliary loss: FFT-domain constraint preserving
        autocorrelation structure (fixes ACD gap).
-  [11] Self-conditioning: feeds the model's own x₀ estimate back as input,
+  [11] Self-conditioning: feeds the model's own x0 estimate back as input,
        improving sample quality at minimal compute cost.
   [12] Per-patch condition modulation of ternary factors: condition biases
        U projections differently per temporal position for fine-grained
@@ -364,7 +365,7 @@ class PatchConditionModulator(nn.Module):
 
 
 class PTDynamicFactors(nn.Module):
-    """Assembles all dynamic factor generators — one call computes all factors."""
+    """Assembles all dynamic factor generators -- one call computes all factors."""
 
     def __init__(
         self,
@@ -867,7 +868,7 @@ class PTFactorGeneratorModule(BaseGeneratorModule):
     # ---------------------------------------------------------------
 
     def _compute_v_target(self, x0: torch.Tensor, noise: torch.Tensor, t: torch.Tensor) -> torch.Tensor:
-        """v = √ᾱ·ε − √(1−ᾱ)·x₀"""
+        """v = sqrt(a_bar) * eps - sqrt(1 - a_bar) * x0"""
         sa = self.sqrt_alphas_cumprod[t].view(-1, 1, 1)          # type: ignore[attr-defined]
         sm = self.sqrt_one_minus_alphas_cumprod[t].view(-1, 1, 1)  # type: ignore[attr-defined]
         return sa * noise - sm * x0
@@ -875,13 +876,13 @@ class PTFactorGeneratorModule(BaseGeneratorModule):
     def _v_to_eps_x0(
         self, v: torch.Tensor, x_t: torch.Tensor, t_val: int
     ) -> Tuple[torch.Tensor, torch.Tensor]:
-        """Recover ε and x₀ from v-prediction.
+        """Recover eps and x0 from v-prediction.
 
-        v  = √ᾱ·ε − √(1−ᾱ)·x₀
-        x_t = √ᾱ·x₀ + √(1−ᾱ)·ε
+        v   = sqrt(a_bar) * eps - sqrt(1 - a_bar) * x0
+        x_t = sqrt(a_bar) * x0  + sqrt(1 - a_bar) * eps
 
-        ε  = √ᾱ·v + √(1−ᾱ)·x_t
-        x₀ = √ᾱ·x_t − √(1−ᾱ)·v
+        eps = sqrt(a_bar) * v   + sqrt(1 - a_bar) * x_t
+        x0  = sqrt(a_bar) * x_t - sqrt(1 - a_bar) * v
         """
         sa = self.sqrt_alphas_cumprod[t_val]                      # type: ignore[attr-defined]
         sm = self.sqrt_one_minus_alphas_cumprod[t_val]             # type: ignore[attr-defined]
@@ -907,14 +908,14 @@ class PTFactorGeneratorModule(BaseGeneratorModule):
         else:
             target = noise
 
-        # [V2-11] Self-conditioning: 50% of the time, pass the model's own x₀ estimate
+        # [V2-11] Self-conditioning: 50% of the time, pass the model's own x0 estimate
         x0_self_cond = None
         if self.net.self_cond and self.training:
             if torch.rand(1).item() > 0.5:
                 with torch.no_grad():
                     pred_first = self.net(x_t, t, cond, x0_self_cond=None)
                     if self.prediction_type == "v":
-                        # Recover x₀ from v for each sample in batch
+                        # Recover x0 from v for each sample in batch
                         sa = self.sqrt_alphas_cumprod[t].view(-1, 1, 1)    # type: ignore[attr-defined]
                         sm = self.sqrt_one_minus_alphas_cumprod[t].view(-1, 1, 1)  # type: ignore[attr-defined]
                         x0_self_cond = (sa * x_t - sm * pred_first).detach()
@@ -945,7 +946,7 @@ class PTFactorGeneratorModule(BaseGeneratorModule):
         cond: torch.Tensor,
         x0_self_cond: Optional[torch.Tensor] = None,
     ) -> Tuple[torch.Tensor, torch.Tensor]:
-        """Returns (x_{t-1}, x0_pred) — the latter is used for self-conditioning."""
+        """Returns (x_{t-1}, x0_pred) -- the latter is used for self-conditioning."""
         B  = x_t.shape[0]
         tv = torch.full((B,), t, device=x_t.device, dtype=torch.long)
 
