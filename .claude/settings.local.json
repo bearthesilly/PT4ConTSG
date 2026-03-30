@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:arxiv.org)",
+      "Bash(dir \"D:\\\\Shanghai Tech\\\\AI_honor\\\\PT4ConTSG\\\\paper\" /b)",
+      "Bash(CONDA_AUTO_ACTIVATE_BASE=false /c/Python314/python.exe -c \"import os; [print\\(f\\) for f in os.listdir\\(r''D:\\\\Shanghai Tech\\\\AI_honor\\\\PT4ConTSG\\\\paper''\\) if f.endswith\\(''.pdf''\\)]\")",
+      "Bash(CONDA_AUTO_ACTIVATE_BASE=false CONDA_SHLVL=0 /usr/bin/ls \"D:/Shanghai Tech/AI_honor/PT4ConTSG/paper/\")",
+      "Bash(/usr/bin/find \"D:/Shanghai Tech/AI_honor/PT4ConTSG/paper/\" -maxdepth 1 -name \"*.pdf\")",
+      "Bash(grep -E \"\\\\.\\(md|yaml|yml|json|sh|py\\)$|^configs|^datasets|^experiments|^contsg|^paper|^docs|^templates\")",
+      "Bash(powershell.exe -Command \"Get-ChildItem ''D:\\\\Shanghai Tech\\\\AI_honor\\\\PT4ConTSG\\\\paper\\\\*.pdf'' | Select-Object -ExpandProperty Name\")",
+      "mcp__4779c92b-da2c-4bf7-aa77-852fefdc2233__display_pdf",
+      "Bash(python -c \"import ast; ast.parse\\(open\\(''contsg/models/pt_factor_generator.py''\\).read\\(\\)\\); print\\(''Syntax OK''\\)\")",
+      "Bash(CONDA_AUTO_ACTIVATE_BASE=false CONDA_SHLVL=0 \"C:\\\\Python314\\\\python.exe\" -c \"import ast; ast.parse\\(open\\(r''D:\\\\Shanghai Tech\\\\AI_honor\\\\PT4ConTSG\\\\contsg\\\\models\\\\pt_factor_generator.py'', encoding=''utf-8''\\).read\\(\\)\\); print\\(''Syntax OK''\\)\")",
+      "Bash(powershell.exe -Command \"python -c \"\"import ast; ast.parse\\([System.IO.File]::ReadAllText\\(''D:\\\\Shanghai Tech\\\\AI_honor\\\\PT4ConTSG\\\\contsg\\\\models\\\\pt_factor_generator.py''\\)\\); print\\(''OK''\\)\"\"\")",
+      "Bash(powershell.exe -Command \"& ''C:\\\\Python314\\\\python.exe'' -c ''import ast, sys; ast.parse\\(open\\(sys.argv[1], encoding=\"\"utf-8\"\"\\).read\\(\\)\\); print\\(\"\"Syntax OK\"\"\\)'' ''D:\\\\Shanghai Tech\\\\AI_honor\\\\PT4ConTSG\\\\contsg\\\\models\\\\pt_factor_generator.py''\")",
+      "Bash(CONDA_AUTO_ACTIVATE_BASE=false /c/Python314/python.exe -c \"import ast; f=open\\(r''D:/Shanghai Tech/AI_honor/PT4ConTSG/contsg/models/pt_factor_generator.py'', encoding=''utf-8''\\); ast.parse\\(f.read\\(\\)\\); print\\(''Syntax OK''\\)\")"
+    ]
+  }
+}

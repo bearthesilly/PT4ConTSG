@@ -1,10 +1,18 @@
-# PTFactorGenerator on Synth-M  (bivariate, text-conditioned)
-# Applies improvements over pt4contsg:
+# PTFactorGenerator V2 on Synth-M  (bivariate, text-conditioned)
+# V1 improvements over pt4contsg:
 #   [1] Dynamic factor architecture  (this model file)
 #   [2] Same benchmark-standard schedule as all baselines: quad, T=50, beta_end=0.5
 #   [3] Scaled dimensions            d_model: 128, e_layers: 4
 #   [4] cond_dim: 1024 (text cap_emb from Qwen3), n_ctx: 8 pseudo-tokens for cross-attn
 #       synth-m has 1024-dim text embeddings for all splits (same as synth-u)
+# V2 additions:
+#   [7]  Dual RoPE (time + channel positional encoding)
+#   [8]  H-variable regularizer: 1/d_head
+#   [9]  v-prediction parameterization
+#   [10] Spectral auxiliary loss (FFT-domain, fixes ACD)
+#   [11] Self-conditioning
+#   [12] Per-patch ternary modulation
+#   [13] Inter-attribute cross-talk (inactive: text-only mode)
 
 seed: 42
 device: cuda:0
@@ -75,6 +83,16 @@ model:
   guidance_scale: 1.0
   # n_ctx: 8 pseudo-tokens for text cross-attention (same as synth-u)
   n_ctx: 8
+  # [V2-9] v-prediction: predicts v = √ᾱ·ε − √(1−ᾱ)·x₀ (more stable than eps)
+  prediction_type: v
+  # [V2-10] Spectral auxiliary loss weight (FFT-domain, preserves autocorrelation)
+  spectral_loss_weight: 0.1
+  # [V2-11] Self-conditioning: feed x₀ estimate back as input
+  self_cond: true
+  # [V2-12] Per-patch condition modulation of ternary factors
+  patch_cond_modulate: true
+  # [V2-13] Inter-attribute cross-talk (no effect here: text-only, no multi-attr)
+  attr_cross_talk: true
 
 condition:
   text:

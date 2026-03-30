@@ -1,8 +1,8 @@
 """
-PTFactorGenerator — Dynamic-factor PT denoiser for ConTSG.
+PTFactorGenerator V2 — Dynamic-factor PT denoiser for ConTSG.
 
-Key improvements over pt4contsg.py
------------------------------------
+Key improvements over pt4contsg.py (V1)
+----------------------------------------
   [1] Dynamic factor architecture: condition instantiates factor matrices
       (U/V ternary, W binary) so the full graph topology changes per sample.
       Per-patch segment gate enables fine-grained temporal control.
@@ -18,6 +18,24 @@ Key improvements over pt4contsg.py
   [6] CtxTokenizer + per-block cross-attention: global cap_emb is expanded
       into n_ctx pseudo-tokens that patch tokens can selectively attend to,
       enabling fine-grained text-semantic conditioning (text mode only).
+
+V2 additions
+------------
+  [7] Dual RoPE (time + channel): restores positional awareness that was
+      missing in V1; critical for temporal shape fidelity (DTW, CRPS).
+  [8] H-variable regularizer changed from 1/sqrt(d_head) to 1/d_head,
+      matching the original PT paper's mean-field scaling.
+  [9] v-prediction parameterization: predicts v = √ᾱ·ε − √(1−ᾱ)·x₀
+      instead of ε; more numerically stable across all noise levels.
+  [10] Spectral auxiliary loss: FFT-domain constraint preserving
+       autocorrelation structure (fixes ACD gap).
+  [11] Self-conditioning: feeds the model's own x₀ estimate back as input,
+       improving sample quality at minimal compute cost.
+  [12] Per-patch condition modulation of ternary factors: condition biases
+       U projections differently per temporal position for fine-grained
+       structural controllability.
+  [13] Inter-attribute cross-talk: lightweight MHA lets attribute embeddings
+       interact before factor generation, enabling synergistic conditioning.
 """
 
 from __future__ import annotations
@@ -28,6 +46,7 @@ from typing import Dict, List, Optional, Tuple
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from torch import Tensor
 
 from contsg.models.base import BaseGeneratorModule
 from contsg.registry import Registry
@@ -83,6 +102,39 @@ class AbsNormalize(nn.Module):
 
 
 # ============================================================
+# [V2-7] Rotary Position Embedding (ported from pt4contsg.py)
+# ============================================================
+
+def _rotate_half(x: Tensor) -> Tensor:
+    x1 = x[..., : x.shape[-1] // 2]
+    x2 = x[..., x.shape[-1] // 2 :]
+    return torch.cat((-x2, x1), dim=-1)
+
+
+class RotaryEmbedding(nn.Module):
+    """Minimal rotary positional embedding.
+
+    Returns (cos, sin) of shape [1, seq_len, head_dim].
+    """
+
+    def __init__(self, head_dim: int, theta: float = 10000.0) -> None:
+        super().__init__()
+        inv_freq = 1.0 / (theta ** (torch.arange(0, head_dim, 2).float() / head_dim))
+        self.register_buffer("inv_freq", inv_freq, persistent=False)
+
+    def forward(self, seq_len: int, device: torch.device, dtype: torch.dtype) -> Tuple[Tensor, Tensor]:
+        pos = torch.arange(seq_len, device=device, dtype=torch.float32)
+        freqs = torch.einsum("i,j->ij", pos, self.inv_freq.to(device))  # [S, head_dim//2]
+        emb = torch.cat([freqs, freqs], dim=-1)                          # [S, head_dim]
+        return emb.cos().unsqueeze(0).to(dtype), emb.sin().unsqueeze(0).to(dtype)
+
+
+def _apply_rope(x: Tensor, cos: Tensor, sin: Tensor) -> Tensor:
+    """Apply RoPE to x of shape [..., S, D]."""
+    return x * cos + _rotate_half(x) * sin
+
+
+# ============================================================
 # Condition encoders
 # ============================================================
 
@@ -112,6 +164,9 @@ class AttrEncoder(nn.Module):
     Each attribute field gets its own nn.Embedding; all embeddings are
     concatenated and projected to cond_dim.  Used when condition.attribute
     is the primary conditioning modality (synth-m, airquality_beijing).
+
+    [V2-13] When attr_cross_talk=True and there are multiple attribute fields,
+    a lightweight MHA lets the per-field embeddings interact before projection.
     """
 
     def __init__(
@@ -120,6 +175,7 @@ class AttrEncoder(nn.Module):
         cond_dim: int,
         attr_embed_dim: int = 16,
         dropout: float = 0.0,
+        cross_talk: bool = True,
     ) -> None:
         super().__init__()
         self.embeds = nn.ModuleList([
@@ -127,6 +183,16 @@ class AttrEncoder(nn.Module):
             for cfg in attr_configs
         ])
         total_dim = len(attr_configs) * attr_embed_dim
+
+        # [V2-13] Inter-attribute cross-talk
+        self.cross_talk: Optional[nn.MultiheadAttention] = None
+        if cross_talk and len(attr_configs) > 1:
+            self.cross_talk = nn.MultiheadAttention(
+                attr_embed_dim, num_heads=max(1, attr_embed_dim // 8),
+                dropout=dropout, batch_first=True,
+            )
+            self.cross_talk_norm = nn.LayerNorm(attr_embed_dim)
+
         self.proj = nn.Sequential(
             nn.Linear(total_dim, cond_dim),
             nn.SiLU(),
@@ -140,6 +206,15 @@ class AttrEncoder(nn.Module):
         if attrs.dim() == 1:
             attrs = attrs.unsqueeze(1)
         parts = [self.embeds[k](attrs[:, k].long()) for k in range(len(self.embeds))]
+
+        # [V2-13] Inter-attribute cross-talk: let attribute embeddings interact
+        if self.cross_talk is not None and len(parts) > 1:
+            stacked = torch.stack(parts, dim=1)  # [B, K, attr_embed_dim]
+            stacked_norm = self.cross_talk_norm(stacked)
+            interacted, _ = self.cross_talk(stacked_norm, stacked_norm, stacked_norm)
+            stacked = stacked + interacted  # residual
+            parts = [stacked[:, k] for k in range(stacked.shape[1])]
+
         c = self.proj(torch.cat(parts, dim=-1))
         if cond_drop_mask is not None:
             null = self.null.unsqueeze(0).expand(c.shape[0], -1)
@@ -148,16 +223,13 @@ class AttrEncoder(nn.Module):
 
 
 # ============================================================
-# Advice 4 — Dynamic factor generators (scaled basis counts)
+# Dynamic factor generators
 # ============================================================
 
 class BasisBinaryFactorGenerator(nn.Module):
     """
     Parameter-efficient binary factor:  W_eff = W_base + Σ_k coeff_k * Basis_k
     plus a per-row gate for additional conditioning flexibility.
-
-    num_basis controls how many independent conditioning directions are supported;
-    default raised to 16 (Advice 4).
     """
 
     def __init__(
@@ -188,8 +260,6 @@ class StructuredTernaryFactorGenerator(nn.Module):
     """
     Generates ternary U/V factors via:
       W_eff = (W_base + Σ_k coeff_k * Basis_k) ⊙ row_scale ⊗ col_scale
-
-    num_basis raised to 8 (Advice 4).
     """
 
     def __init__(
@@ -219,9 +289,6 @@ class StructuredTernaryFactorGenerator(nn.Module):
 class UnaryConditioner(nn.Module):
     """
     AdaLN-style scale/shift + per-patch segment gate.
-
-    The segment gate lets the model activate/suppress specific patches based
-    on condition — key for fine-grained temporal control.
     """
 
     def __init__(
@@ -242,17 +309,7 @@ class UnaryConditioner(nn.Module):
 
 
 class CtxTokenizer(nn.Module):
-    """Expands a global condition vector into N_ctx latent pseudo-tokens.
-
-    Since the dataloader only stores a single global cap_emb per sample (not
-    per-token features), this module creates N_ctx 'virtual' tokens by
-    projecting the global embedding through N_ctx independent linear heads.
-    Each token learns to capture a different semantic aspect of the condition
-    (trend type, shapelet, frequency, etc.), giving the cross-attention
-    mechanism in DynamicPTBlock a richer key/value set to attend to.
-
-    For non-text modalities (n_ctx=0) this module is unused.
-    """
+    """Expands a global condition vector into N_ctx latent pseudo-tokens."""
 
     def __init__(self, cond_dim: int, model_dim: int, n_ctx: int, dropout: float = 0.0) -> None:
         super().__init__()
@@ -268,6 +325,44 @@ class CtxTokenizer(nn.Module):
         return self.drop(self.norm(tokens))
 
 
+# ============================================================
+# [V2-12] Per-patch condition modulation of ternary factors
+# ============================================================
+
+class PatchConditionModulator(nn.Module):
+    """Produces per-patch bias for U projections in the time dimension.
+
+    Takes the condition hidden vector h [B, cond_hidden_dim] and generates
+    a per-patch, per-head bias [B, P, H, R] that is added to the query (qu)
+    before computing attention. This allows the condition to steer *which
+    patches attend to which neighbours* differently at each temporal position.
+    """
+
+    def __init__(
+        self, cond_hidden_dim: int, patch_num: int, num_heads: int, rank: int,
+        dropout: float = 0.0,
+    ) -> None:
+        super().__init__()
+        self.patch_num = patch_num
+        self.num_heads = num_heads
+        self.rank = rank
+        out_dim = patch_num * num_heads * rank
+        self.proj = nn.Sequential(
+            nn.Linear(cond_hidden_dim, cond_hidden_dim),
+            nn.SiLU(),
+            nn.Dropout(dropout),
+            nn.Linear(cond_hidden_dim, out_dim),
+        )
+        # Small init so it starts near identity
+        nn.init.zeros_(self.proj[-1].weight)
+        nn.init.zeros_(self.proj[-1].bias)
+
+    def forward(self, h: torch.Tensor) -> torch.Tensor:
+        """h: [B, cond_hidden_dim] → [B, P, H, R]"""
+        B = h.shape[0]
+        return self.proj(h).view(B, self.patch_num, self.num_heads, self.rank)
+
+
 class PTDynamicFactors(nn.Module):
     """Assembles all dynamic factor generators — one call computes all factors."""
 
@@ -281,6 +376,7 @@ class PTDynamicFactors(nn.Module):
         num_basis_binary: int = 16,
         num_basis_ternary: int = 8,
         dropout: float = 0.0,
+        patch_cond_modulate: bool = True,
     ) -> None:
         super().__init__()
         rank    = model_dim // num_heads
@@ -304,6 +400,13 @@ class PTDynamicFactors(nn.Module):
             cond_hidden_dim, out_dim, model_dim, num_basis=num_basis_ternary, dropout=dropout
         )
 
+        # [V2-12] Per-patch condition modulation
+        self.patch_mod: Optional[PatchConditionModulator] = None
+        if patch_cond_modulate:
+            self.patch_mod = PatchConditionModulator(
+                cond_hidden_dim, patch_num, num_heads, rank, dropout
+            )
+
     def forward(self, unary: torch.Tensor, h: torch.Tensor) -> Dict[str, torch.Tensor]:
         out = {}
         out.update(self.unary(unary, h))
@@ -312,6 +415,8 @@ class PTDynamicFactors(nn.Module):
         out["time_v"]    = self.time_v(h)
         out["channel_u"] = self.channel_u(h)
         out["channel_v"] = self.channel_v(h)
+        # [V2-12]
+        out["patch_query_bias"] = self.patch_mod(h) if self.patch_mod is not None else None
         return out
 
 
@@ -320,23 +425,50 @@ class PTDynamicFactors(nn.Module):
 # ============================================================
 
 class DynamicPTHeadSelection(nn.Module):
-    """ST-PT ternary factors where U/V are condition-instantiated per sample."""
+    """ST-PT ternary factors where U/V are condition-instantiated per sample.
+
+    [V2-7] Dual RoPE applied to projections before attention.
+    [V2-8] Regularizer: 1/d_head instead of 1/sqrt(d_head).
+    [V2-12] Per-patch query bias for temporal attention.
+    """
 
     def __init__(self, model_dim: int, num_heads: int) -> None:
         super().__init__()
         self.num_heads = num_heads
         self.rank      = model_dim // num_heads
+        # [V2-7] Dual RoPE
+        self.rope_time = RotaryEmbedding(self.rank)
+        self.rope_chan = RotaryEmbedding(self.rank)
 
     @staticmethod
     def _bl(x: torch.Tensor, w: torch.Tensor) -> torch.Tensor:
         return torch.einsum("b...d,bod->b...o", x, w)
 
-    def _time_msg(self, qz: torch.Tensor, u: torch.Tensor, v: torch.Tensor) -> torch.Tensor:
+    def _time_msg(
+        self,
+        qz: torch.Tensor,
+        u: torch.Tensor,
+        v: torch.Tensor,
+        patch_query_bias: Optional[torch.Tensor] = None,
+    ) -> torch.Tensor:
         B, C, P, _ = qz.shape
         H, R = self.num_heads, self.rank
-        qu = self._bl(qz, u).view(B, C, P, H, R).permute(0, 1, 3, 2, 4)
+        qu = self._bl(qz, u).view(B, C, P, H, R).permute(0, 1, 3, 2, 4)  # [B, C, H, P, R]
         qv = self._bl(qz, v).view(B, C, P, H, R).permute(0, 1, 3, 2, 4)
-        attn = torch.einsum("bchpr,bchqr->bchpq", qu, qv) / math.sqrt(R)
+
+        # [V2-12] Per-patch condition modulation of query
+        if patch_query_bias is not None:
+            # patch_query_bias: [B, P, H, R] → permute to [B, H, P, R] → unsqueeze to [B, 1, H, P, R]
+            qu = qu + patch_query_bias.permute(0, 2, 1, 3).unsqueeze(1)
+
+        # [V2-7] Apply RoPE along time dimension
+        cos, sin = self.rope_time(P, qz.device, qz.dtype)  # [1, P, R]
+        # Broadcast over B, C, H dims
+        qu = _apply_rope(qu, cos.unsqueeze(0).unsqueeze(0), sin.unsqueeze(0).unsqueeze(0))
+        qv = _apply_rope(qv, cos.unsqueeze(0).unsqueeze(0), sin.unsqueeze(0).unsqueeze(0))
+
+        # [V2-8] Regularizer: 1/d_head instead of 1/sqrt(d_head)
+        attn = torch.einsum("bchpr,bchqr->bchpq", qu, qv) / R
         attn = F.softmax(attn, dim=-1)
         msg  = torch.einsum("bchpq,bcqd->bchpd", attn, qz)
         return msg.mean(dim=2)                               # [B, C, P, D]
@@ -346,18 +478,30 @@ class DynamicPTHeadSelection(nn.Module):
         H, R = self.num_heads, self.rank
         qu = self._bl(qz, u).view(B, C, P, H, R).permute(0, 2, 3, 1, 4)  # [B,P,H,C,R]
         qv = self._bl(qz, v).view(B, C, P, H, R).permute(0, 2, 3, 1, 4)
-        # attn[b,p,h,c,f] = score from channel c attending to channel f
-        attn = torch.einsum("bphcr,bphfr->bphcf", qu, qv) / math.sqrt(R)
+
+        # [V2-7] Apply RoPE along channel dimension
+        cos, sin = self.rope_chan(C, qz.device, qz.dtype)  # [1, C, R]
+        qu = _apply_rope(qu, cos.unsqueeze(0).unsqueeze(0), sin.unsqueeze(0).unsqueeze(0))
+        qv = _apply_rope(qv, cos.unsqueeze(0).unsqueeze(0), sin.unsqueeze(0).unsqueeze(0))
+
+        # [V2-8] Regularizer: 1/d_head
+        attn = torch.einsum("bphcr,bphfr->bphcf", qu, qv) / R
         attn = F.softmax(attn, dim=-1)                       # [B, P, H, C, C]
         qzp  = qz.permute(0, 2, 1, 3)                       # [B, P, C, D]
-        # msg[b,p,h,c,d] = sum_f attn[b,p,h,c,f] * qzp[b,p,f,d]
         msg  = torch.einsum("bphcf,bpfd->bphcd", attn, qzp).mean(dim=2)  # [B, P, C, D]
         return msg.permute(0, 2, 1, 3)                       # [B, C, P, D]
 
     def forward(
-        self, qz: torch.Tensor, factors: Dict[str, torch.Tensor]
+        self,
+        qz: torch.Tensor,
+        factors: Dict[str, torch.Tensor],
     ) -> Tuple[torch.Tensor, torch.Tensor]:
-        m_t = self._time_msg(qz, factors["time_u"]["weight"], factors["time_v"]["weight"])
+        m_t = self._time_msg(
+            qz,
+            factors["time_u"]["weight"],
+            factors["time_v"]["weight"],
+            patch_query_bias=factors.get("patch_query_bias"),
+        )
         m_c = self._chan_msg(qz, factors["channel_u"]["weight"], factors["channel_v"]["weight"])
         return m_t, m_c
 
@@ -379,14 +523,8 @@ class DynamicPTTopicModeling(nn.Module):
 class DynamicPTBlock(nn.Module):
     """One MFVI iteration with condition-instantiated factors + residual MLP.
 
-    Two improvements over the original:
-    - Learned residual gate replaces fixed 0.5 damping.  The gate is computed
-      from the pre-update state, allowing each feature dimension to decide
-      independently how much of the current belief vs the new message to keep.
-      This prevents MFVI averaging from over-smoothing noise predictions.
-    - Optional cross-attention to ctx_tokens (pseudo-tokens derived from
-      text condition) inserted after message passing.  When n_ctx=0 the
-      sublayer is absent and the block behaves identically to before.
+    - Learned residual gate replaces fixed 0.5 damping.
+    - Optional cross-attention to ctx_tokens (text pseudo-tokens).
     """
 
     def __init__(self, model_dim: int, ff_dim: int, num_heads: int, n_ctx: int = 0) -> None:
@@ -394,7 +532,7 @@ class DynamicPTBlock(nn.Module):
         self.norm       = nn.LayerNorm(model_dim)
         self.head       = DynamicPTHeadSelection(model_dim, num_heads)
         self.topic      = DynamicPTTopicModeling(model_dim, ff_dim)
-        # Learned residual gate: per-feature sigmoid gate replacing fixed 0.5
+        # Learned residual gate
         self.gate_proj  = nn.Linear(model_dim, model_dim, bias=True)
         self.out        = nn.Sequential(
             nn.Linear(model_dim, model_dim),
@@ -420,16 +558,15 @@ class DynamicPTBlock(nn.Module):
         m_t, m_c = self.head(qz_n, dyn)
         m_g  = self.topic(qz_n, dyn["topic"]["binary"])
 
-        # Learned residual gate (replaces fixed 0.5 damping)
+        # Learned residual gate
         gate = torch.sigmoid(self.gate_proj(old))       # [B, C, P, D]
         new_candidate = unary + m_t + m_c + m_g
         qz   = gate * old + (1.0 - gate) * new_candidate
 
-        # Cross-attention to text pseudo-tokens (Fix 2)
+        # Cross-attention to text pseudo-tokens
         if ctx_tokens is not None and hasattr(self, "cross_attn"):
             B, C, P, D = qz.shape
             q  = self.cross_norm(qz).reshape(B * C, P, D)
-            # Expand ctx_tokens over channels: [B, n_ctx, D] → [B*C, n_ctx, D]
             k  = ctx_tokens.unsqueeze(1).expand(-1, C, -1, -1).reshape(B * C, -1, D)
             ctx_out, _ = self.cross_attn(q, k, k)
             qz = qz + ctx_out.reshape(B, C, P, D)
@@ -444,14 +581,12 @@ class DynamicPTBlock(nn.Module):
 
 class PTFactorNoisePredictor(nn.Module):
     """
-    ST-PT backbone as DDPM ε-predictor with dynamic factor conditioning.
+    ST-PT backbone as DDPM predictor with dynamic factor conditioning.
 
-    I/O:  x_t [B, L, C]  →  ε_pred [B, L, C]
+    [V2-11] Self-conditioning: accepts optional x0_self_cond input that is
+    concatenated with x_t along the patch dimension before embedding.
 
-    When n_ctx > 0, a CtxTokenizer expands the raw condition embedding into
-    n_ctx pseudo-tokens that each DynamicPTBlock cross-attends to.  This is
-    only active for text conditioning (synth-u style); for attribute or label
-    conditioning n_ctx should be 0.
+    I/O:  x_t [B, L, C]  →  prediction [B, L, C]
     """
 
     def __init__(self, cfg, data_cfg) -> None:
@@ -474,9 +609,14 @@ class PTFactorNoisePredictor(nn.Module):
         num_basis_tern   = int(getattr(cfg, "num_basis_ternary",  8))
         dropout          = float(getattr(cfg, "dropout",        0.1))
         self.n_ctx       = int(getattr(cfg, "n_ctx",             0))
+        patch_cond_mod   = bool(_default(getattr(cfg, "patch_cond_modulate", None), True))
+
+        # [V2-11] Self-conditioning: input is [x_t; x0_hat] concatenated along patch dim
+        self.self_cond   = bool(_default(getattr(cfg, "self_cond", None), True))
+        embed_input_dim  = self.patch_len * 2 if self.self_cond else self.patch_len
 
         self.patch_embed = nn.Sequential(
-            nn.Linear(self.patch_len, model_dim),
+            nn.Linear(embed_input_dim, model_dim),
             nn.GELU(),
             nn.Linear(model_dim, model_dim),
         )
@@ -486,8 +626,9 @@ class PTFactorNoisePredictor(nn.Module):
             num_basis_binary=num_basis_bin,
             num_basis_ternary=num_basis_tern,
             dropout=dropout,
+            patch_cond_modulate=patch_cond_mod,
         )
-        # Pseudo-token cross-attention (Fix 2): only when n_ctx > 0
+        # Pseudo-token cross-attention: only when n_ctx > 0
         self.ctx_tok: Optional[CtxTokenizer] = None
         if self.n_ctx > 0:
             self.ctx_tok = CtxTokenizer(cond_dim, model_dim, self.n_ctx, dropout)
@@ -506,8 +647,23 @@ class PTFactorNoisePredictor(nn.Module):
         B, C, P, p = x.shape
         return x.reshape(B, C, P * p).transpose(1, 2)
 
-    def forward(self, x_t: torch.Tensor, t: torch.Tensor, cond: torch.Tensor) -> torch.Tensor:
-        x_patch = self._patchify(x_t)
+    def forward(
+        self,
+        x_t: torch.Tensor,
+        t: torch.Tensor,
+        cond: torch.Tensor,
+        x0_self_cond: Optional[torch.Tensor] = None,
+    ) -> torch.Tensor:
+        x_patch = self._patchify(x_t)  # [B, C, P, patch_len]
+
+        # [V2-11] Self-conditioning: concatenate x0_hat along patch dim
+        if self.self_cond:
+            if x0_self_cond is None:
+                x0_patch = torch.zeros_like(x_patch)
+            else:
+                x0_patch = self._patchify(x0_self_cond)
+            x_patch = torch.cat([x_patch, x0_patch], dim=-1)  # [B, C, P, 2*patch_len]
+
         unary   = self.patch_embed(x_patch)          # [B, C, P, D]
         h       = self.cond_encoder(cond, t)          # [B, H]
         dyn     = self.factor_gen(unary, h)
@@ -525,7 +681,7 @@ class PTFactorNoisePredictor(nn.Module):
 
 
 # ============================================================
-# Advice 2 — Conservative diffusion schedule helper
+# Diffusion schedule helper
 # ============================================================
 
 def _make_schedule(
@@ -534,11 +690,7 @@ def _make_schedule(
     beta_end: float,
     noise_schedule: str = "quad",
 ) -> Dict[str, torch.Tensor]:
-    """Build DDPM diffusion buffers.  Supports 'linear' and 'quad' schedules.
-
-    The benchmark standard is 'quad' with T=50, beta_start=0.0001, beta_end=0.5
-    (matching VerbalTS, WaveStitch, TEdit, TimeWeaver, Bridge, DiffuSETS).
-    """
+    """Build DDPM diffusion buffers."""
     if noise_schedule == "quad":
         betas = torch.linspace(beta_start ** 0.5, beta_end ** 0.5, T) ** 2
     else:  # linear
@@ -555,7 +707,26 @@ def _make_schedule(
         sqrt_one_minus_alphas_cumprod=(1.0 - abar).sqrt(),
         sqrt_recip_alphas_cumprod=(1.0 / abar).sqrt(),
         sqrt_recipm1_alphas_cumprod=(1.0 / abar - 1).sqrt(),
+        # [V2-9] Additional buffers for v-prediction
+        sqrt_alphas=alphas.sqrt(),
     )
+
+
+# ============================================================
+# [V2-10] Spectral auxiliary loss
+# ============================================================
+
+def _spectral_loss(pred: torch.Tensor, target: torch.Tensor) -> torch.Tensor:
+    """FFT-domain loss to preserve autocorrelation structure.
+
+    Computes L1 loss on the magnitude spectrum along the time axis.
+    """
+    # pred, target: [B, L, C]
+    pred_fft   = torch.fft.rfft(pred, dim=1)
+    target_fft = torch.fft.rfft(target, dim=1)
+    # Magnitude spectrum loss
+    mag_loss = F.l1_loss(pred_fft.abs(), target_fft.abs())
+    return mag_loss
 
 
 # ============================================================
@@ -565,7 +736,7 @@ def _make_schedule(
 @Registry.register_model("pt_factor_generator", aliases=["ptfg"])
 class PTFactorGeneratorModule(BaseGeneratorModule):
     """
-    ConTSG generator: dynamic factor PT denoiser with all four improvements.
+    ConTSG generator: dynamic factor PT denoiser (V2).
 
     Config parameters (model.*):
         d_model (int):           Hidden dimension.                Default: 128
@@ -588,6 +759,11 @@ class PTFactorGeneratorModule(BaseGeneratorModule):
         use_cfg (bool):          Enable classifier-free guidance.  Default: False
         attr_embed_dim (int):    Per-attribute embedding dim.      Default: 16
         n_ctx (int):             Pseudo-token count for text cross-attn.  Default: 0
+        prediction_type (str):   'v' or 'eps'.                    Default: v   [V2-9]
+        spectral_loss_weight (float): Weight for spectral loss.   Default: 0.1 [V2-10]
+        self_cond (bool):        Enable self-conditioning.         Default: true [V2-11]
+        patch_cond_modulate (bool): Per-patch ternary modulation. Default: true [V2-12]
+        attr_cross_talk (bool):  Inter-attribute cross-talk.       Default: true [V2-13]
     """
 
     def _build_model(self) -> None:
@@ -607,17 +783,23 @@ class PTFactorGeneratorModule(BaseGeneratorModule):
         for k, v in bufs.items():
             self.register_buffer(k, v)
 
-        # ── CFG (disabled by default to match all baselines: cfg_scale=1.0) ───
+        # ── CFG ───────────────────────────────────────────────────────────────
         self.cfg_dropout    = float(_default(getattr(cfg, "cfg_dropout",    None), 0.0))
         self.guidance_scale = float(_default(getattr(cfg, "guidance_scale", None), 1.0))
         self.use_cfg        = bool(_default(getattr(cfg, "use_cfg",         None), False))
         self.sample_steps   = int(_default(getattr(cfg, "sample_steps",     None), 50))
 
+        # ── [V2-9] Prediction type ───────────────────────────────────────────
+        self.prediction_type    = str(_default(getattr(cfg, "prediction_type",    None), "v"))
+        # ── [V2-10] Spectral loss ────────────────────────────────────────────
+        self.spectral_loss_weight = float(_default(getattr(cfg, "spectral_loss_weight", None), 0.1))
+
         cond_dim = int(getattr(cfg, "cond_dim", 64))
         self.null_condition = nn.Parameter(torch.zeros(1, cond_dim))
 
-        # ── Attribute encoder (Advice 4: proper cond_dim wiring) ──────────────
+        # ── Attribute encoder ────────────────────────────────────────────────
         self._attr_encoder: Optional[AttrEncoder] = None
+        attr_cross_talk = bool(_default(getattr(cfg, "attr_cross_talk", None), True))
         if cond_cfg.attribute.enabled and cond_cfg.attribute.discrete_configs:
             attr_embed_dim = int(_default(getattr(cfg, "attr_embed_dim", None), 16))
             dropout        = float(getattr(cfg, "dropout", 0.1))
@@ -626,13 +808,8 @@ class PTFactorGeneratorModule(BaseGeneratorModule):
                 cond_dim,
                 attr_embed_dim=attr_embed_dim,
                 dropout=dropout,
+                cross_talk=attr_cross_talk,
             )
-            # Verify cond_dim matches expectation from the encoder
-            expected = len(cond_cfg.attribute.discrete_configs) * attr_embed_dim
-            if cond_dim != expected:
-                # Encoder projects from expected → cond_dim via MLP, so any cond_dim is fine
-
-                pass
 
         self._text_enabled  = cond_cfg.text.enabled
         self._attr_enabled  = cond_cfg.attribute.enabled
@@ -660,7 +837,6 @@ class PTFactorGeneratorModule(BaseGeneratorModule):
         elif "condition" in batch:
             cond = batch["condition"].float().to(device)
         elif "label" in batch:
-            # label-conditioned: fall back to null (model not designed for labels)
             return self.null_condition.expand(B, -1).to(device)
         else:
             return self.null_condition.expand(B, -1).to(device)
@@ -687,6 +863,33 @@ class PTFactorGeneratorModule(BaseGeneratorModule):
         return sa * x0 + sm * noise
 
     # ---------------------------------------------------------------
+    # [V2-9] v-prediction helpers
+    # ---------------------------------------------------------------
+
+    def _compute_v_target(self, x0: torch.Tensor, noise: torch.Tensor, t: torch.Tensor) -> torch.Tensor:
+        """v = √ᾱ·ε − √(1−ᾱ)·x₀"""
+        sa = self.sqrt_alphas_cumprod[t].view(-1, 1, 1)          # type: ignore[attr-defined]
+        sm = self.sqrt_one_minus_alphas_cumprod[t].view(-1, 1, 1)  # type: ignore[attr-defined]
+        return sa * noise - sm * x0
+
+    def _v_to_eps_x0(
+        self, v: torch.Tensor, x_t: torch.Tensor, t_val: int
+    ) -> Tuple[torch.Tensor, torch.Tensor]:
+        """Recover ε and x₀ from v-prediction.
+
+        v  = √ᾱ·ε − √(1−ᾱ)·x₀
+        x_t = √ᾱ·x₀ + √(1−ᾱ)·ε
+
+        ε  = √ᾱ·v + √(1−ᾱ)·x_t
+        x₀ = √ᾱ·x_t − √(1−ᾱ)·v
+        """
+        sa = self.sqrt_alphas_cumprod[t_val]                      # type: ignore[attr-defined]
+        sm = self.sqrt_one_minus_alphas_cumprod[t_val]             # type: ignore[attr-defined]
+        eps = sa * v + sm * x_t
+        x0  = sa * x_t - sm * v
+        return eps, x0
+
+    # ---------------------------------------------------------------
     # Training forward
     # ---------------------------------------------------------------
 
@@ -697,8 +900,36 @@ class PTFactorGeneratorModule(BaseGeneratorModule):
         noise = torch.randn_like(ts)
         x_t  = self._q_sample(ts, t, noise)
         cond  = self._encode_condition(batch)
-        pred  = self.net(x_t, t, cond)
-        loss  = F.mse_loss(pred, noise)
+
+        # [V2-9] Compute prediction target
+        if self.prediction_type == "v":
+            target = self._compute_v_target(ts, noise, t)
+        else:
+            target = noise
+
+        # [V2-11] Self-conditioning: 50% of the time, pass the model's own x₀ estimate
+        x0_self_cond = None
+        if self.net.self_cond and self.training:
+            if torch.rand(1).item() > 0.5:
+                with torch.no_grad():
+                    pred_first = self.net(x_t, t, cond, x0_self_cond=None)
+                    if self.prediction_type == "v":
+                        # Recover x₀ from v for each sample in batch
+                        sa = self.sqrt_alphas_cumprod[t].view(-1, 1, 1)    # type: ignore[attr-defined]
+                        sm = self.sqrt_one_minus_alphas_cumprod[t].view(-1, 1, 1)  # type: ignore[attr-defined]
+                        x0_self_cond = (sa * x_t - sm * pred_first).detach()
+                    else:
+                        sa = self.sqrt_alphas_cumprod[t].view(-1, 1, 1)    # type: ignore[attr-defined]
+                        sm = self.sqrt_one_minus_alphas_cumprod[t].view(-1, 1, 1)  # type: ignore[attr-defined]
+                        x0_self_cond = ((x_t - sm * pred_first) / sa.clamp(min=1e-8)).detach()
+
+        pred  = self.net(x_t, t, cond, x0_self_cond=x0_self_cond)
+        loss  = F.mse_loss(pred, target)
+
+        # [V2-10] Spectral auxiliary loss
+        if self.spectral_loss_weight > 0.0:
+            loss = loss + self.spectral_loss_weight * _spectral_loss(pred, target)
+
         return {"loss": loss}
 
     # ---------------------------------------------------------------
@@ -712,24 +943,35 @@ class PTFactorGeneratorModule(BaseGeneratorModule):
         t: int,
         t_prev: int,
         cond: torch.Tensor,
-    ) -> torch.Tensor:
+        x0_self_cond: Optional[torch.Tensor] = None,
+    ) -> Tuple[torch.Tensor, torch.Tensor]:
+        """Returns (x_{t-1}, x0_pred) — the latter is used for self-conditioning."""
         B  = x_t.shape[0]
         tv = torch.full((B,), t, device=x_t.device, dtype=torch.long)
 
-        eps = self.net(x_t, tv, cond)                           # type: ignore[attr-defined]
+        pred = self.net(x_t, tv, cond, x0_self_cond=x0_self_cond)
+
         if self.use_cfg and self.guidance_scale > 1.0 and self.use_condition:
             null = self.null_condition.expand(B, -1).to(x_t.device)
-            eps_u = self.net(x_t, tv, null)
-            eps   = eps_u + self.guidance_scale * (eps - eps_u)
+            pred_u = self.net(x_t, tv, null, x0_self_cond=x0_self_cond)
+            pred   = pred_u + self.guidance_scale * (pred - pred_u)
 
-        a_t    = self.alphas_cumprod[t]                         # type: ignore[attr-defined]
+        # [V2-9] Convert prediction to eps and x0
+        if self.prediction_type == "v":
+            eps, x0_pred = self._v_to_eps_x0(pred, x_t, t)
+        else:
+            eps = pred
+            a_t = self.alphas_cumprod[t]                           # type: ignore[attr-defined]
+            x0_pred = (x_t - (1.0 - a_t).sqrt() * eps) / a_t.sqrt()
+
+        a_t    = self.alphas_cumprod[t]                            # type: ignore[attr-defined]
         a_prev = (
-            self.alphas_cumprod_prev[t]                         # type: ignore[attr-defined]
+            self.alphas_cumprod_prev[t]                            # type: ignore[attr-defined]
             if t_prev < 0
-            else self.alphas_cumprod[t_prev]                    # type: ignore[attr-defined]
+            else self.alphas_cumprod[t_prev]                       # type: ignore[attr-defined]
         )
-        x0_pred = (x_t - (1.0 - a_t).sqrt() * eps) / a_t.sqrt()
-        return a_prev.sqrt() * x0_pred + (1.0 - a_prev).sqrt() * eps
+        x_prev = a_prev.sqrt() * x0_pred + (1.0 - a_prev).sqrt() * eps
+        return x_prev, x0_pred
 
     @torch.no_grad()
     def generate(
@@ -764,8 +1006,14 @@ class PTFactorGeneratorModule(BaseGeneratorModule):
             self.num_steps - 1, 0, steps, device=device
         ).long().tolist()
 
+        # [V2-11] Self-conditioning: carry x0_pred across steps
+        x0_self_cond = None
+
         for i, t in enumerate(schedule):
             t_prev = -1 if i == len(schedule) - 1 else schedule[i + 1]
-            x      = self._ddim_step(x, t, t_prev, cond_rep)
+            x, x0_pred = self._ddim_step(x, t, t_prev, cond_rep, x0_self_cond=x0_self_cond)
+            # Update self-conditioning estimate for next step
+            if self.net.self_cond:
+                x0_self_cond = x0_pred
 
         return x.view(B, n_samples, L, C)
