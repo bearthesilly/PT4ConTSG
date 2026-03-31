@@ -79,10 +79,8 @@ Thumbs.db
 
 # Project specific
 paper/
-scripts/
 experiments/
 datasets/
-scripts/
 !contsg/data/datasets/
 !contsg/data/datasets/**
 contsg/data/datasets/**/__pycache__/
