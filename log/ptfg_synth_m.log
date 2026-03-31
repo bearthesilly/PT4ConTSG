@@ -1,3 +1,24 @@
+================================================================================
+Experiment: PTFG V2 on synth-m  (run _3)
+Date: 2026-03-30
+Model: pt_factor_generator V2 (PTFactorGenerator with V2 improvements)
+V2 features: dual RoPE, 1/d_head regularizer, v-prediction, spectral loss,
+             self-conditioning, per-patch ternary modulation, ctx cross-attn
+--------------------------------------------------------------------------------
+Settings (DIFFERENT from baselines):
+  lr: 0.0005        (baselines use 0.001)
+  batch_size: 128   (baselines use 256)
+  early_stopping_patience: 60  (baselines use 50)
+Settings (SAME as baselines):
+  epochs: 700, seed: 42, diffusion_steps: 50, noise_schedule: quad,
+  beta_start: 0.0001, beta_end: 0.5, sampler: ddim, n_samples: 10,
+  cfg_scale: 1.0 (off)
+V2-specific settings:
+  prediction_type: v, spectral_loss_weight: 0.1, self_cond: true,
+  patch_cond_modulate: true, attr_cross_talk: true, n_ctx: 8
+Model size: 5.2M params (20MB)
+Best checkpoint: epoch=339, val_loss=0.5052
+================================================================================
 Loading config from: configs/generators/ptfg_synth-m.yaml
 Model schema mode: relaxed (no model-specific schema for 'pt_factor_generator')
          Configuration Summary         

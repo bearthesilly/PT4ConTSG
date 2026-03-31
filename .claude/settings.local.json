@@ -13,7 +13,14 @@
       "Bash(CONDA_AUTO_ACTIVATE_BASE=false CONDA_SHLVL=0 \"C:\\\\Python314\\\\python.exe\" -c \"import ast; ast.parse\\(open\\(r''D:\\\\Shanghai Tech\\\\AI_honor\\\\PT4ConTSG\\\\contsg\\\\models\\\\pt_factor_generator.py'', encoding=''utf-8''\\).read\\(\\)\\); print\\(''Syntax OK''\\)\")",
       "Bash(powershell.exe -Command \"python -c \"\"import ast; ast.parse\\([System.IO.File]::ReadAllText\\(''D:\\\\Shanghai Tech\\\\AI_honor\\\\PT4ConTSG\\\\contsg\\\\models\\\\pt_factor_generator.py''\\)\\); print\\(''OK''\\)\"\"\")",
       "Bash(powershell.exe -Command \"& ''C:\\\\Python314\\\\python.exe'' -c ''import ast, sys; ast.parse\\(open\\(sys.argv[1], encoding=\"\"utf-8\"\"\\).read\\(\\)\\); print\\(\"\"Syntax OK\"\"\\)'' ''D:\\\\Shanghai Tech\\\\AI_honor\\\\PT4ConTSG\\\\contsg\\\\models\\\\pt_factor_generator.py''\")",
-      "Bash(CONDA_AUTO_ACTIVATE_BASE=false /c/Python314/python.exe -c \"import ast; f=open\\(r''D:/Shanghai Tech/AI_honor/PT4ConTSG/contsg/models/pt_factor_generator.py'', encoding=''utf-8''\\); ast.parse\\(f.read\\(\\)\\); print\\(''Syntax OK''\\)\")"
+      "Bash(CONDA_AUTO_ACTIVATE_BASE=false /c/Python314/python.exe -c \"import ast; f=open\\(r''D:/Shanghai Tech/AI_honor/PT4ConTSG/contsg/models/pt_factor_generator.py'', encoding=''utf-8''\\); ast.parse\\(f.read\\(\\)\\); print\\(''Syntax OK''\\)\")",
+      "Bash(mv log/ptfg_synth_u.log log/ptfg_synth_u_3.log)",
+      "Bash(mv log/ptfg_synth_m.log log/ptfg_synth_m_3.log)",
+      "Bash(ls ptfg_synth_*.log)",
+      "Bash(cp ptfg_synth_u.log ptfg_synth_u_3.log)",
+      "Bash(cp ptfg_synth_m.log ptfg_synth_m_3.log)",
+      "Bash(mv ptfg_synth_u.log ptfg_synth_u_3.log)",
+      "Bash(mv ptfg_synth_m.log ptfg_synth_m_3.log)"
     ]
   }
 }
