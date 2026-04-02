@@ -20,7 +20,11 @@
       "Bash(cp ptfg_synth_u.log ptfg_synth_u_3.log)",
       "Bash(cp ptfg_synth_m.log ptfg_synth_m_3.log)",
       "Bash(mv ptfg_synth_u.log ptfg_synth_u_3.log)",
-      "Bash(mv ptfg_synth_m.log ptfg_synth_m_3.log)"
+      "Bash(mv ptfg_synth_m.log ptfg_synth_m_3.log)",
+      "mcp__claude_ai_PDF_Viewer__display_pdf",
+      "mcp__claude_ai_PDF_Viewer__read_pdf_bytes",
+      "Bash(find \"D:\\\\Shanghai Tech\\\\AI_honor\\\\PT4ConTSG\" -type f -name \"*.py\" -exec grep -l \"RQ[0-9]\\\\|research.question\" {} \\\\;)",
+      "WebSearch"
     ]
   }
 }
