@@ -1,0 +1,184 @@
+# PTFactorGenerator V2 on PTB-XL Concept  (12-variate ECG, text-conditioned)
+# V1 improvements over pt4contsg:
+#   [1] Dynamic factor architecture  (this model file)
+#   [2] Same benchmark-standard schedule as all baselines: quad, T=50, beta_end=0.5
+#   [3] Scaled dimensions            d_model: 128, e_layers: 4
+#   [4] cond_dim: 1024 (text cap_emb from Qwen3), n_ctx: 8 pseudo-tokens for cross-attn
+# V2 additions:
+#   [7]  Dual RoPE (time + channel positional encoding)
+#   [8]  H-variable regularizer: 1/d_head
+#   [9]  v-prediction parameterization
+#   [10] Spectral auxiliary loss (FFT-domain, fixes ACD)
+#   [11] Self-conditioning
+#   [12] Per-patch ternary modulation
+#   [13] Inter-attribute cross-talk (inactive: text-only mode)
+
+seed: 42
+device: cuda:0
+
+train:
+  stages:
+  - name: finetune
+    epochs: 700
+    lr: 0.001
+    use_condition: true
+    freeze_modules: []
+    early_stopping_patience: 50
+  epochs: 700
+  batch_size: 128
+  lr: 0.001
+  weight_decay: 0.0001
+  scheduler: cosine
+  scheduler_params: {}
+  early_stopping_patience: 50
+  gradient_clip_val: 1.0
+  accumulate_grad_batches: 1
+  val_check_interval: 1.0
+  num_workers: 4
+  pin_memory: true
+  limit_train_batches: 1.0
+  limit_val_batches: 1.0
+  limit_test_batches: 1.0
+  num_sanity_val_steps: 2
+  log_grad_norm: true
+  log_param_norm: true
+  log_norm_every_n_steps: 50
+
+data:
+  name: ptbxl_concept
+  data_folder: /storage/group/renkan/lansc/gents_bench/datasets/ptbxl_extrinsic
+  n_var: 12
+  seq_length: 1000
+  normalize: false
+  train_split: 0.8
+  val_split: 0.1
+
+model:
+  name: pt_factor_generator
+  # [3] Scaled dimensions (Advice 3)
+  d_model: 128
+  d_ff: 256
+  n_heads: 8
+  e_layers: 4
+  patch_len: 40            # 1000 / 40 = 25 patches
+  cond_hidden_dim: 256
+  dropout: 0.1
+  # [4] Larger basis counts
+  num_basis_binary: 16
+  num_basis_ternary: 8
+  attr_embed_dim: 16
+  # [4] cond_dim = text cap_emb dim from Qwen3
+  cond_dim: 1024
+  # [2] Benchmark-standard schedule (same as all baselines)
+  num_steps: 50
+  noise_schedule: quad
+  beta_start: 0.0001
+  beta_end: 0.5
+  sample_steps: 50         # DDIM steps at inference (= num_steps, same as baselines)
+  # CFG — all baselines use cfg_scale=1.0 (no amplification), so we disable CFG
+  use_cfg: false
+  cfg_dropout: 0.0
+  guidance_scale: 1.0
+  # n_ctx: 8 pseudo-tokens for text cross-attention
+  n_ctx: 8
+  # [V2-9] v-prediction: predicts v = √ᾱ·ε − √(1−ᾱ)·x₀ (more stable than eps)
+  prediction_type: v
+  # [V2-10] Spectral auxiliary loss weight (FFT-domain, preserves autocorrelation)
+  spectral_loss_weight: 0.1
+  # [V2-11] Self-conditioning: feed x₀ estimate back as input
+  self_cond: true
+  # [V2-12] Per-patch condition modulation of ternary factors
+  patch_cond_modulate: true
+  # [V2-13] Inter-attribute cross-talk (no effect here: text-only, no multi-attr)
+  attr_cross_talk: true
+
+condition:
+  text:
+    enabled: true
+    input_dim: 1024
+    embedding_key: cap_emb
+    dropout: 0.0
+    cfg_scale: 1.0
+  attribute:
+    enabled: false
+    continuous_dim: 0
+    discrete_configs: []
+    output_dim: 128
+    dropout: 0.0
+  label:
+    enabled: false
+    num_classes: 10
+    output_dim: 64
+  fusion: concat
+  condition_dropout: 0.1
+
+eval:
+  n_samples: 10
+  metrics:
+  - dtw
+  - wape
+  - ed
+  - crps
+  - acd
+  - sd
+  - kd
+  - mdd
+  - fid
+  - jftsd
+  - prdc_f1
+  - joint_prdc_f1
+  - cttp
+  - disc_auc
+  batch_size: 64
+  save_samples: true
+  sampler: ddim
+  display_interval: 10
+  clip_config_path: ./configs/cttp/cttp_ptbxl_concept.yaml
+  clip_model_path: /storage/group/renkan/lansc/gents_bench/save/ptx_cttp/clip_model_best.pth
+  cache_folder: ./cache/ptbxl_concept
+  use_longalign: false
+  reference_split: train
+  disc_auc:
+    k_folds: 5
+    epochs: 5
+    batch_size: 128
+    lr: 0.001
+    weight_decay: 0.0001
+    hidden_channels: 128
+    num_layers: 3
+    dropout: 0.1
+    seed: 42
+    num_workers: 0
+  prdc:
+    k: 5
+    max_samples: 5000
+    seed: 0
+    metric: euclidean
+    backend: auto
+    knn_chunk_size: 4096
+    joint_enable: true
+    joint_weights:
+      ts: 1.0
+      text: 1.0
+    joint_normalize: standard
+  segment_classifier:
+    enable: false
+    segment_len: 1000
+    n_segments: 3
+    seed: 42
+  acd_max_lag: 50
+  mdd_bins: 32
+  use_cache: false
+  cache_file: predictions_cache.pkl
+  viz:
+    enable: true
+    k_cases: 20
+    max_vars: 8
+    ncols: 5
+    seed: 42
+    dpi: 200
+    alpha: 0.25
+    figsize_per_subplot:
+    - 3.0
+    - 2.0
+    output_type: pdf
