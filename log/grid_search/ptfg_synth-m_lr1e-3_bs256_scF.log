@@ -1,0 +1,844 @@
+Loading config from: configs/grid_search/ptfg_synth-m_lr1e-3_bs256_scF.yaml
+Model schema mode: relaxed (no model-specific schema for 'pt_factor_generator')
+         Configuration Summary         
+┌───────────────┬─────────────────────┐
+│ Dataset       │ synth-m             │
+│ Model         │ pt_factor_generator │
+│ Epochs        │ 700                 │
+│ Batch Size    │ 256                 │
+│ Learning Rate │ 0.001               │
+│ Device        │ cuda:0              │
+│ Seed          │ 42                  │
+└───────────────┴─────────────────────┘
+
+Experiment directory: experiments/20260401_211328_synth-m_pt_factor_generator
+Seed set to 42
+
+Model: pt_factor_generator
+Creating data module: synth-m
+
+Starting multi-stage training (1 stage(s))...
+  Stage 1: finetune (700 epochs, lr=0.001)
+/public/home/xiongzhzh2023/Anaconda/envs/contsg/lib/python3.12/site-packages/lightning_fabric/plugins/environments/slurm.py:204: The `srun` command is available on your system but is not used. HINT: If your intention is to run Lightning on SLURM, prepend your python command with `srun` like so: srun python3.1 /public/home/xiongzhzh2023/Anaconda/envs/contsg/b ...
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+`Trainer(limit_train_batches=1.0)` was configured so 100% of the batches per epoch will be used..
+`Trainer(limit_val_batches=1.0)` was configured so 100% of the batches will be used..
+`Trainer(limit_test_batches=1.0)` was configured so 100% of the batches will be used..
+`Trainer(val_check_interval=1.0)` was configured so validation will run at the end of the training epoch..
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+┏━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━┳━━━━━━━┓
+┃   ┃ Name         ┃ Type                   ┃ Params ┃ Mode  ┃ FLOPs ┃
+┡━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━╇━━━━━━━┩
+│ 0 │ net          │ PTFactorNoisePredictor │  5.2 M │ train │     0 │
+│   │ other params │ n/a                    │  1.0 K │ n/a   │   n/a │
+└───┴──────────────┴────────────────────────┴────────┴───────┴───────┘
+Trainable params: 5.2 M                                                                                                                                                                                                                                              
+Non-trainable params: 0                                                                                                                                                                                                                                              
+Total params: 5.2 M                                                                                                                                                                                                                                                  
+Total estimated model params size (MB): 20                                                                                                                                                                                                                           
+Modules in train mode: 195                                                                                                                                                                                                                                           
+Modules in eval mode: 0                                                                                                                                                                                                                                              
+Total FLOPs: 0                                                                                                                                                                                                                                                       
+/public/home/xiongzhzh2023/Anaconda/envs/contsg/lib/python3.12/site-packages/pytorch_lightning/utilities/data.py:79: Trying to infer the `batch_size` from an ambiguous collection. The batch size we found is 256. To avoid any miscalculations, use `self.log(..., batch_size=batch_size)`.
+
+[Training] Starting 700 epochs...
+  [Epoch 1] Batch 50/93 (54%)
+/public/home/xiongzhzh2023/Anaconda/envs/contsg/lib/python3.12/site-packages/pytorch_lightning/utilities/data.py:79: Trying to infer the `batch_size` from an ambiguous collection. The batch size we found is 160. To avoid any miscalculations, use `self.log(..., batch_size=batch_size)`.
+[Epoch 1/700] train_loss=1.3958 val_loss=0.9513 lr=1.00e-03 (6s)
+Metric val/loss improved. New best score: 0.951
+  [Epoch 2] Batch 50/93 (54%)
+[Epoch 2/700] train_loss=0.9254 val_loss=0.8842 lr=1.00e-03 (6s)
+Metric val/loss improved by 0.067 >= min_delta = 0.0. New best score: 0.884
+  [Epoch 3] Batch 50/93 (54%)
+[Epoch 3/700] train_loss=0.8937 val_loss=0.8610 lr=1.00e-03 (6s)
+Metric val/loss improved by 0.023 >= min_delta = 0.0. New best score: 0.861
+  [Epoch 4] Batch 50/93 (54%)
+[Epoch 4/700] train_loss=0.8616 val_loss=0.8363 lr=1.00e-03 (6s)
+Metric val/loss improved by 0.025 >= min_delta = 0.0. New best score: 0.836
+  [Epoch 5] Batch 50/93 (54%)
+[Epoch 5/700] train_loss=0.8401 val_loss=0.8276 lr=1.00e-03 (6s)
+Metric val/loss improved by 0.009 >= min_delta = 0.0. New best score: 0.828
+  [Epoch 6] Batch 50/93 (54%)
+[Epoch 6/700] train_loss=0.8173 val_loss=0.8131 lr=1.00e-03 (6s)
+Metric val/loss improved by 0.014 >= min_delta = 0.0. New best score: 0.813
+  [Epoch 7] Batch 50/93 (54%)
+[Epoch 7/700] train_loss=0.8073 val_loss=0.8225 lr=1.00e-03 (6s)
+  [Epoch 8] Batch 50/93 (54%)
+[Epoch 8/700] train_loss=0.8003 val_loss=0.7930 lr=1.00e-03 (6s)
+Metric val/loss improved by 0.020 >= min_delta = 0.0. New best score: 0.793
+  [Epoch 9] Batch 50/93 (54%)
+[Epoch 9/700] train_loss=0.7878 val_loss=0.7861 lr=1.00e-03 (6s)
+Metric val/loss improved by 0.007 >= min_delta = 0.0. New best score: 0.786
+  [Epoch 10] Batch 50/93 (54%)
+[Epoch 10/700] train_loss=0.7825 val_loss=0.7916 lr=9.99e-04 (6s)
+  [Epoch 11] Batch 50/93 (54%)
+[Epoch 11/700] train_loss=0.7756 val_loss=0.7745 lr=9.99e-04 (6s)
+Metric val/loss improved by 0.012 >= min_delta = 0.0. New best score: 0.775
+  [Epoch 12] Batch 50/93 (54%)
+[Epoch 12/700] train_loss=0.7719 val_loss=0.7816 lr=9.99e-04 (6s)
+  [Epoch 13] Batch 50/93 (54%)
+[Epoch 13/700] train_loss=0.7648 val_loss=0.7644 lr=9.99e-04 (6s)
+Metric val/loss improved by 0.010 >= min_delta = 0.0. New best score: 0.764
+  [Epoch 14] Batch 50/93 (54%)
+[Epoch 14/700] train_loss=0.7564 val_loss=0.7524 lr=9.99e-04 (6s)
+Metric val/loss improved by 0.012 >= min_delta = 0.0. New best score: 0.752
+  [Epoch 15] Batch 50/93 (54%)
+[Epoch 15/700] train_loss=0.7539 val_loss=0.7543 lr=9.99e-04 (6s)
+  [Epoch 16] Batch 50/93 (54%)
+[Epoch 16/700] train_loss=0.7415 val_loss=0.7417 lr=9.99e-04 (6s)
+Metric val/loss improved by 0.011 >= min_delta = 0.0. New best score: 0.742
+  [Epoch 17] Batch 50/93 (54%)
+[Epoch 17/700] train_loss=0.7343 val_loss=0.7392 lr=9.99e-04 (6s)
+Metric val/loss improved by 0.002 >= min_delta = 0.0. New best score: 0.739
+  [Epoch 18] Batch 50/93 (54%)
+[Epoch 18/700] train_loss=0.7265 val_loss=0.7296 lr=9.98e-04 (6s)
+Metric val/loss improved by 0.010 >= min_delta = 0.0. New best score: 0.730
+  [Epoch 19] Batch 50/93 (54%)
+[Epoch 19/700] train_loss=0.7182 val_loss=0.7055 lr=9.98e-04 (6s)
+Metric val/loss improved by 0.024 >= min_delta = 0.0. New best score: 0.705
+  [Epoch 20] Batch 50/93 (54%)
+[Epoch 20/700] train_loss=0.7052 val_loss=0.7172 lr=9.98e-04 (6s)
+  [Epoch 21] Batch 50/93 (54%)
+[Epoch 21/700] train_loss=0.6937 val_loss=0.6897 lr=9.98e-04 (6s)
+Metric val/loss improved by 0.016 >= min_delta = 0.0. New best score: 0.690
+  [Epoch 22] Batch 50/93 (54%)
+[Epoch 22/700] train_loss=0.6815 val_loss=0.6744 lr=9.98e-04 (6s)
+Metric val/loss improved by 0.015 >= min_delta = 0.0. New best score: 0.674
+  [Epoch 23] Batch 50/93 (54%)
+[Epoch 23/700] train_loss=0.6716 val_loss=0.6624 lr=9.97e-04 (6s)
+Metric val/loss improved by 0.012 >= min_delta = 0.0. New best score: 0.662
+  [Epoch 24] Batch 50/93 (54%)
+[Epoch 24/700] train_loss=0.6679 val_loss=0.6636 lr=9.97e-04 (6s)
+  [Epoch 25] Batch 50/93 (54%)
+[Epoch 25/700] train_loss=0.6549 val_loss=0.6379 lr=9.97e-04 (6s)
+Metric val/loss improved by 0.025 >= min_delta = 0.0. New best score: 0.638
+  [Epoch 26] Batch 50/93 (54%)
+[Epoch 26/700] train_loss=0.6484 val_loss=0.6522 lr=9.97e-04 (6s)
+  [Epoch 27] Batch 50/93 (54%)
+[Epoch 27/700] train_loss=0.6489 val_loss=0.6506 lr=9.96e-04 (6s)
+  [Epoch 28] Batch 50/93 (54%)
+[Epoch 28/700] train_loss=0.6383 val_loss=0.6353 lr=9.96e-04 (6s)
+Metric val/loss improved by 0.003 >= min_delta = 0.0. New best score: 0.635
+  [Epoch 29] Batch 50/93 (54%)
+[Epoch 29/700] train_loss=0.6353 val_loss=0.6305 lr=9.96e-04 (6s)
+Metric val/loss improved by 0.005 >= min_delta = 0.0. New best score: 0.630
+  [Epoch 30] Batch 50/93 (54%)
+[Epoch 30/700] train_loss=0.6363 val_loss=0.6438 lr=9.95e-04 (6s)
+  [Epoch 31] Batch 50/93 (54%)
+[Epoch 31/700] train_loss=0.6292 val_loss=0.6367 lr=9.95e-04 (6s)
+  [Epoch 32] Batch 50/93 (54%)
+[Epoch 32/700] train_loss=0.6300 val_loss=0.6361 lr=9.95e-04 (6s)
+  [Epoch 33] Batch 50/93 (54%)
+[Epoch 33/700] train_loss=0.6281 val_loss=0.6273 lr=9.95e-04 (6s)
+Metric val/loss improved by 0.003 >= min_delta = 0.0. New best score: 0.627
+  [Epoch 34] Batch 50/93 (54%)
+[Epoch 34/700] train_loss=0.6299 val_loss=0.6370 lr=9.94e-04 (6s)
+  [Epoch 35] Batch 50/93 (54%)
+[Epoch 35/700] train_loss=0.6218 val_loss=0.6453 lr=9.94e-04 (6s)
+  [Epoch 36] Batch 50/93 (54%)
+[Epoch 36/700] train_loss=0.6210 val_loss=0.6200 lr=9.93e-04 (6s)
+Metric val/loss improved by 0.007 >= min_delta = 0.0. New best score: 0.620
+  [Epoch 37] Batch 50/93 (54%)
+[Epoch 37/700] train_loss=0.6203 val_loss=0.6275 lr=9.93e-04 (6s)
+  [Epoch 38] Batch 50/93 (54%)
+[Epoch 38/700] train_loss=0.6174 val_loss=0.6125 lr=9.93e-04 (6s)
+Metric val/loss improved by 0.007 >= min_delta = 0.0. New best score: 0.613
+  [Epoch 39] Batch 50/93 (54%)
+[Epoch 39/700] train_loss=0.6152 val_loss=0.6122 lr=9.92e-04 (6s)
+Metric val/loss improved by 0.000 >= min_delta = 0.0. New best score: 0.612
+  [Epoch 40] Batch 50/93 (54%)
+[Epoch 40/700] train_loss=0.6141 val_loss=0.6263 lr=9.92e-04 (6s)
+  [Epoch 41] Batch 50/93 (54%)
+[Epoch 41/700] train_loss=0.6088 val_loss=0.6191 lr=9.92e-04 (6s)
+  [Epoch 42] Batch 50/93 (54%)
+[Epoch 42/700] train_loss=0.6145 val_loss=0.6075 lr=9.91e-04 (6s)
+Metric val/loss improved by 0.005 >= min_delta = 0.0. New best score: 0.607
+  [Epoch 43] Batch 50/93 (54%)
+[Epoch 43/700] train_loss=0.6090 val_loss=0.6102 lr=9.91e-04 (6s)
+  [Epoch 44] Batch 50/93 (54%)
+[Epoch 44/700] train_loss=0.6022 val_loss=0.6054 lr=9.90e-04 (6s)
+Metric val/loss improved by 0.002 >= min_delta = 0.0. New best score: 0.605
+  [Epoch 45] Batch 50/93 (54%)
+[Epoch 45/700] train_loss=0.6067 val_loss=0.6012 lr=9.90e-04 (6s)
+Metric val/loss improved by 0.004 >= min_delta = 0.0. New best score: 0.601
+  [Epoch 46] Batch 50/93 (54%)
+[Epoch 46/700] train_loss=0.6049 val_loss=0.5966 lr=9.89e-04 (6s)
+Metric val/loss improved by 0.005 >= min_delta = 0.0. New best score: 0.597
+  [Epoch 47] Batch 50/93 (54%)
+[Epoch 47/700] train_loss=0.6023 val_loss=0.6203 lr=9.89e-04 (6s)
+  [Epoch 48] Batch 50/93 (54%)
+[Epoch 48/700] train_loss=0.6025 val_loss=0.6088 lr=9.88e-04 (6s)
+  [Epoch 49] Batch 50/93 (54%)
+[Epoch 49/700] train_loss=0.6014 val_loss=0.5941 lr=9.88e-04 (6s)
+Metric val/loss improved by 0.003 >= min_delta = 0.0. New best score: 0.594
+  [Epoch 50] Batch 50/93 (54%)
+[Epoch 50/700] train_loss=0.5995 val_loss=0.6095 lr=9.87e-04 (6s)
+  [Epoch 51] Batch 50/93 (54%)
+[Epoch 51/700] train_loss=0.5972 val_loss=0.6082 lr=9.87e-04 (6s)
+  [Epoch 52] Batch 50/93 (54%)
+[Epoch 52/700] train_loss=0.5997 val_loss=0.5950 lr=9.86e-04 (6s)
+  [Epoch 53] Batch 50/93 (54%)
+[Epoch 53/700] train_loss=0.5931 val_loss=0.5983 lr=9.86e-04 (6s)
+  [Epoch 54] Batch 50/93 (54%)
+[Epoch 54/700] train_loss=0.5918 val_loss=0.5963 lr=9.85e-04 (6s)
+  [Epoch 55] Batch 50/93 (54%)
+[Epoch 55/700] train_loss=0.5931 val_loss=0.5862 lr=9.85e-04 (6s)
+Metric val/loss improved by 0.008 >= min_delta = 0.0. New best score: 0.586
+  [Epoch 56] Batch 50/93 (54%)
+[Epoch 56/700] train_loss=0.5959 val_loss=0.5928 lr=9.84e-04 (6s)
+  [Epoch 57] Batch 50/93 (54%)
+[Epoch 57/700] train_loss=0.5891 val_loss=0.5971 lr=9.84e-04 (6s)
+  [Epoch 58] Batch 50/93 (54%)
+[Epoch 58/700] train_loss=0.5921 val_loss=0.5977 lr=9.83e-04 (6s)
+  [Epoch 59] Batch 50/93 (54%)
+[Epoch 59/700] train_loss=0.5886 val_loss=0.5974 lr=9.83e-04 (6s)
+  [Epoch 60] Batch 50/93 (54%)
+[Epoch 60/700] train_loss=0.5855 val_loss=0.5989 lr=9.82e-04 (6s)
+  [Epoch 61] Batch 50/93 (54%)
+[Epoch 61/700] train_loss=0.5917 val_loss=0.5825 lr=9.81e-04 (6s)
+Metric val/loss improved by 0.004 >= min_delta = 0.0. New best score: 0.583
+  [Epoch 62] Batch 50/93 (54%)
+[Epoch 62/700] train_loss=0.5832 val_loss=0.5911 lr=9.81e-04 (6s)
+  [Epoch 63] Batch 50/93 (54%)
+[Epoch 63/700] train_loss=0.5863 val_loss=0.5842 lr=9.80e-04 (6s)
+  [Epoch 64] Batch 50/93 (54%)
+[Epoch 64/700] train_loss=0.5854 val_loss=0.5911 lr=9.80e-04 (6s)
+  [Epoch 65] Batch 50/93 (54%)
+[Epoch 65/700] train_loss=0.5849 val_loss=0.5779 lr=9.79e-04 (6s)
+Metric val/loss improved by 0.005 >= min_delta = 0.0. New best score: 0.578
+  [Epoch 66] Batch 50/93 (54%)
+[Epoch 66/700] train_loss=0.5831 val_loss=0.5866 lr=9.78e-04 (6s)
+  [Epoch 67] Batch 50/93 (54%)
+[Epoch 67/700] train_loss=0.5811 val_loss=0.5846 lr=9.78e-04 (6s)
+  [Epoch 68] Batch 50/93 (54%)
+[Epoch 68/700] train_loss=0.5792 val_loss=0.5787 lr=9.77e-04 (6s)
+  [Epoch 69] Batch 50/93 (54%)
+[Epoch 69/700] train_loss=0.5808 val_loss=0.5774 lr=9.76e-04 (6s)
+Metric val/loss improved by 0.001 >= min_delta = 0.0. New best score: 0.577
+  [Epoch 70] Batch 50/93 (54%)
+[Epoch 70/700] train_loss=0.5792 val_loss=0.5863 lr=9.76e-04 (6s)
+  [Epoch 71] Batch 50/93 (54%)
+[Epoch 71/700] train_loss=0.5788 val_loss=0.5681 lr=9.75e-04 (6s)
+Metric val/loss improved by 0.009 >= min_delta = 0.0. New best score: 0.568
+  [Epoch 72] Batch 50/93 (54%)
+[Epoch 72/700] train_loss=0.5765 val_loss=0.5854 lr=9.74e-04 (6s)
+  [Epoch 73] Batch 50/93 (54%)
+[Epoch 73/700] train_loss=0.5798 val_loss=0.5854 lr=9.73e-04 (6s)
+  [Epoch 74] Batch 50/93 (54%)
+[Epoch 74/700] train_loss=0.5778 val_loss=0.5867 lr=9.73e-04 (6s)
+  [Epoch 75] Batch 50/93 (54%)
+[Epoch 75/700] train_loss=0.5817 val_loss=0.5725 lr=9.72e-04 (6s)
+  [Epoch 76] Batch 50/93 (54%)
+[Epoch 76/700] train_loss=0.5782 val_loss=0.5805 lr=9.71e-04 (6s)
+  [Epoch 77] Batch 50/93 (54%)
+[Epoch 77/700] train_loss=0.5713 val_loss=0.5700 lr=9.70e-04 (6s)
+  [Epoch 78] Batch 50/93 (54%)
+[Epoch 78/700] train_loss=0.5757 val_loss=0.5818 lr=9.70e-04 (6s)
+  [Epoch 79] Batch 50/93 (54%)
+[Epoch 79/700] train_loss=0.5746 val_loss=0.5755 lr=9.69e-04 (6s)
+  [Epoch 80] Batch 50/93 (54%)
+[Epoch 80/700] train_loss=0.5740 val_loss=0.5807 lr=9.68e-04 (6s)
+  [Epoch 81] Batch 50/93 (54%)
+[Epoch 81/700] train_loss=0.5732 val_loss=0.5700 lr=9.67e-04 (6s)
+  [Epoch 82] Batch 50/93 (54%)
+[Epoch 82/700] train_loss=0.5684 val_loss=0.5749 lr=9.67e-04 (6s)
+  [Epoch 83] Batch 50/93 (54%)
+[Epoch 83/700] train_loss=0.5700 val_loss=0.5739 lr=9.66e-04 (6s)
+  [Epoch 84] Batch 50/93 (54%)
+[Epoch 84/700] train_loss=0.5712 val_loss=0.5824 lr=9.65e-04 (6s)
+  [Epoch 85] Batch 50/93 (54%)
+[Epoch 85/700] train_loss=0.5743 val_loss=0.5741 lr=9.64e-04 (6s)
+  [Epoch 86] Batch 50/93 (54%)
+[Epoch 86/700] train_loss=0.5676 val_loss=0.5706 lr=9.63e-04 (6s)
+  [Epoch 87] Batch 50/93 (54%)
+[Epoch 87/700] train_loss=0.5672 val_loss=0.5830 lr=9.62e-04 (6s)
+  [Epoch 88] Batch 50/93 (54%)
+[Epoch 88/700] train_loss=0.5710 val_loss=0.5699 lr=9.62e-04 (6s)
+  [Epoch 89] Batch 50/93 (54%)
+[Epoch 89/700] train_loss=0.5689 val_loss=0.5599 lr=9.61e-04 (6s)
+Metric val/loss improved by 0.008 >= min_delta = 0.0. New best score: 0.560
+  [Epoch 90] Batch 50/93 (54%)
+[Epoch 90/700] train_loss=0.5730 val_loss=0.5737 lr=9.60e-04 (6s)
+  [Epoch 91] Batch 50/93 (54%)
+[Epoch 91/700] train_loss=0.5698 val_loss=0.5796 lr=9.59e-04 (6s)
+  [Epoch 92] Batch 50/93 (54%)
+[Epoch 92/700] train_loss=0.5671 val_loss=0.5641 lr=9.58e-04 (6s)
+  [Epoch 93] Batch 50/93 (54%)
+[Epoch 93/700] train_loss=0.5670 val_loss=0.5650 lr=9.57e-04 (6s)
+  [Epoch 94] Batch 50/93 (54%)
+[Epoch 94/700] train_loss=0.5645 val_loss=0.5612 lr=9.56e-04 (6s)
+  [Epoch 95] Batch 50/93 (54%)
+[Epoch 95/700] train_loss=0.5619 val_loss=0.5755 lr=9.55e-04 (6s)
+  [Epoch 96] Batch 50/93 (54%)
+[Epoch 96/700] train_loss=0.5635 val_loss=0.5645 lr=9.54e-04 (6s)
+  [Epoch 97] Batch 50/93 (54%)
+[Epoch 97/700] train_loss=0.5621 val_loss=0.5706 lr=9.53e-04 (6s)
+  [Epoch 98] Batch 50/93 (54%)
+[Epoch 98/700] train_loss=0.5630 val_loss=0.5601 lr=9.52e-04 (6s)
+  [Epoch 99] Batch 50/93 (54%)
+[Epoch 99/700] train_loss=0.5617 val_loss=0.5760 lr=9.51e-04 (6s)
+  [Epoch 100] Batch 50/93 (54%)
+[Epoch 100/700] train_loss=0.5567 val_loss=0.5612 lr=9.50e-04 (6s)
+  [Epoch 101] Batch 50/93 (54%)
+[Epoch 101/700] train_loss=0.5590 val_loss=0.5642 lr=9.50e-04 (6s)
+  [Epoch 102] Batch 50/93 (54%)
+[Epoch 102/700] train_loss=0.5593 val_loss=0.5454 lr=9.49e-04 (6s)
+Metric val/loss improved by 0.014 >= min_delta = 0.0. New best score: 0.545
+  [Epoch 103] Batch 50/93 (54%)
+[Epoch 103/700] train_loss=0.5614 val_loss=0.5686 lr=9.48e-04 (6s)
+  [Epoch 104] Batch 50/93 (54%)
+[Epoch 104/700] train_loss=0.5570 val_loss=0.5568 lr=9.47e-04 (6s)
+  [Epoch 105] Batch 50/93 (54%)
+[Epoch 105/700] train_loss=0.5570 val_loss=0.5630 lr=9.46e-04 (6s)
+  [Epoch 106] Batch 50/93 (54%)
+[Epoch 106/700] train_loss=0.5601 val_loss=0.5620 lr=9.44e-04 (6s)
+  [Epoch 107] Batch 50/93 (54%)
+[Epoch 107/700] train_loss=0.5548 val_loss=0.5446 lr=9.43e-04 (6s)
+Metric val/loss improved by 0.001 >= min_delta = 0.0. New best score: 0.545
+  [Epoch 108] Batch 50/93 (54%)
+[Epoch 108/700] train_loss=0.5542 val_loss=0.5523 lr=9.42e-04 (6s)
+  [Epoch 109] Batch 50/93 (54%)
+[Epoch 109/700] train_loss=0.5511 val_loss=0.5473 lr=9.41e-04 (6s)
+  [Epoch 110] Batch 50/93 (54%)
+[Epoch 110/700] train_loss=0.5507 val_loss=0.5535 lr=9.40e-04 (6s)
+  [Epoch 111] Batch 50/93 (54%)
+[Epoch 111/700] train_loss=0.5544 val_loss=0.5583 lr=9.39e-04 (6s)
+  [Epoch 112] Batch 50/93 (54%)
+[Epoch 112/700] train_loss=0.5561 val_loss=0.5589 lr=9.38e-04 (6s)
+  [Epoch 113] Batch 50/93 (54%)
+[Epoch 113/700] train_loss=0.5572 val_loss=0.5633 lr=9.37e-04 (6s)
+  [Epoch 114] Batch 50/93 (54%)
+[Epoch 114/700] train_loss=0.5547 val_loss=0.5537 lr=9.36e-04 (6s)
+  [Epoch 115] Batch 50/93 (54%)
+[Epoch 115/700] train_loss=0.5502 val_loss=0.5606 lr=9.35e-04 (6s)
+  [Epoch 116] Batch 50/93 (54%)
+[Epoch 116/700] train_loss=0.5552 val_loss=0.5487 lr=9.34e-04 (6s)
+  [Epoch 117] Batch 50/93 (54%)
+[Epoch 117/700] train_loss=0.5540 val_loss=0.5612 lr=9.33e-04 (6s)
+  [Epoch 118] Batch 50/93 (54%)
+[Epoch 118/700] train_loss=0.5459 val_loss=0.5597 lr=9.32e-04 (6s)
+  [Epoch 119] Batch 50/93 (54%)
+[Epoch 119/700] train_loss=0.5497 val_loss=0.5559 lr=9.30e-04 (6s)
+  [Epoch 120] Batch 50/93 (54%)
+[Epoch 120/700] train_loss=0.5492 val_loss=0.5482 lr=9.29e-04 (6s)
+  [Epoch 121] Batch 50/93 (54%)
+[Epoch 121/700] train_loss=0.5521 val_loss=0.5518 lr=9.28e-04 (6s)
+  [Epoch 122] Batch 50/93 (54%)
+[Epoch 122/700] train_loss=0.5497 val_loss=0.5506 lr=9.27e-04 (6s)
+  [Epoch 123] Batch 50/93 (54%)
+[Epoch 123/700] train_loss=0.5516 val_loss=0.5565 lr=9.26e-04 (6s)
+  [Epoch 124] Batch 50/93 (54%)
+[Epoch 124/700] train_loss=0.5460 val_loss=0.5633 lr=9.25e-04 (6s)
+  [Epoch 125] Batch 50/93 (54%)
+[Epoch 125/700] train_loss=0.5474 val_loss=0.5554 lr=9.23e-04 (6s)
+  [Epoch 126] Batch 50/93 (54%)
+[Epoch 126/700] train_loss=0.5482 val_loss=0.5492 lr=9.22e-04 (6s)
+  [Epoch 127] Batch 50/93 (54%)
+[Epoch 127/700] train_loss=0.5438 val_loss=0.5626 lr=9.21e-04 (6s)
+  [Epoch 128] Batch 50/93 (54%)
+[Epoch 128/700] train_loss=0.5472 val_loss=0.5526 lr=9.20e-04 (6s)
+  [Epoch 129] Batch 50/93 (54%)
+[Epoch 129/700] train_loss=0.5487 val_loss=0.5422 lr=9.19e-04 (6s)
+Metric val/loss improved by 0.002 >= min_delta = 0.0. New best score: 0.542
+  [Epoch 130] Batch 50/93 (54%)
+[Epoch 130/700] train_loss=0.5502 val_loss=0.5441 lr=9.17e-04 (6s)
+  [Epoch 131] Batch 50/93 (54%)
+[Epoch 131/700] train_loss=0.5430 val_loss=0.5452 lr=9.16e-04 (6s)
+  [Epoch 132] Batch 50/93 (54%)
+[Epoch 132/700] train_loss=0.5459 val_loss=0.5536 lr=9.15e-04 (6s)
+  [Epoch 133] Batch 50/93 (54%)
+[Epoch 133/700] train_loss=0.5477 val_loss=0.5549 lr=9.14e-04 (6s)
+  [Epoch 134] Batch 50/93 (54%)
+[Epoch 134/700] train_loss=0.5496 val_loss=0.5394 lr=9.12e-04 (6s)
+Metric val/loss improved by 0.003 >= min_delta = 0.0. New best score: 0.539
+  [Epoch 135] Batch 50/93 (54%)
+[Epoch 135/700] train_loss=0.5439 val_loss=0.5418 lr=9.11e-04 (6s)
+  [Epoch 136] Batch 50/93 (54%)
+[Epoch 136/700] train_loss=0.5412 val_loss=0.5386 lr=9.10e-04 (6s)
+Metric val/loss improved by 0.001 >= min_delta = 0.0. New best score: 0.539
+  [Epoch 137] Batch 50/93 (54%)
+[Epoch 137/700] train_loss=0.5412 val_loss=0.5368 lr=9.08e-04 (6s)
+Metric val/loss improved by 0.002 >= min_delta = 0.0. New best score: 0.537
+  [Epoch 138] Batch 50/93 (54%)
+[Epoch 138/700] train_loss=0.5389 val_loss=0.5460 lr=9.07e-04 (5s)
+  [Epoch 139] Batch 50/93 (54%)
+[Epoch 139/700] train_loss=0.5462 val_loss=0.5457 lr=9.06e-04 (6s)
+  [Epoch 140] Batch 50/93 (54%)
+[Epoch 140/700] train_loss=0.5384 val_loss=0.5462 lr=9.05e-04 (6s)
+  [Epoch 141] Batch 50/93 (54%)
+[Epoch 141/700] train_loss=0.5428 val_loss=0.5462 lr=9.03e-04 (6s)
+  [Epoch 142] Batch 50/93 (54%)
+[Epoch 142/700] train_loss=0.5395 val_loss=0.5443 lr=9.02e-04 (6s)
+  [Epoch 143] Batch 50/93 (54%)
+[Epoch 143/700] train_loss=0.5419 val_loss=0.5371 lr=9.01e-04 (6s)
+  [Epoch 144] Batch 50/93 (54%)
+[Epoch 144/700] train_loss=0.5443 val_loss=0.5433 lr=8.99e-04 (6s)
+  [Epoch 145] Batch 50/93 (54%)
+[Epoch 145/700] train_loss=0.5390 val_loss=0.5433 lr=8.98e-04 (6s)
+  [Epoch 146] Batch 50/93 (54%)
+[Epoch 146/700] train_loss=0.5402 val_loss=0.5374 lr=8.96e-04 (6s)
+  [Epoch 147] Batch 50/93 (54%)
+[Epoch 147/700] train_loss=0.5347 val_loss=0.5402 lr=8.95e-04 (6s)
+  [Epoch 148] Batch 50/93 (54%)
+[Epoch 148/700] train_loss=0.5375 val_loss=0.5457 lr=8.94e-04 (6s)
+  [Epoch 149] Batch 50/93 (54%)
+[Epoch 149/700] train_loss=0.5420 val_loss=0.5397 lr=8.92e-04 (6s)
+  [Epoch 150] Batch 50/93 (54%)
+[Epoch 150/700] train_loss=0.5415 val_loss=0.5524 lr=8.91e-04 (6s)
+  [Epoch 151] Batch 50/93 (54%)
+[Epoch 151/700] train_loss=0.5369 val_loss=0.5468 lr=8.90e-04 (6s)
+  [Epoch 152] Batch 50/93 (54%)
+[Epoch 152/700] train_loss=0.5390 val_loss=0.5289 lr=8.88e-04 (6s)
+Metric val/loss improved by 0.008 >= min_delta = 0.0. New best score: 0.529
+  [Epoch 153] Batch 50/93 (54%)
+[Epoch 153/700] train_loss=0.5374 val_loss=0.5492 lr=8.87e-04 (6s)
+  [Epoch 154] Batch 50/93 (54%)
+[Epoch 154/700] train_loss=0.5335 val_loss=0.5353 lr=8.85e-04 (6s)
+  [Epoch 155] Batch 50/93 (54%)
+[Epoch 155/700] train_loss=0.5355 val_loss=0.5264 lr=8.84e-04 (6s)
+Metric val/loss improved by 0.002 >= min_delta = 0.0. New best score: 0.526
+  [Epoch 156] Batch 50/93 (54%)
+[Epoch 156/700] train_loss=0.5380 val_loss=0.5402 lr=8.82e-04 (6s)
+  [Epoch 157] Batch 50/93 (54%)
+[Epoch 157/700] train_loss=0.5360 val_loss=0.5258 lr=8.81e-04 (6s)
+Metric val/loss improved by 0.001 >= min_delta = 0.0. New best score: 0.526
+  [Epoch 158] Batch 50/93 (54%)
+[Epoch 158/700] train_loss=0.5371 val_loss=0.5388 lr=8.79e-04 (6s)
+  [Epoch 159] Batch 50/93 (54%)
+[Epoch 159/700] train_loss=0.5325 val_loss=0.5466 lr=8.78e-04 (6s)
+  [Epoch 160] Batch 50/93 (54%)
+[Epoch 160/700] train_loss=0.5320 val_loss=0.5405 lr=8.77e-04 (6s)
+  [Epoch 161] Batch 50/93 (54%)
+[Epoch 161/700] train_loss=0.5322 val_loss=0.5348 lr=8.75e-04 (6s)
+  [Epoch 162] Batch 50/93 (54%)
+[Epoch 162/700] train_loss=0.5363 val_loss=0.5409 lr=8.74e-04 (6s)
+  [Epoch 163] Batch 50/93 (54%)
+[Epoch 163/700] train_loss=0.5381 val_loss=0.5332 lr=8.72e-04 (6s)
+  [Epoch 164] Batch 50/93 (54%)
+[Epoch 164/700] train_loss=0.5347 val_loss=0.5340 lr=8.71e-04 (6s)
+  [Epoch 165] Batch 50/93 (54%)
+[Epoch 165/700] train_loss=0.5316 val_loss=0.5274 lr=8.69e-04 (6s)
+  [Epoch 166] Batch 50/93 (54%)
+[Epoch 166/700] train_loss=0.5308 val_loss=0.5327 lr=8.68e-04 (6s)
+  [Epoch 167] Batch 50/93 (54%)
+[Epoch 167/700] train_loss=0.5256 val_loss=0.5388 lr=8.66e-04 (6s)
+  [Epoch 168] Batch 50/93 (54%)
+[Epoch 168/700] train_loss=0.5339 val_loss=0.5334 lr=8.64e-04 (6s)
+  [Epoch 169] Batch 50/93 (54%)
+[Epoch 169/700] train_loss=0.5326 val_loss=0.5322 lr=8.63e-04 (6s)
+  [Epoch 170] Batch 50/93 (54%)
+[Epoch 170/700] train_loss=0.5291 val_loss=0.5430 lr=8.61e-04 (6s)
+  [Epoch 171] Batch 50/93 (54%)
+[Epoch 171/700] train_loss=0.5315 val_loss=0.5340 lr=8.60e-04 (6s)
+  [Epoch 172] Batch 50/93 (54%)
+[Epoch 172/700] train_loss=0.5280 val_loss=0.5370 lr=8.58e-04 (6s)
+  [Epoch 173] Batch 50/93 (54%)
+[Epoch 173/700] train_loss=0.5259 val_loss=0.5320 lr=8.57e-04 (6s)
+  [Epoch 174] Batch 50/93 (54%)
+[Epoch 174/700] train_loss=0.5267 val_loss=0.5480 lr=8.55e-04 (6s)
+  [Epoch 175] Batch 50/93 (54%)
+[Epoch 175/700] train_loss=0.5261 val_loss=0.5310 lr=8.54e-04 (6s)
+  [Epoch 176] Batch 50/93 (54%)
+[Epoch 176/700] train_loss=0.5258 val_loss=0.5289 lr=8.52e-04 (6s)
+  [Epoch 177] Batch 50/93 (54%)
+[Epoch 177/700] train_loss=0.5259 val_loss=0.5389 lr=8.50e-04 (6s)
+  [Epoch 178] Batch 50/93 (54%)
+[Epoch 178/700] train_loss=0.5270 val_loss=0.5366 lr=8.49e-04 (6s)
+  [Epoch 179] Batch 50/93 (54%)
+[Epoch 179/700] train_loss=0.5277 val_loss=0.5303 lr=8.47e-04 (6s)
+  [Epoch 180] Batch 50/93 (54%)
+[Epoch 180/700] train_loss=0.5297 val_loss=0.5295 lr=8.46e-04 (6s)
+  [Epoch 181] Batch 50/93 (54%)
+[Epoch 181/700] train_loss=0.5254 val_loss=0.5374 lr=8.44e-04 (6s)
+  [Epoch 182] Batch 50/93 (54%)
+[Epoch 182/700] train_loss=0.5328 val_loss=0.5370 lr=8.42e-04 (6s)
+  [Epoch 183] Batch 50/93 (54%)
+[Epoch 183/700] train_loss=0.5261 val_loss=0.5359 lr=8.41e-04 (6s)
+  [Epoch 184] Batch 50/93 (54%)
+[Epoch 184/700] train_loss=0.5260 val_loss=0.5268 lr=8.39e-04 (6s)
+  [Epoch 185] Batch 50/93 (54%)
+[Epoch 185/700] train_loss=0.5255 val_loss=0.5295 lr=8.37e-04 (6s)
+  [Epoch 186] Batch 50/93 (54%)
+[Epoch 186/700] train_loss=0.5231 val_loss=0.5352 lr=8.36e-04 (5s)
+  [Epoch 187] Batch 50/93 (54%)
+[Epoch 187/700] train_loss=0.5246 val_loss=0.5359 lr=8.34e-04 (6s)
+  [Epoch 188] Batch 50/93 (54%)
+[Epoch 188/700] train_loss=0.5214 val_loss=0.5281 lr=8.32e-04 (5s)
+  [Epoch 189] Batch 50/93 (54%)
+[Epoch 189/700] train_loss=0.5230 val_loss=0.5313 lr=8.31e-04 (6s)
+  [Epoch 190] Batch 50/93 (54%)
+[Epoch 190/700] train_loss=0.5238 val_loss=0.5339 lr=8.29e-04 (6s)
+  [Epoch 191] Batch 50/93 (54%)
+[Epoch 191/700] train_loss=0.5200 val_loss=0.5321 lr=8.27e-04 (6s)
+  [Epoch 192] Batch 50/93 (54%)
+[Epoch 192/700] train_loss=0.5224 val_loss=0.5257 lr=8.26e-04 (6s)
+Metric val/loss improved by 0.000 >= min_delta = 0.0. New best score: 0.526
+  [Epoch 193] Batch 50/93 (54%)
+[Epoch 193/700] train_loss=0.5233 val_loss=0.5367 lr=8.24e-04 (6s)
+  [Epoch 194] Batch 50/93 (54%)
+[Epoch 194/700] train_loss=0.5213 val_loss=0.5267 lr=8.22e-04 (6s)
+  [Epoch 195] Batch 50/93 (54%)
+[Epoch 195/700] train_loss=0.5252 val_loss=0.5322 lr=8.20e-04 (6s)
+  [Epoch 196] Batch 50/93 (54%)
+[Epoch 196/700] train_loss=0.5251 val_loss=0.5364 lr=8.19e-04 (6s)
+  [Epoch 197] Batch 50/93 (54%)
+[Epoch 197/700] train_loss=0.5237 val_loss=0.5208 lr=8.17e-04 (6s)
+Metric val/loss improved by 0.005 >= min_delta = 0.0. New best score: 0.521
+  [Epoch 198] Batch 50/93 (54%)
+[Epoch 198/700] train_loss=0.5243 val_loss=0.5420 lr=8.15e-04 (6s)
+  [Epoch 199] Batch 50/93 (54%)
+[Epoch 199/700] train_loss=0.5235 val_loss=0.5211 lr=8.13e-04 (6s)
+  [Epoch 200] Batch 50/93 (54%)
+[Epoch 200/700] train_loss=0.5202 val_loss=0.5297 lr=8.12e-04 (6s)
+  [Epoch 201] Batch 50/93 (54%)
+[Epoch 201/700] train_loss=0.5189 val_loss=0.5235 lr=8.10e-04 (6s)
+  [Epoch 202] Batch 50/93 (54%)
+[Epoch 202/700] train_loss=0.5186 val_loss=0.5377 lr=8.08e-04 (6s)
+  [Epoch 203] Batch 50/93 (54%)
+[Epoch 203/700] train_loss=0.5193 val_loss=0.5210 lr=8.06e-04 (6s)
+  [Epoch 204] Batch 50/93 (54%)
+[Epoch 204/700] train_loss=0.5188 val_loss=0.5540 lr=8.05e-04 (6s)
+  [Epoch 205] Batch 50/93 (54%)
+[Epoch 205/700] train_loss=0.5252 val_loss=0.5252 lr=8.03e-04 (6s)
+  [Epoch 206] Batch 50/93 (54%)
+[Epoch 206/700] train_loss=0.5217 val_loss=0.5329 lr=8.01e-04 (6s)
+  [Epoch 207] Batch 50/93 (54%)
+[Epoch 207/700] train_loss=0.5236 val_loss=0.5243 lr=7.99e-04 (6s)
+  [Epoch 208] Batch 50/93 (54%)
+[Epoch 208/700] train_loss=0.5222 val_loss=0.5403 lr=7.98e-04 (6s)
+  [Epoch 209] Batch 50/93 (54%)
+[Epoch 209/700] train_loss=0.5204 val_loss=0.5232 lr=7.96e-04 (6s)
+  [Epoch 210] Batch 50/93 (54%)
+[Epoch 210/700] train_loss=0.5213 val_loss=0.5205 lr=7.94e-04 (6s)
+Metric val/loss improved by 0.000 >= min_delta = 0.0. New best score: 0.521
+  [Epoch 211] Batch 50/93 (54%)
+[Epoch 211/700] train_loss=0.5211 val_loss=0.5242 lr=7.92e-04 (6s)
+  [Epoch 212] Batch 50/93 (54%)
+[Epoch 212/700] train_loss=0.5196 val_loss=0.5218 lr=7.90e-04 (6s)
+  [Epoch 213] Batch 50/93 (54%)
+[Epoch 213/700] train_loss=0.5169 val_loss=0.5197 lr=7.88e-04 (6s)
+Metric val/loss improved by 0.001 >= min_delta = 0.0. New best score: 0.520
+  [Epoch 214] Batch 50/93 (54%)
+[Epoch 214/700] train_loss=0.5182 val_loss=0.5358 lr=7.87e-04 (6s)
+  [Epoch 215] Batch 50/93 (54%)
+[Epoch 215/700] train_loss=0.5178 val_loss=0.5215 lr=7.85e-04 (6s)
+  [Epoch 216] Batch 50/93 (54%)
+[Epoch 216/700] train_loss=0.5171 val_loss=0.5253 lr=7.83e-04 (6s)
+  [Epoch 217] Batch 50/93 (54%)
+[Epoch 217/700] train_loss=0.5141 val_loss=0.5319 lr=7.81e-04 (6s)
+  [Epoch 218] Batch 50/93 (54%)
+[Epoch 218/700] train_loss=0.5151 val_loss=0.5192 lr=7.79e-04 (6s)
+Metric val/loss improved by 0.000 >= min_delta = 0.0. New best score: 0.519
+  [Epoch 219] Batch 50/93 (54%)
+[Epoch 219/700] train_loss=0.5231 val_loss=0.5187 lr=7.77e-04 (6s)
+Metric val/loss improved by 0.001 >= min_delta = 0.0. New best score: 0.519
+  [Epoch 220] Batch 50/93 (54%)
+[Epoch 220/700] train_loss=0.5194 val_loss=0.5193 lr=7.75e-04 (6s)
+  [Epoch 221] Batch 50/93 (54%)
+[Epoch 221/700] train_loss=0.5191 val_loss=0.5235 lr=7.74e-04 (6s)
+  [Epoch 222] Batch 50/93 (54%)
+[Epoch 222/700] train_loss=0.5112 val_loss=0.5317 lr=7.72e-04 (6s)
+  [Epoch 223] Batch 50/93 (54%)
+[Epoch 223/700] train_loss=0.5147 val_loss=0.5233 lr=7.70e-04 (6s)
+  [Epoch 224] Batch 50/93 (54%)
+[Epoch 224/700] train_loss=0.5174 val_loss=0.5251 lr=7.68e-04 (6s)
+  [Epoch 225] Batch 50/93 (54%)
+[Epoch 225/700] train_loss=0.5160 val_loss=0.5178 lr=7.66e-04 (6s)
+Metric val/loss improved by 0.001 >= min_delta = 0.0. New best score: 0.518
+  [Epoch 226] Batch 50/93 (54%)
+[Epoch 226/700] train_loss=0.5147 val_loss=0.5199 lr=7.64e-04 (6s)
+  [Epoch 227] Batch 50/93 (54%)
+[Epoch 227/700] train_loss=0.5145 val_loss=0.5247 lr=7.62e-04 (6s)
+  [Epoch 228] Batch 50/93 (54%)
+[Epoch 228/700] train_loss=0.5136 val_loss=0.5299 lr=7.60e-04 (6s)
+  [Epoch 229] Batch 50/93 (54%)
+[Epoch 229/700] train_loss=0.5195 val_loss=0.5330 lr=7.58e-04 (6s)
+  [Epoch 230] Batch 50/93 (54%)
+[Epoch 230/700] train_loss=0.5158 val_loss=0.5213 lr=7.56e-04 (6s)
+  [Epoch 231] Batch 50/93 (54%)
+[Epoch 231/700] train_loss=0.5128 val_loss=0.5290 lr=7.55e-04 (6s)
+  [Epoch 232] Batch 50/93 (54%)
+[Epoch 232/700] train_loss=0.5166 val_loss=0.5198 lr=7.53e-04 (6s)
+  [Epoch 233] Batch 50/93 (54%)
+[Epoch 233/700] train_loss=0.5149 val_loss=0.5306 lr=7.51e-04 (6s)
+  [Epoch 234] Batch 50/93 (54%)
+[Epoch 234/700] train_loss=0.5187 val_loss=0.5269 lr=7.49e-04 (6s)
+  [Epoch 235] Batch 50/93 (54%)
+[Epoch 235/700] train_loss=0.5117 val_loss=0.5225 lr=7.47e-04 (6s)
+  [Epoch 236] Batch 50/93 (54%)
+[Epoch 236/700] train_loss=0.5140 val_loss=0.5230 lr=7.45e-04 (6s)
+  [Epoch 237] Batch 50/93 (54%)
+[Epoch 237/700] train_loss=0.5111 val_loss=0.5126 lr=7.43e-04 (6s)
+Metric val/loss improved by 0.005 >= min_delta = 0.0. New best score: 0.513
+  [Epoch 238] Batch 50/93 (54%)
+[Epoch 238/700] train_loss=0.5068 val_loss=0.5214 lr=7.41e-04 (6s)
+  [Epoch 239] Batch 50/93 (54%)
+[Epoch 239/700] train_loss=0.5148 val_loss=0.5270 lr=7.39e-04 (6s)
+  [Epoch 240] Batch 50/93 (54%)
+[Epoch 240/700] train_loss=0.5146 val_loss=0.5257 lr=7.37e-04 (6s)
+  [Epoch 241] Batch 50/93 (54%)
+[Epoch 241/700] train_loss=0.5122 val_loss=0.5120 lr=7.35e-04 (6s)
+Metric val/loss improved by 0.001 >= min_delta = 0.0. New best score: 0.512
+  [Epoch 242] Batch 50/93 (54%)
+[Epoch 242/700] train_loss=0.5126 val_loss=0.5104 lr=7.33e-04 (6s)
+Metric val/loss improved by 0.002 >= min_delta = 0.0. New best score: 0.510
+  [Epoch 243] Batch 50/93 (54%)
+[Epoch 243/700] train_loss=0.5103 val_loss=0.5282 lr=7.31e-04 (6s)
+  [Epoch 244] Batch 50/93 (54%)
+[Epoch 244/700] train_loss=0.5126 val_loss=0.5318 lr=7.29e-04 (6s)
+  [Epoch 245] Batch 50/93 (54%)
+[Epoch 245/700] train_loss=0.5127 val_loss=0.5159 lr=7.27e-04 (6s)
+  [Epoch 246] Batch 50/93 (54%)
+[Epoch 246/700] train_loss=0.5145 val_loss=0.5181 lr=7.25e-04 (6s)
+  [Epoch 247] Batch 50/93 (54%)
+[Epoch 247/700] train_loss=0.5087 val_loss=0.5206 lr=7.23e-04 (6s)
+  [Epoch 248] Batch 50/93 (54%)
+[Epoch 248/700] train_loss=0.5104 val_loss=0.5218 lr=7.21e-04 (6s)
+  [Epoch 249] Batch 50/93 (54%)
+[Epoch 249/700] train_loss=0.5097 val_loss=0.5308 lr=7.19e-04 (6s)
+  [Epoch 250] Batch 50/93 (54%)
+[Epoch 250/700] train_loss=0.5075 val_loss=0.5223 lr=7.17e-04 (6s)
+  [Epoch 251] Batch 50/93 (54%)
+[Epoch 251/700] train_loss=0.5081 val_loss=0.5234 lr=7.15e-04 (6s)
+  [Epoch 252] Batch 50/93 (54%)
+[Epoch 252/700] train_loss=0.5084 val_loss=0.5275 lr=7.13e-04 (6s)
+  [Epoch 253] Batch 50/93 (54%)
+[Epoch 253/700] train_loss=0.5044 val_loss=0.5176 lr=7.11e-04 (6s)
+  [Epoch 254] Batch 50/93 (54%)
+[Epoch 254/700] train_loss=0.5064 val_loss=0.5149 lr=7.09e-04 (6s)
+  [Epoch 255] Batch 50/93 (54%)
+[Epoch 255/700] train_loss=0.5116 val_loss=0.5203 lr=7.07e-04 (6s)
+  [Epoch 256] Batch 50/93 (54%)
+[Epoch 256/700] train_loss=0.5115 val_loss=0.5229 lr=7.05e-04 (6s)
+  [Epoch 257] Batch 50/93 (54%)
+[Epoch 257/700] train_loss=0.5082 val_loss=0.5196 lr=7.03e-04 (6s)
+  [Epoch 258] Batch 50/93 (54%)
+[Epoch 258/700] train_loss=0.5113 val_loss=0.5230 lr=7.01e-04 (6s)
+  [Epoch 259] Batch 50/93 (54%)
+[Epoch 259/700] train_loss=0.5122 val_loss=0.5236 lr=6.99e-04 (6s)
+  [Epoch 260] Batch 50/93 (54%)
+[Epoch 260/700] train_loss=0.5093 val_loss=0.5210 lr=6.97e-04 (6s)
+  [Epoch 261] Batch 50/93 (54%)
+[Epoch 261/700] train_loss=0.5078 val_loss=0.5208 lr=6.94e-04 (6s)
+  [Epoch 262] Batch 50/93 (54%)
+[Epoch 262/700] train_loss=0.5097 val_loss=0.5125 lr=6.92e-04 (6s)
+  [Epoch 263] Batch 50/93 (54%)
+[Epoch 263/700] train_loss=0.5047 val_loss=0.5262 lr=6.90e-04 (6s)
+  [Epoch 264] Batch 50/93 (54%)
+[Epoch 264/700] train_loss=0.5031 val_loss=0.5224 lr=6.88e-04 (6s)
+  [Epoch 265] Batch 50/93 (54%)
+[Epoch 265/700] train_loss=0.5101 val_loss=0.5280 lr=6.86e-04 (6s)
+  [Epoch 266] Batch 50/93 (54%)
+[Epoch 266/700] train_loss=0.5072 val_loss=0.5133 lr=6.84e-04 (6s)
+  [Epoch 267] Batch 50/93 (54%)
+[Epoch 267/700] train_loss=0.5082 val_loss=0.5310 lr=6.82e-04 (5s)
+  [Epoch 268] Batch 50/93 (54%)
+[Epoch 268/700] train_loss=0.5076 val_loss=0.5314 lr=6.80e-04 (6s)
+  [Epoch 269] Batch 50/93 (54%)
+[Epoch 269/700] train_loss=0.5107 val_loss=0.5162 lr=6.78e-04 (6s)
+  [Epoch 270] Batch 50/93 (54%)
+[Epoch 270/700] train_loss=0.5080 val_loss=0.5272 lr=6.76e-04 (6s)
+  [Epoch 271] Batch 50/93 (54%)
+[Epoch 271/700] train_loss=0.5030 val_loss=0.5258 lr=6.74e-04 (6s)
+  [Epoch 272] Batch 50/93 (54%)
+[Epoch 272/700] train_loss=0.5097 val_loss=0.5229 lr=6.71e-04 (6s)
+  [Epoch 273] Batch 50/93 (54%)
+[Epoch 273/700] train_loss=0.5081 val_loss=0.5260 lr=6.69e-04 (6s)
+  [Epoch 274] Batch 50/93 (54%)
+[Epoch 274/700] train_loss=0.5083 val_loss=0.5175 lr=6.67e-04 (6s)
+  [Epoch 275] Batch 50/93 (54%)
+[Epoch 275/700] train_loss=0.5099 val_loss=0.5262 lr=6.65e-04 (6s)
+  [Epoch 276] Batch 50/93 (54%)
+[Epoch 276/700] train_loss=0.5045 val_loss=0.5329 lr=6.63e-04 (6s)
+  [Epoch 277] Batch 50/93 (54%)
+[Epoch 277/700] train_loss=0.5040 val_loss=0.5128 lr=6.61e-04 (6s)
+  [Epoch 278] Batch 50/93 (54%)
+[Epoch 278/700] train_loss=0.5055 val_loss=0.5190 lr=6.59e-04 (6s)
+  [Epoch 279] Batch 50/93 (54%)
+[Epoch 279/700] train_loss=0.5057 val_loss=0.5301 lr=6.57e-04 (6s)
+  [Epoch 280] Batch 50/93 (54%)
+[Epoch 280/700] train_loss=0.5062 val_loss=0.5057 lr=6.55e-04 (6s)
+Metric val/loss improved by 0.005 >= min_delta = 0.0. New best score: 0.506
+  [Epoch 281] Batch 50/93 (54%)
+[Epoch 281/700] train_loss=0.5037 val_loss=0.5039 lr=6.52e-04 (6s)
+Metric val/loss improved by 0.002 >= min_delta = 0.0. New best score: 0.504
+  [Epoch 282] Batch 50/93 (54%)
+[Epoch 282/700] train_loss=0.5028 val_loss=0.5298 lr=6.50e-04 (6s)
+  [Epoch 283] Batch 50/93 (54%)
+[Epoch 283/700] train_loss=0.5124 val_loss=0.5233 lr=6.48e-04 (6s)
+  [Epoch 284] Batch 50/93 (54%)
+[Epoch 284/700] train_loss=0.5035 val_loss=0.5223 lr=6.46e-04 (6s)
+  [Epoch 285] Batch 50/93 (54%)
+[Epoch 285/700] train_loss=0.5036 val_loss=0.5154 lr=6.44e-04 (6s)
+  [Epoch 286] Batch 50/93 (54%)
+[Epoch 286/700] train_loss=0.5031 val_loss=0.5133 lr=6.42e-04 (6s)
+  [Epoch 287] Batch 50/93 (54%)
+[Epoch 287/700] train_loss=0.4990 val_loss=0.5183 lr=6.39e-04 (6s)
+  [Epoch 288] Batch 50/93 (54%)
+[Epoch 288/700] train_loss=0.5007 val_loss=0.5219 lr=6.37e-04 (6s)
+  [Epoch 289] Batch 50/93 (54%)
+[Epoch 289/700] train_loss=0.5011 val_loss=0.5179 lr=6.35e-04 (6s)
+  [Epoch 290] Batch 50/93 (54%)
+[Epoch 290/700] train_loss=0.5039 val_loss=0.5088 lr=6.33e-04 (6s)
+  [Epoch 291] Batch 50/93 (54%)
+[Epoch 291/700] train_loss=0.5028 val_loss=0.5150 lr=6.31e-04 (6s)
+  [Epoch 292] Batch 50/93 (54%)
+[Epoch 292/700] train_loss=0.5097 val_loss=0.5112 lr=6.29e-04 (6s)
+  [Epoch 293] Batch 50/93 (54%)
+[Epoch 293/700] train_loss=0.5042 val_loss=0.5154 lr=6.27e-04 (6s)
+  [Epoch 294] Batch 50/93 (54%)
+[Epoch 294/700] train_loss=0.4998 val_loss=0.5247 lr=6.24e-04 (6s)
+  [Epoch 295] Batch 50/93 (54%)
+[Epoch 295/700] train_loss=0.5030 val_loss=0.5115 lr=6.22e-04 (6s)
+  [Epoch 296] Batch 50/93 (54%)
+[Epoch 296/700] train_loss=0.5053 val_loss=0.5185 lr=6.20e-04 (6s)
+  [Epoch 297] Batch 50/93 (54%)
+[Epoch 297/700] train_loss=0.5031 val_loss=0.5268 lr=6.18e-04 (6s)
+  [Epoch 298] Batch 50/93 (54%)
+[Epoch 298/700] train_loss=0.4990 val_loss=0.5193 lr=6.16e-04 (6s)
+  [Epoch 299] Batch 50/93 (54%)
+[Epoch 299/700] train_loss=0.5044 val_loss=0.5216 lr=6.13e-04 (6s)
+  [Epoch 300] Batch 50/93 (54%)
+[Epoch 300/700] train_loss=0.5010 val_loss=0.5181 lr=6.11e-04 (6s)
+  [Epoch 301] Batch 50/93 (54%)
+[Epoch 301/700] train_loss=0.5012 val_loss=0.5200 lr=6.09e-04 (6s)
+  [Epoch 302] Batch 50/93 (54%)
+[Epoch 302/700] train_loss=0.4993 val_loss=0.5328 lr=6.07e-04 (6s)
+  [Epoch 303] Batch 50/93 (54%)
+[Epoch 303/700] train_loss=0.5030 val_loss=0.5230 lr=6.05e-04 (6s)
+  [Epoch 304] Batch 50/93 (54%)
+[Epoch 304/700] train_loss=0.5027 val_loss=0.5087 lr=6.02e-04 (6s)
+  [Epoch 305] Batch 50/93 (54%)
+[Epoch 305/700] train_loss=0.5011 val_loss=0.5102 lr=6.00e-04 (6s)
+  [Epoch 306] Batch 50/93 (54%)
+[Epoch 306/700] train_loss=0.5048 val_loss=0.5206 lr=5.98e-04 (6s)
+  [Epoch 307] Batch 50/93 (54%)
+[Epoch 307/700] train_loss=0.4978 val_loss=0.5217 lr=5.96e-04 (6s)
+  [Epoch 308] Batch 50/93 (54%)
+[Epoch 308/700] train_loss=0.4990 val_loss=0.5169 lr=5.94e-04 (6s)
+  [Epoch 309] Batch 50/93 (54%)
+[Epoch 309/700] train_loss=0.5008 val_loss=0.5165 lr=5.91e-04 (6s)
+  [Epoch 310] Batch 50/93 (54%)
+[Epoch 310/700] train_loss=0.4982 val_loss=0.5143 lr=5.89e-04 (6s)
+  [Epoch 311] Batch 50/93 (54%)
+[Epoch 311/700] train_loss=0.4988 val_loss=0.5056 lr=5.87e-04 (6s)
+  [Epoch 312] Batch 50/93 (54%)
+[Epoch 312/700] train_loss=0.5024 val_loss=0.5203 lr=5.85e-04 (6s)
+  [Epoch 313] Batch 50/93 (54%)
+[Epoch 313/700] train_loss=0.4976 val_loss=0.5191 lr=5.83e-04 (6s)
+  [Epoch 314] Batch 50/93 (54%)
+[Epoch 314/700] train_loss=0.5043 val_loss=0.5083 lr=5.80e-04 (6s)
+  [Epoch 315] Batch 50/93 (54%)
+[Epoch 315/700] train_loss=0.4985 val_loss=0.5147 lr=5.78e-04 (6s)
+  [Epoch 316] Batch 50/93 (54%)
+[Epoch 316/700] train_loss=0.4978 val_loss=0.5130 lr=5.76e-04 (6s)
+  [Epoch 317] Batch 50/93 (54%)
+[Epoch 317/700] train_loss=0.4989 val_loss=0.5286 lr=5.74e-04 (6s)
+  [Epoch 318] Batch 50/93 (54%)
+[Epoch 318/700] train_loss=0.4991 val_loss=0.5288 lr=5.72e-04 (6s)
+  [Epoch 319] Batch 50/93 (54%)
+[Epoch 319/700] train_loss=0.4980 val_loss=0.5135 lr=5.69e-04 (6s)
+  [Epoch 320] Batch 50/93 (54%)
+[Epoch 320/700] train_loss=0.4944 val_loss=0.5185 lr=5.67e-04 (6s)
+  [Epoch 321] Batch 50/93 (54%)
+[Epoch 321/700] train_loss=0.4996 val_loss=0.5252 lr=5.65e-04 (6s)
+  [Epoch 322] Batch 50/93 (54%)
+[Epoch 322/700] train_loss=0.4978 val_loss=0.5178 lr=5.63e-04 (6s)
+  [Epoch 323] Batch 50/93 (54%)
+[Epoch 323/700] train_loss=0.4987 val_loss=0.5185 lr=5.60e-04 (6s)
+  [Epoch 324] Batch 50/93 (54%)
+[Epoch 324/700] train_loss=0.4974 val_loss=0.5173 lr=5.58e-04 (6s)
+  [Epoch 325] Batch 50/93 (54%)
+[Epoch 325/700] train_loss=0.4997 val_loss=0.5213 lr=5.56e-04 (6s)
+  [Epoch 326] Batch 50/93 (54%)
+[Epoch 326/700] train_loss=0.4982 val_loss=0.5160 lr=5.54e-04 (6s)
+  [Epoch 327] Batch 50/93 (54%)
+[Epoch 327/700] train_loss=0.4915 val_loss=0.5088 lr=5.52e-04 (6s)
+  [Epoch 328] Batch 50/93 (54%)
+[Epoch 328/700] train_loss=0.4971 val_loss=0.5176 lr=5.49e-04 (6s)
+  [Epoch 329] Batch 50/93 (54%)
+[Epoch 329/700] train_loss=0.4971 val_loss=0.5269 lr=5.47e-04 (6s)
+  [Epoch 330] Batch 50/93 (54%)
+[Epoch 330/700] train_loss=0.4958 val_loss=0.5268 lr=5.45e-04 (6s)
+  [Epoch 331] Batch 50/93 (54%)
+[Epoch 331/700] train_loss=0.4958 val_loss=0.5171 lr=5.43e-04 (6s)
+Monitored metric val/loss did not improve in the last 50 records. Best score: 0.504. Signaling Trainer to stop.
+
+[Training] Completed!
+
+✓ Training completed!
+  Final checkpoint: /public/home/xiongzhzh2023/PT4ConTSG/experiments/20260401_211328_synth-m_pt_factor_generator/checkpoints/finetune/finetune-epoch=280-val/loss=0.5039.ckpt
+  Experiment: experiments/20260401_211328_synth-m_pt_factor_generator
+
+Running automatic evaluation...
+Loading weights:   0%|          | 0/197 [00:00<?, ?it/s]Loading weights: 100%|██████████| 197/197 [00:00<00:00, 3633.28it/s]
+[1mCLIPTextModelWithProjection LOAD REPORT[0m from: ./checkpoints/longclip
+Key                                                            | Status     |  | 
+---------------------------------------------------------------+------------+--+-
+vision_model.encoder.layers.{0...23}.mlp.fc1.bias              | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.mlp.fc2.bias              | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.layer_norm1.weight        | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.v_proj.weight   | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.k_proj.weight   | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.layer_norm2.bias          | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.q_proj.weight   | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.out_proj.weight | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.v_proj.bias     | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.q_proj.bias     | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.mlp.fc1.weight            | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.layer_norm2.weight        | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.k_proj.bias     | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.mlp.fc2.weight            | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.layer_norm1.bias          | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.out_proj.bias   | UNEXPECTED |  | 
+visual_projection.weight                                       | UNEXPECTED |  | 
+logit_scale                                                    | UNEXPECTED |  | 
+vision_model.post_layernorm.weight                             | UNEXPECTED |  | 
+vision_model.pre_layrnorm.weight                               | UNEXPECTED |  | 
+vision_model.embeddings.patch_embedding.weight                 | UNEXPECTED |  | 
+vision_model.embeddings.class_embedding                        | UNEXPECTED |  | 
+vision_model.pre_layrnorm.bias                                 | UNEXPECTED |  | 
+vision_model.embeddings.position_embedding.weight              | UNEXPECTED |  | 
+vision_model.post_layernorm.bias                               | UNEXPECTED |  | 
+
+[3mNotes:
+- UNEXPECTED[3m	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.[0m
+[Evaluating (generating)] Starting (0/32)...
+[Evaluating (generating)] 1/32 (3%)
+[Evaluating (generating)] 4/32 (12%)
+[Evaluating (generating)] 7/32 (22%)
+[Evaluating (generating)] 10/32 (31%)
+[Evaluating (generating)] 13/32 (41%)
+[Evaluating (generating)] 16/32 (50%)
+[Evaluating (generating)] 20/32 (62%)
+[Evaluating (generating)] 23/32 (72%)
+[Evaluating (generating)] 26/32 (81%)
+[Evaluating (generating)] 29/32 (91%)
+[Evaluating (generating)] 32/32 (100%)
+[Evaluating (generating)] Completed (32 items)
+Evaluation results saved to: experiments/20260401_211328_synth-m_pt_factor_generator/results/eval_results.json
+          Evaluation Results           
+┏━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━┓
+┃ Metric                  ┃     Value ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━┩
+│ dtw                     │  9.195026 │
+│ wape                    │ 82.239410 │
+│ ed                      │ 12.031498 │
+│ crps                    │  0.429371 │
+│ acd                     │  0.049443 │
+│ sd                      │  0.021068 │
+│ kd                      │  0.356392 │
+│ mdd                     │  0.013519 │
+│ fid                     │ 24.331297 │
+│ jftsd                   │ 25.490765 │
+│ cttp                    │ 20.199502 │
+│ disc_auc                │  0.985636 │
+│ prdc_f1.f1              │  0.531112 │
+│ prdc_f1.precision       │  0.481250 │
+│ prdc_f1.recall          │  0.592500 │
+│ joint_prdc_f1.f1        │  0.721582 │
+│ joint_prdc_f1.precision │  0.670750 │
+│ joint_prdc_f1.recall    │  0.780750 │
+└─────────────────────────┴───────────┘
