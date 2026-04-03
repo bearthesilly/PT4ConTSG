@@ -13,7 +13,7 @@ train:
   num_workers: 4
 data:
   name: telecomts_segment
-  data_folder: ./datasets/telecomts_segment
+  data_folder: /storage/group/renkan/lansc/gents_bench/huggingface_archive/datasets/telecomts_segment
   n_var: 2
   seq_length: 128
   normalize: false

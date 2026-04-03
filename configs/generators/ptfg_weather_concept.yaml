@@ -46,7 +46,7 @@ train:
 
 data:
   name: weather_concept
-  data_folder: /storage/group/renkan/lansc/gents_bench/datasets/weather_extrinsic_intrinsic/extrinsic
+  data_folder: /storage/group/renkan/lansc/gents_bench/huggingface_archive/datasets/weather_concept
   n_var: 10
   seq_length: 36
   normalize: true
@@ -134,7 +134,7 @@ eval:
   sampler: ddim
   display_interval: 10
   clip_config_path: ./configs/cttp/cttp_weather_concept.yaml
-  clip_model_path: /storage/group/renkan/lansc/gents_bench/save/weather_cttp/clip_model_best.pth
+  clip_model_path: /storage/group/renkan/lansc/gents_bench/constg_results/20260112_112337_weather_extrinsic_cttp_ce/checkpoints/finetune/finetune-epoch=31-val/loss=2.9512.ckpt
   cache_folder: ./cache/weather_concept
   use_longalign: false
   reference_split: train

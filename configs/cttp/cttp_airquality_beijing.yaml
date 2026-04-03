@@ -11,7 +11,7 @@ train:
   num_workers: 4
 data:
   name: airquality_beijing
-  data_folder: ./datasets/airquality_beijing
+  data_folder: /storage/group/renkan/lansc/gents_bench/huggingface_archive/datasets/airquality_beijing
   n_var: 6
   seq_length: 24
   normalize: false

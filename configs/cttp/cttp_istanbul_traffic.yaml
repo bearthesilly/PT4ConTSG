@@ -11,7 +11,7 @@ train:
   num_workers: 4
 data:
   name: istanbul_traffic
-  data_folder: ./datasets/istanbul_traffic
+  data_folder: /storage/group/renkan/lansc/gents_bench/huggingface_archive/datasets/istanbul_traffic
   n_var: 1
   seq_length: 144
   normalize: false

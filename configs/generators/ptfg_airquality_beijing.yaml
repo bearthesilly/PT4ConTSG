@@ -46,7 +46,7 @@ train:
 
 data:
   name: airquality_beijing
-  data_folder: /storage/group/renkan/lansc/gents_bench/datasets/airquality_beijing_intrinsic/
+  data_folder: /storage/group/renkan/lansc/gents_bench/huggingface_archive/datasets/airquality_beijing
   n_var: 6
   seq_length: 24
   normalize: false
@@ -134,7 +134,7 @@ eval:
   sampler: ddim
   display_interval: 10
   clip_config_path: ./configs/cttp/cttp_airquality_beijing.yaml
-  clip_model_path: /storage/group/renkan/lansc/gents_bench/save/airquality_beijing_cttp/extrinsic/multi/clip_model_best.pth
+  clip_model_path: /storage/group/renkan/lansc/gents_bench/save/airquality_beijing_intrinsic_cttp/clip_model_best.pth
   cache_folder: ./cache/airquality_beijing
   use_longalign: false
   reference_split: train

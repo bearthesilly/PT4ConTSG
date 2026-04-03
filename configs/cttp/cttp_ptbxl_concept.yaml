@@ -11,7 +11,7 @@ train:
   num_workers: 4
 data:
   name: ptbxl_concept
-  data_folder: ./datasets/ptbxl_concept
+  data_folder: /storage/group/renkan/lansc/gents_bench/huggingface_archive/datasets/ptbxl_concept
   n_var: 12
   seq_length: 1000
   normalize: false

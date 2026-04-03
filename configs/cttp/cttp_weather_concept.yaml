@@ -11,7 +11,7 @@ train:
   num_workers: 4
 data:
   name: weather_concept
-  data_folder: ./datasets/weather_concept
+  data_folder: /storage/group/renkan/lansc/gents_bench/huggingface_archive/datasets/weather_concept
   n_var: 10
   seq_length: 36
   normalize: true

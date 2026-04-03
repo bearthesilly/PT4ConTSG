@@ -11,7 +11,7 @@ train:
   num_workers: 4
 data:
   name: weather_morphology
-  data_folder: ./datasets/weather_morphology
+  data_folder: /storage/group/renkan/lansc/gents_bench/huggingface_archive/datasets/weather_morphology
   n_var: 10
   seq_length: 36
   normalize: true

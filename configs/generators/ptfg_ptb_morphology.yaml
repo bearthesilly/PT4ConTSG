@@ -46,7 +46,7 @@ train:
 
 data:
   name: ptbxl_morphology
-  data_folder: /storage/group/renkan/lansc/gents_bench/datasets/ptbxl_intrinsic
+  data_folder: /storage/group/renkan/lansc/gents_bench/huggingface_archive/datasets/ptbxl_morphology
   n_var: 12
   seq_length: 1000
   normalize: false
@@ -134,7 +134,7 @@ eval:
   sampler: ddim
   display_interval: 10
   clip_config_path: ./configs/cttp/cttp_ptbxl_morphology.yaml
-  clip_model_path: /storage/group/renkan/lansc/gents_bench/save/ptx_cttp/clip_model_best.pth
+  clip_model_path: /storage/group/renkan/lansc/gents_bench/constg_results/ptb_intrinsic_cttp/20251230_172328_ptbxl_intrinsic_cttp/checkpoints/finetune/finetune-epoch=183-val/loss=4.1135.ckpt
   cache_folder: ./cache/ptbxl_morphology
   use_longalign: false
   reference_split: train

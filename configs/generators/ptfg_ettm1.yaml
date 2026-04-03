@@ -46,7 +46,7 @@ train:
 
 data:
   name: ettm1
-  data_folder: /storage/group/renkan/lansc/gents_bench/datasets/ettm1
+  data_folder: /storage/group/renkan/lansc/gents_bench/huggingface_archive/datasets/ettm1
   n_var: 1
   seq_length: 120
   normalize: true
@@ -134,7 +134,7 @@ eval:
   sampler: ddim
   display_interval: 10
   clip_config_path: ./configs/cttp/cttp_ettm1.yaml
-  clip_model_path: /storage/group/renkan/lansc/gents_bench/save/ettm1_cttp/clip_model_best.pth
+  clip_model_path: /storage/group/renkan/lansc/gents_bench/constg_results/20260113_173113_ettm1_llm_cttp_ce/checkpoints/finetune/finetune-epoch=35-val/loss=3.3886.ckpt
   cache_folder: ./cache/ettm1
   use_longalign: false
   reference_split: train

@@ -46,7 +46,7 @@ train:
 
 data:
   name: weather_morphology
-  data_folder: /storage/group/renkan/lansc/gents_bench/datasets/weather_extrinsic_intrinsic/intrinsic
+  data_folder: /storage/group/renkan/lansc/gents_bench/huggingface_archive/datasets/weather_morphology
   n_var: 10
   seq_length: 36
   normalize: true
@@ -134,7 +134,7 @@ eval:
   sampler: ddim
   display_interval: 10
   clip_config_path: ./configs/cttp/cttp_weather_morphology.yaml
-  clip_model_path: /storage/group/renkan/lansc/gents_bench/save/weather_cttp/clip_model_best.pth
+  clip_model_path: /storage/group/renkan/lansc/gents_bench/constg_results/20260112_201827_weather_intrinsic_cttp_ce/checkpoints/finetune/finetune-epoch=58-val/loss=2.9277.ckpt
   cache_folder: ./cache/weather_morphology
   use_longalign: false
   reference_split: train
