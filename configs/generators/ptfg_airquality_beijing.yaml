@@ -133,7 +133,7 @@ eval:
   save_samples: true
   sampler: ddim
   display_interval: 10
-  clip_config_path: ./configs/cttp/cttp_airquality_beijing.yaml
+  clip_config_path: /storage/group/renkan/lansc/gents_bench/save/airquality_beijing_intrinsic_cttp/model_configs.yaml
   clip_model_path: /storage/group/renkan/lansc/gents_bench/save/airquality_beijing_intrinsic_cttp/clip_model_best.pth
   cache_folder: ./cache/airquality_beijing
   use_longalign: false

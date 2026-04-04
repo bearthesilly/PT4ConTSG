@@ -133,7 +133,7 @@ eval:
   save_samples: true
   sampler: ddim
   display_interval: 10
-  clip_config_path: ./configs/cttp/cttp_ptbxl_morphology.yaml
+  clip_config_path: /storage/group/renkan/lansc/gents_bench/contsg_repo/experiments/ptb_intrinsic_cttp/20251230_172328_ptbxl_intrinsic_cttp/config.yaml
   clip_model_path: /storage/group/renkan/lansc/gents_bench/constg_results/ptb_intrinsic_cttp/20251230_172328_ptbxl_intrinsic_cttp/checkpoints/finetune/finetune-epoch=183-val/loss=4.1135.ckpt
   cache_folder: ./cache/ptbxl_morphology
   use_longalign: false
