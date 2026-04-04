@@ -648,3 +648,26 @@ Evaluation results saved to: experiments/20260403_165923_airquality_beijing_pt_f
 │ joint_prdc_f1.precision │   0.938426 │
 │ joint_prdc_f1.recall    │   0.690422 │
 └─────────────────────────┴────────────┘
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
+┃ Metric                  ┃      Value ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━┩
+│ dtw                     │   6.258183 │
+│ wape                    │  74.612167 │
+│ ed                      │   6.878884 │
+│ crps                    │   0.287247 │
+│ acd                     │   0.039134 │
+│ sd                      │   0.244689 │
+│ kd                      │   0.590019 │
+│ mdd                     │   0.018707 │
+│ fid                     │ 294.721552 │
+│ jftsd                   │ 418.076155 │
+│ cttp                    │   6.543483 │
+│ disc_auc                │   0.999116 │
+│ prdc_f1.f1              │   0.342614 │
+│ prdc_f1.precision       │   0.911631 │
+│ prdc_f1.recall          │   0.210946 │
+│ joint_prdc_f1.f1        │   0.830362 │
+│ joint_prdc_f1.precision │   0.957241 │
+│ joint_prdc_f1.recall    │   0.733181 │
+└─────────────────────────┴────────────┘

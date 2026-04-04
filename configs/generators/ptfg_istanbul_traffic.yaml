@@ -133,7 +133,7 @@ eval:
   save_samples: true
   sampler: ddim
   display_interval: 10
-  clip_config_path: /storage/group/renkan/lansc/gents_bench/contsg_repo/configs/istanbul_traffic_llm_clip/cttp_istanbul_traffic_llm_instance_ce.yaml
+  clip_config_path: /storage/group/renkan/lansc/gents_bench/contsg_repo/configs/cttp/cttp_istanbul_traffic_instance.yaml
   clip_model_path: /storage/group/renkan/lansc/gents_bench/contsg_repo/experiments/20260113_173113_istanbul_traffic_llm_cttp_ce/20260113_173113_istanbul_traffic_llm_cttp_ce/checkpoints/finetune/finetune-epoch=84-val/loss=3.2515.ckpt
   cache_folder: ./cache/istanbul_traffic
   use_longalign: false

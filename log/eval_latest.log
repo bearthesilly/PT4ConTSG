@@ -1,0 +1,513 @@
+==========================================
+contsg evaluate experiments/20260403_165923_airquality_beijing_pt_factor_generator
+==========================================
+Loading experiment: experiments/20260403_165923_airquality_beijing_pt_factor_generator
+Using checkpoint: 
+/public/home/xiongzhzh2023/PT4ConTSG/experiments/20260403_165923_airquality_beijing_pt_factor_generator/checkpoi
+nts/finetune/finetune-epoch=126-val/loss=0.4934.ckpt
+Computing metrics: dtw, wape, ed, crps, acd, sd, kd, mdd, fid, jftsd, prdc_f1, joint_prdc_f1, cttp, disc_auc
+Samples per condition: 10
+Sampler: ddim
+Initializing CLIP embedder...
+CLIP initialized successfully
+
+Running evaluation...
+[Evaluating (generating)] Starting (0/14)...
+[Evaluating (generating)] 1/14 (7%)
+[Evaluating (generating)] 2/14 (14%)
+[Evaluating (generating)] 3/14 (21%)
+[Evaluating (generating)] 5/14 (36%)
+[Evaluating (generating)] 6/14 (43%)
+[Evaluating (generating)] 7/14 (50%)
+[Evaluating (generating)] 9/14 (64%)
+[Evaluating (generating)] 10/14 (71%)
+[Evaluating (generating)] 12/14 (86%)
+[Evaluating (generating)] 13/14 (93%)
+[Evaluating (generating)] 14/14 (100%)
+[Evaluating (generating)] Completed (14 items)
+
+Results saved to: experiments/20260403_165923_airquality_beijing_pt_factor_generator/results/eval_results.json
+           Evaluation Results           
+┏━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
+┃ Metric                  ┃      Value ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━┩
+│ dtw                     │   6.248706 │
+│ wape                    │  74.511360 │
+│ ed                      │   6.878427 │
+│ crps                    │   0.287052 │
+│ acd                     │   0.039009 │
+│ sd                      │   0.245854 │
+│ kd                      │   0.581118 │
+│ mdd                     │   0.018501 │
+│ fid                     │ 294.775199 │
+│ jftsd                   │ 418.126491 │
+│ cttp                    │   6.500616 │
+│ disc_auc                │   0.999200 │
+│ prdc_f1.f1              │   0.375553 │
+│ prdc_f1.precision       │   0.918472 │
+│ prdc_f1.recall          │   0.236032 │
+│ joint_prdc_f1.f1        │   0.832431 │
+│ joint_prdc_f1.precision │   0.944698 │
+│ joint_prdc_f1.recall    │   0.744014 │
+└─────────────────────────┴────────────┘
+==========================================
+contsg evaluate experiments/20260403_170059_ettm1_pt_factor_generator
+==========================================
+Loading experiment: experiments/20260403_170059_ettm1_pt_factor_generator
+Using checkpoint: 
+/public/home/xiongzhzh2023/PT4ConTSG/experiments/20260403_170059_ettm1_pt_factor_generator/checkpoints/finetune/
+finetune-epoch=132-val/loss=0.5940.ckpt
+Computing metrics: dtw, wape, ed, crps, acd, sd, kd, mdd, fid, jftsd, prdc_f1, joint_prdc_f1, cttp, disc_auc
+Samples per condition: 10
+Sampler: ddim
+Initializing CLIP embedder...
+CLIP initialized successfully
+
+Running evaluation...
+[Evaluating (generating)] Starting (0/13)...
+[Evaluating (generating)] 1/13 (8%)
+[Evaluating (generating)] 2/13 (15%)
+[Evaluating (generating)] 3/13 (23%)
+[Evaluating (generating)] 4/13 (31%)
+[Evaluating (generating)] 6/13 (46%)
+[Evaluating (generating)] 7/13 (54%)
+[Evaluating (generating)] 8/13 (62%)
+[Evaluating (generating)] 10/13 (77%)
+[Evaluating (generating)] 11/13 (85%)
+[Evaluating (generating)] 12/13 (92%)
+[Evaluating (generating)] 13/13 (100%)
+[Evaluating (generating)] Completed (13 items)
+
+Results saved to: experiments/20260403_170059_ettm1_pt_factor_generator/results/eval_results.json
+          Evaluation Results           
+┏━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━┓
+┃ Metric                  ┃     Value ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━┩
+│ dtw                     │  6.960764 │
+│ wape                    │ 94.485077 │
+│ ed                      │  8.380402 │
+│ crps                    │  0.459235 │
+│ acd                     │  0.046177 │
+│ sd                      │  0.669383 │
+│ kd                      │  0.244189 │
+│ mdd                     │  0.015175 │
+│ fid                     │ 10.230978 │
+│ jftsd                   │ 10.630635 │
+│ cttp                    │  3.033104 │
+│ disc_auc                │  0.860606 │
+│ prdc_f1.f1              │  0.668981 │
+│ prdc_f1.precision       │  0.676232 │
+│ prdc_f1.recall          │  0.661884 │
+│ joint_prdc_f1.f1        │  0.745708 │
+│ joint_prdc_f1.precision │  0.778540 │
+│ joint_prdc_f1.recall    │  0.715533 │
+└─────────────────────────┴───────────┘
+==========================================
+contsg evaluate experiments/20260403_170305_ptbxl_concept_pt_factor_generator
+==========================================
+Loading experiment: experiments/20260403_170305_ptbxl_concept_pt_factor_generator
+Using checkpoint: 
+/public/home/xiongzhzh2023/PT4ConTSG/experiments/20260403_170305_ptbxl_concept_pt_factor_generator/checkpoints/f
+inetune/finetune-epoch=108-val/loss=1.1945.ckpt
+Computing metrics: dtw, wape, ed, crps, acd, sd, kd, mdd, fid, jftsd, prdc_f1, joint_prdc_f1, cttp, disc_auc
+Samples per condition: 10
+Sampler: ddim
+Initializing CLIP embedder...
+CLIP initialized successfully
+
+Running evaluation...
+[Evaluating (generating)] Starting (0/35)...
+[Evaluating (generating)] 1/35 (3%)
+[Evaluating (generating)] 4/35 (11%)
+[Evaluating (generating)] 7/35 (20%)
+[Evaluating (generating)] 11/35 (31%)
+[Evaluating (generating)] 14/35 (40%)
+[Evaluating (generating)] 18/35 (51%)
+[Evaluating (generating)] 22/35 (63%)
+[Evaluating (generating)] 25/35 (71%)
+[Evaluating (generating)] 28/35 (80%)
+[Evaluating (generating)] 32/35 (91%)
+[Evaluating (generating)] 35/35 (100%)
+[Evaluating (generating)] Completed (35 items)
+
+Results saved to: experiments/20260403_170305_ptbxl_concept_pt_factor_generator/results/eval_results.json
+           Evaluation Results           
+┏━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
+┃ Metric                  ┃      Value ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━┩
+│ dtw                     │  98.348120 │
+│ wape                    │ 101.061119 │
+│ ed                      │ 102.274002 │
+│ crps                    │   0.418287 │
+│ acd                     │   0.083899 │
+│ sd                      │   2.820812 │
+│ kd                      │ 177.788420 │
+│ mdd                     │   0.015117 │
+│ fid                     │   2.125838 │
+│ jftsd                   │   4.116905 │
+│ cttp                    │   0.494428 │
+│ disc_auc                │   1.000000 │
+│ prdc_f1.f1              │   0.000000 │
+│ prdc_f1.precision       │   0.998180 │
+│ prdc_f1.recall          │   0.000000 │
+│ joint_prdc_f1.f1        │   0.000909 │
+│ joint_prdc_f1.precision │   0.423112 │
+│ joint_prdc_f1.recall    │   0.000455 │
+└─────────────────────────┴────────────┘
+==========================================
+contsg evaluate experiments/20260403_170623_ptbxl_morphology_pt_factor_generator
+==========================================
+Loading experiment: experiments/20260403_170623_ptbxl_morphology_pt_factor_generator
+Using checkpoint: 
+/public/home/xiongzhzh2023/PT4ConTSG/experiments/20260403_170623_ptbxl_morphology_pt_factor_generator/checkpoint
+s/finetune/finetune-epoch=108-val/loss=1.2053.ckpt
+Computing metrics: dtw, wape, ed, crps, acd, sd, kd, mdd, fid, jftsd, prdc_f1, joint_prdc_f1, cttp, disc_auc
+Samples per condition: 10
+Sampler: ddim
+Initializing CLIP embedder...
+CLIP initialized successfully
+
+Running evaluation...
+[Evaluating (generating)] Starting (0/35)...
+[Evaluating (generating)] 1/35 (3%)
+[Evaluating (generating)] 4/35 (11%)
+[Evaluating (generating)] 7/35 (20%)
+[Evaluating (generating)] 11/35 (31%)
+[Evaluating (generating)] 14/35 (40%)
+[Evaluating (generating)] 18/35 (51%)
+[Evaluating (generating)] 22/35 (63%)
+[Evaluating (generating)] 25/35 (71%)
+[Evaluating (generating)] 28/35 (80%)
+[Evaluating (generating)] 32/35 (91%)
+[Evaluating (generating)] 35/35 (100%)
+[Evaluating (generating)] Completed (35 items)
+
+Results saved to: experiments/20260403_170623_ptbxl_morphology_pt_factor_generator/results/eval_results.json
+           Evaluation Results           
+┏━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
+┃ Metric                  ┃      Value ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━┩
+│ dtw                     │  98.164131 │
+│ wape                    │ 102.473511 │
+│ ed                      │ 103.004107 │
+│ crps                    │   0.415762 │
+│ acd                     │   0.074670 │
+│ sd                      │   2.751826 │
+│ kd                      │ 179.122260 │
+│ mdd                     │   0.014445 │
+│ fid                     │   2.061986 │
+│ jftsd                   │   4.022588 │
+│ cttp                    │   0.362160 │
+│ disc_auc                │   1.000000 │
+│ prdc_f1.f1              │   0.001809 │
+│ prdc_f1.precision       │   0.157871 │
+│ prdc_f1.recall          │   0.000910 │
+│ joint_prdc_f1.f1        │   0.001814 │
+│ joint_prdc_f1.precision │   0.288444 │
+│ joint_prdc_f1.recall    │   0.000910 │
+└─────────────────────────┴────────────┘
+==========================================
+contsg evaluate experiments/20260403_170813_telecomts_segment_pt_factor_generator
+==========================================
+Loading experiment: experiments/20260403_170813_telecomts_segment_pt_factor_generator
+Using checkpoint: 
+/public/home/xiongzhzh2023/PT4ConTSG/experiments/20260403_170813_telecomts_segment_pt_factor_generator/checkpoin
+ts/finetune/finetune-epoch=146-val/loss=0.6312.ckpt
+Computing metrics: dtw, wape, ed, crps, acd, sd, kd, mdd, fid, jftsd, prdc_f1, joint_prdc_f1, cttp, disc_auc
+Samples per condition: 10
+Sampler: ddim
+Initializing CLIP embedder...
+CLIP initialized successfully
+
+Running evaluation...
+[Evaluating (generating)] Starting (0/25)...
+[Evaluating (generating)] 1/25 (4%)
+[Evaluating (generating)] 3/25 (12%)
+[Evaluating (generating)] 5/25 (20%)
+[Evaluating (generating)] 8/25 (32%)
+[Evaluating (generating)] 10/25 (40%)
+[Evaluating (generating)] 13/25 (52%)
+[Evaluating (generating)] 16/25 (64%)
+[Evaluating (generating)] 18/25 (72%)
+[Evaluating (generating)] 20/25 (80%)
+[Evaluating (generating)] 23/25 (92%)
+[Evaluating (generating)] 25/25 (100%)
+[Evaluating (generating)] Completed (25 items)
+
+Results saved to: experiments/20260403_170813_telecomts_segment_pt_factor_generator/results/eval_results.json
+          Evaluation Results           
+┏━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━┓
+┃ Metric                  ┃     Value ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━┩
+│ dtw                     │  8.691659 │
+│ wape                    │ 54.568569 │
+│ ed                      │ 10.398922 │
+│ crps                    │  0.288412 │
+│ acd                     │  0.089419 │
+│ sd                      │  1.650655 │
+│ kd                      │  6.742725 │
+│ mdd                     │  0.010964 │
+│ fid                     │  1.980714 │
+│ jftsd                   │  2.015279 │
+│ cttp                    │ -0.000195 │
+│ disc_auc                │  0.990168 │
+│ prdc_f1.f1              │  0.066269 │
+│ prdc_f1.precision       │  0.918125 │
+│ prdc_f1.recall          │  0.034375 │
+│ joint_prdc_f1.f1        │  0.818177 │
+│ joint_prdc_f1.precision │  0.924063 │
+│ joint_prdc_f1.recall    │  0.734062 │
+└─────────────────────────┴───────────┘
+==========================================
+contsg evaluate experiments/20260403_171021_istanbul_traffic_pt_factor_generator
+==========================================
+Loading experiment: experiments/20260403_171021_istanbul_traffic_pt_factor_generator
+Using checkpoint: 
+/public/home/xiongzhzh2023/PT4ConTSG/experiments/20260403_171021_istanbul_traffic_pt_factor_generator/checkpoint
+s/finetune/finetune-epoch=117-val/loss=0.2378.ckpt
+Computing metrics: dtw, wape, ed, crps, acd, sd, kd, mdd, fid, jftsd, prdc_f1, joint_prdc_f1, cttp, disc_auc
+Samples per condition: 10
+Sampler: ddim
+Initializing CLIP embedder...
+CLIP initialized successfully
+
+Running evaluation...
+[Evaluating (generating)] Starting (0/25)...
+[Evaluating (generating)] 1/25 (4%)
+[Evaluating (generating)] 3/25 (12%)
+[Evaluating (generating)] 5/25 (20%)
+[Evaluating (generating)] 8/25 (32%)
+[Evaluating (generating)] 10/25 (40%)
+[Evaluating (generating)] 13/25 (52%)
+[Evaluating (generating)] 16/25 (64%)
+[Evaluating (generating)] 18/25 (72%)
+[Evaluating (generating)] 20/25 (80%)
+[Evaluating (generating)] 23/25 (92%)
+[Evaluating (generating)] 25/25 (100%)
+[Evaluating (generating)] Completed (25 items)
+
+Results saved to: experiments/20260403_171021_istanbul_traffic_pt_factor_generator/results/eval_results.json
+          Evaluation Results           
+┏━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━┓
+┃ Metric                  ┃     Value ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━┩
+│ dtw                     │  3.445570 │
+│ wape                    │ 38.209393 │
+│ ed                      │  4.448586 │
+│ crps                    │  0.232764 │
+│ acd                     │  0.038667 │
+│ sd                      │  0.063579 │
+│ kd                      │  0.089726 │
+│ mdd                     │  0.009858 │
+│ fid                     │  1.352123 │
+│ jftsd                   │  1.708541 │
+│ cttp                    │  4.894249 │
+│ disc_auc                │  0.735168 │
+│ prdc_f1.f1              │  0.844079 │
+│ prdc_f1.precision       │  0.836312 │
+│ prdc_f1.recall          │  0.851991 │
+│ joint_prdc_f1.f1        │  0.869234 │
+│ joint_prdc_f1.precision │  0.867357 │
+│ joint_prdc_f1.recall    │  0.871119 │
+└─────────────────────────┴───────────┘
+==========================================
+contsg evaluate experiments/20260403_171215_weather_concept_pt_factor_generator
+==========================================
+Loading experiment: experiments/20260403_171215_weather_concept_pt_factor_generator
+Using checkpoint: 
+/public/home/xiongzhzh2023/PT4ConTSG/experiments/20260403_171215_weather_concept_pt_factor_generator/checkpoints
+/finetune/finetune-epoch=240-val/loss=0.3302.ckpt
+Computing metrics: dtw, wape, ed, crps, acd, sd, kd, mdd, fid, jftsd, prdc_f1, joint_prdc_f1, cttp, disc_auc
+Samples per condition: 10
+Sampler: ddim
+Initializing CLIP embedder...
+CLIP initialization failed, CLIP-dependent metrics will be skipped
+
+Running evaluation...
+[Evaluating (generating)] Starting (0/11)...
+[Evaluating (generating)] 1/11 (9%)
+[Evaluating (generating)] 2/11 (18%)
+[Evaluating (generating)] 3/11 (27%)
+[Evaluating (generating)] 4/11 (36%)
+[Evaluating (generating)] 5/11 (45%)
+[Evaluating (generating)] 6/11 (55%)
+[Evaluating (generating)] 7/11 (64%)
+[Evaluating (generating)] 8/11 (73%)
+[Evaluating (generating)] 9/11 (82%)
+[Evaluating (generating)] 10/11 (91%)
+[Evaluating (generating)] 11/11 (100%)
+[Evaluating (generating)] Completed (11 items)
+
+Results saved to: experiments/20260403_171215_weather_concept_pt_factor_generator/results/eval_results.json
+     Evaluation Results      
+┏━━━━━━━━━━━━━━━┳━━━━━━━━━━━┓
+┃ Metric        ┃     Value ┃
+┡━━━━━━━━━━━━━━━╇━━━━━━━━━━━┩
+│ dtw           │ 10.291998 │
+│ wape          │ 46.048317 │
+│ ed            │ 10.969446 │
+│ crps          │  0.209389 │
+│ acd           │  0.070880 │
+│ sd            │       N/A │
+│ kd            │       N/A │
+│ mdd           │       N/A │
+│ fid           │       N/A │
+│ jftsd         │       N/A │
+│ prdc_f1       │       N/A │
+│ joint_prdc_f1 │       N/A │
+│ cttp          │       N/A │
+│ disc_auc      │  0.896753 │
+└───────────────┴───────────┘
+==========================================
+contsg evaluate experiments/20260403_171344_weather_morphology_pt_factor_generator
+==========================================
+Loading experiment: experiments/20260403_171344_weather_morphology_pt_factor_generator
+Using checkpoint: 
+/public/home/xiongzhzh2023/PT4ConTSG/experiments/20260403_171344_weather_morphology_pt_factor_generator/checkpoi
+nts/finetune/finetune-epoch=182-val/loss=0.3907.ckpt
+Computing metrics: dtw, wape, ed, crps, acd, sd, kd, mdd, fid, jftsd, prdc_f1, joint_prdc_f1, cttp, disc_auc
+Samples per condition: 10
+Sampler: ddim
+Initializing CLIP embedder...
+CLIP initialization failed, CLIP-dependent metrics will be skipped
+
+Running evaluation...
+[Evaluating (generating)] Starting (0/11)...
+[Evaluating (generating)] 1/11 (9%)
+[Evaluating (generating)] 2/11 (18%)
+[Evaluating (generating)] 3/11 (27%)
+[Evaluating (generating)] 4/11 (36%)
+[Evaluating (generating)] 5/11 (45%)
+[Evaluating (generating)] 6/11 (55%)
+[Evaluating (generating)] 7/11 (64%)
+[Evaluating (generating)] 8/11 (73%)
+[Evaluating (generating)] 9/11 (82%)
+[Evaluating (generating)] 10/11 (91%)
+[Evaluating (generating)] 11/11 (100%)
+[Evaluating (generating)] Completed (11 items)
+
+Results saved to: experiments/20260403_171344_weather_morphology_pt_factor_generator/results/eval_results.json
+     Evaluation Results      
+┏━━━━━━━━━━━━━━━┳━━━━━━━━━━━┓
+┃ Metric        ┃     Value ┃
+┡━━━━━━━━━━━━━━━╇━━━━━━━━━━━┩
+│ dtw           │ 14.310789 │
+│ wape          │ 70.987411 │
+│ ed            │ 14.663407 │
+│ crps          │  0.311032 │
+│ acd           │  0.059910 │
+│ sd            │       N/A │
+│ kd            │       N/A │
+│ mdd           │       N/A │
+│ fid           │       N/A │
+│ jftsd         │       N/A │
+│ prdc_f1       │       N/A │
+│ joint_prdc_f1 │       N/A │
+│ cttp          │       N/A │
+│ disc_auc      │  0.987636 │
+└───────────────┴───────────┘
+==========================================
+contsg evaluate experiments/20260402_152251_synth-u_pt_factor_generator
+==========================================
+Loading experiment: experiments/20260402_152251_synth-u_pt_factor_generator
+Using checkpoint: 
+/public/home/xiongzhzh2023/PT4ConTSG/experiments/20260402_152251_synth-u_pt_factor_generator/checkpoints/finetun
+e/finetune-epoch=326-val/loss=0.5635.ckpt
+Computing metrics: dtw, wape, ed, crps, acd, sd, kd, mdd, fid, jftsd, prdc_f1, joint_prdc_f1, cttp, disc_auc
+Samples per condition: 10
+Sampler: ddim
+Initializing CLIP embedder...
+CLIP initialized successfully
+
+Running evaluation...
+[Evaluating (generating)] Starting (0/32)...
+[Evaluating (generating)] 1/32 (3%)
+[Evaluating (generating)] 4/32 (12%)
+[Evaluating (generating)] 7/32 (22%)
+[Evaluating (generating)] 10/32 (31%)
+[Evaluating (generating)] 13/32 (41%)
+[Evaluating (generating)] 16/32 (50%)
+[Evaluating (generating)] 20/32 (62%)
+[Evaluating (generating)] 23/32 (72%)
+[Evaluating (generating)] 26/32 (81%)
+[Evaluating (generating)] 29/32 (91%)
+[Evaluating (generating)] 32/32 (100%)
+[Evaluating (generating)] Completed (32 items)
+
+Results saved to: experiments/20260402_152251_synth-u_pt_factor_generator/results/eval_results.json
+          Evaluation Results           
+┏━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━┓
+┃ Metric                  ┃     Value ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━┩
+│ dtw                     │  4.856686 │
+│ wape                    │ 83.079025 │
+│ ed                      │  8.492423 │
+│ crps                    │  0.433913 │
+│ acd                     │  0.072399 │
+│ sd                      │  0.040697 │
+│ kd                      │  0.347498 │
+│ mdd                     │  0.013293 │
+│ fid                     │ 35.423557 │
+│ jftsd                   │ 38.140624 │
+│ cttp                    │ 13.497029 │
+│ disc_auc                │  0.987518 │
+│ prdc_f1.f1              │  0.223054 │
+│ prdc_f1.precision       │  0.530000 │
+│ prdc_f1.recall          │  0.141250 │
+│ joint_prdc_f1.f1        │  0.563050 │
+│ joint_prdc_f1.precision │  0.713500 │
+│ joint_prdc_f1.recall    │  0.465000 │
+└─────────────────────────┴───────────┘
+==========================================
+contsg evaluate experiments/20260401_223751_synth-m_pt_factor_generator
+==========================================
+Loading experiment: experiments/20260401_223751_synth-m_pt_factor_generator
+Using checkpoint: 
+/public/home/xiongzhzh2023/PT4ConTSG/experiments/20260401_223751_synth-m_pt_factor_generator/checkpoints/finetun
+e/finetune-epoch=313-val/loss=0.5839.ckpt
+Computing metrics: dtw, wape, ed, crps, acd, sd, kd, mdd, fid, jftsd, prdc_f1, joint_prdc_f1, cttp, disc_auc
+Samples per condition: 10
+Sampler: ddim
+Initializing CLIP embedder...
+CLIP initialized successfully
+
+Running evaluation...
+[Evaluating (generating)] Starting (0/32)...
+[Evaluating (generating)] 1/32 (3%)
+[Evaluating (generating)] 4/32 (12%)
+[Evaluating (generating)] 7/32 (22%)
+[Evaluating (generating)] 10/32 (31%)
+[Evaluating (generating)] 13/32 (41%)
+[Evaluating (generating)] 16/32 (50%)
+[Evaluating (generating)] 20/32 (62%)
+[Evaluating (generating)] 23/32 (72%)
+[Evaluating (generating)] 26/32 (81%)
+[Evaluating (generating)] 29/32 (91%)
+[Evaluating (generating)] 32/32 (100%)
+[Evaluating (generating)] Completed (32 items)
+
+Results saved to: experiments/20260401_223751_synth-m_pt_factor_generator/results/eval_results.json
+          Evaluation Results           
+┏━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━┓
+┃ Metric                  ┃     Value ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━┩
+│ dtw                     │  9.648318 │
+│ wape                    │ 84.889717 │
+│ ed                      │ 12.524224 │
+│ crps                    │  0.436636 │
+│ acd                     │  0.070791 │
+│ sd                      │  0.031799 │
+│ kd                      │  0.393650 │
+│ mdd                     │  0.013757 │
+│ fid                     │ 40.640169 │
+│ jftsd                   │ 43.046324 │
+│ cttp                    │ 18.945562 │
+│ disc_auc                │  0.995286 │
+│ prdc_f1.f1              │  0.464709 │
+│ prdc_f1.precision       │  0.438500 │
+│ prdc_f1.recall          │  0.494250 │
+│ joint_prdc_f1.f1        │  0.514706 │
+│ joint_prdc_f1.precision │  0.519500 │
+│ joint_prdc_f1.recall    │  0.510000 │
+└─────────────────────────┴───────────┘
+All listed ptfg experiments finished.

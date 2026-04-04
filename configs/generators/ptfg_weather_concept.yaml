@@ -133,7 +133,7 @@ eval:
   save_samples: true
   sampler: ddim
   display_interval: 10
-  clip_config_path: /storage/group/renkan/lansc/gents_bench/contsg_repo/configs/weather_clip_extrinsic_intrinsic/cttp_weather_extrinsic_ce.yaml
+  clip_config_path: /storage/group/renkan/lansc/gents_bench/contsg_repo/configs/cttp/cttp_weather_concept.yaml
   clip_model_path: /storage/group/renkan/lansc/gents_bench/constg_results/20260112_112337_weather_extrinsic_cttp_ce/checkpoints/finetune/finetune-epoch=31-val/loss=2.9512.ckpt
   cache_folder: ./cache/weather_concept
   use_longalign: false

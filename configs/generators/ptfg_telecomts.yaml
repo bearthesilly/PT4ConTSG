@@ -133,7 +133,7 @@ eval:
   save_samples: true
   sampler: ddim
   display_interval: 10
-  clip_config_path: /storage/group/renkan/lansc/gents_bench/contsg_repo/configs/telecomts_clip/cttp_telecomts_instance_ce.yaml
+  clip_config_path: /storage/group/renkan/lansc/gents_bench/contsg_repo/configs/cttp/cttp_telecomts_segment.yaml
   clip_model_path: /storage/group/renkan/lansc/gents_bench/contsg_repo/experiments/cttp_telecomts_ce/cttp_telecomts_ce/20260110_194154_telecomts_segment_cttp/checkpoints/finetune/finetune-epoch=53-val/loss=1.9437.ckpt
   cache_folder: ./cache/telecomts_segment
   use_longalign: false

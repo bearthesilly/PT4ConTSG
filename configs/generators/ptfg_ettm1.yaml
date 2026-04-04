@@ -133,7 +133,7 @@ eval:
   save_samples: true
   sampler: ddim
   display_interval: 10
-  clip_config_path: /storage/group/renkan/lansc/gents_bench/contsg_repo/configs/ettm1_llm_clip/cttp_ettm1_llm_instance_ce.yaml
+  clip_config_path: /storage/group/renkan/lansc/gents_bench/contsg_repo/configs/cttp/cttp_ettm1_instance.yaml
   clip_model_path: /storage/group/renkan/lansc/gents_bench/constg_results/20260113_173113_ettm1_llm_cttp_ce/checkpoints/finetune/finetune-epoch=35-val/loss=3.3886.ckpt
   cache_folder: ./cache/ettm1
   use_longalign: false

@@ -86,6 +86,7 @@ datasets/
 contsg/data/datasets/**/__pycache__/
 contsg/data/datasets/**/*.pyc
 checkpoints/
+local_temp/
 *.ckpt
 *.pt
 *.pth
