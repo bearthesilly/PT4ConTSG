@@ -2,14 +2,10 @@
 # ==============================================================================
 # RQ4: Compositional Generalization Experiment Pipeline
 #
-# Uses a compositional split of synth-m where ~25% of attribute combinations
-# are held out for testing, ensuring meaningful Head-Tail analysis.
-#
-# Pipeline:
-#   Phase 0: Create compositional split dataset
-#   Phase 1: Train ablation models (best vs no-cross-talk)
-#   Phase 2: Generate & cache predictions (with CTTP embeddings)
-#   Phase 3: Run RQ4 Head-Tail analysis
+# Uses a STRUCTURED compositional split of synth-m:
+#   - 3 attributes each have a "novel value" excluded from training
+#   - Test set naturally stratified by Hamming distance (1, 2, 3)
+#   - Head = dist 1 (close), Tail = dist 2-3 (OOD)
 #
 # Usage: bash scripts/run_rq4.sh
 # ==============================================================================
@@ -20,17 +16,16 @@ LOG_DIR="log/rq_experiments"
 mkdir -p "$LOG_DIR"
 
 # ==============================================================================
-# Phase 0: Create Compositional Split
+# Phase 0: Create Structured Compositional Split
 # ==============================================================================
 
 echo "================================================================="
-echo " Phase 0: Creating Compositional Split of synth-m"
+echo " Phase 0: Creating Structured Compositional Split of synth-m"
 echo "================================================================="
 
 python scripts/rq4_create_compositional_split.py \
     --src ./datasets/synth-m \
     --dst ./datasets/synth-m-compo \
-    --holdout-ratio 0.25 \
     --seed 42
 
 echo ""
@@ -53,31 +48,53 @@ contsg train --config configs/ablation/ptfg_synth-m-compo_no_cross_talk.yaml \
 
 echo ""
 echo "================================================================="
-echo " Phase 1 Complete. Now find experiment directories:"
+echo " Phase 1 Complete. Finding experiment directories..."
 echo "================================================================="
-echo ""
-echo "  ls -td experiments/*synth-m*pt_factor* | head -2"
-echo ""
-echo "  Then set these and run Phase 2-3:"
+
+# Auto-detect the two most recent experiment directories
+PTFG_NOCT=$(ls -td experiments/*synth-m*pt_factor* 2>/dev/null | head -1)
+PTFG_BEST=$(ls -td experiments/*synth-m*pt_factor* 2>/dev/null | head -2 | tail -1)
+
+echo "  PTFG_BEST = $PTFG_BEST"
+echo "  PTFG_NOCT = $PTFG_NOCT"
 echo ""
 
 # ==============================================================================
-# Phase 2-3: Uncomment after Phase 1, fill in experiment paths
+# Phase 2: Cache Predictions (with CTTP embeddings)
 # ==============================================================================
 
-# PTFG_BEST="experiments/YYYYMMDD_..._synth-m_pt_factor_generator"
-# PTFG_NOCT="experiments/YYYYMMDD_..._synth-m_pt_factor_generator"
+echo "================================================================="
+echo " Phase 2: Caching Predictions"
+echo "================================================================="
 
-# --- Phase 2: Cache predictions ---
-# contsg evaluate "$PTFG_BEST" --use-cache
-# contsg evaluate "$PTFG_NOCT" --use-cache
+echo "[1/2] Evaluating PTFG-best..."
+contsg evaluate "$PTFG_BEST" --use-cache \
+    2>&1 | tee "$LOG_DIR/eval_ptfg_synth-m-compo_best.log"
 
-# --- Phase 3: RQ4 analysis ---
-# python scripts/rq4_compositional_eval.py --eval \
-#     --data-folder ./datasets/synth-m-compo \
-#     --clip-config ./configs/cttp/cttp_synth-m.yaml \
-#     --clip-model ./checkpoints/cttp/clip_model_synth-m.pth \
-#     --experiments "$PTFG_BEST" "$PTFG_NOCT" \
-#     --labels "PTFG-best (cross-talk)" "PTFG-no-cross-talk" \
-#     --k 5 \
-#     --output results_rq4.json
+echo "[2/2] Evaluating PTFG-no-cross-talk..."
+contsg evaluate "$PTFG_NOCT" --use-cache \
+    2>&1 | tee "$LOG_DIR/eval_ptfg_synth-m-compo_no_cross_talk.log"
+
+echo ""
+
+# ==============================================================================
+# Phase 3: RQ4 Head-Tail Analysis
+# ==============================================================================
+
+echo "================================================================="
+echo " Phase 3: RQ4 Compositional Generalization Analysis"
+echo "================================================================="
+
+python scripts/rq4_compositional_eval.py --eval \
+    --data-folder ./datasets/synth-m-compo \
+    --clip-config ./configs/cttp/cttp_synth-m.yaml \
+    --clip-model ./checkpoints/cttp/clip_model_synth-m.pth \
+    --experiments "$PTFG_BEST" "$PTFG_NOCT" \
+    --labels "PTFG-best (cross-talk)" "PTFG-no-cross-talk" \
+    --k 5 \
+    --output results_rq4.json
+
+echo ""
+echo "================================================================="
+echo " Done! Results saved to results_rq4.json"
+echo "================================================================="
