@@ -1,0 +1,67 @@
+Loading experiment: experiments/20260405_104541_synth-m_pt_factor_generator
+Using checkpoint: 
+/public/home/xiongzhzh2023/PT4ConTSG/experiments/20260405_104541_synth-m_pt_factor_generator/checkpoints/finetune/finetune-epoch=189-val/loss=0.6705.ckpt
+Computing metrics: dtw, wape, ed, crps, acd, sd, kd, mdd, fid, jftsd, prdc_f1, joint_prdc_f1, cttp, disc_auc
+Samples per condition: 10
+Sampler: ddim
+Initializing CLIP embedder...
+Loading weights:   0%|          | 0/197 [00:00<?, ?it/s]Loading weights: 100%|██████████| 197/197 [00:00<00:00, 3511.18it/s]
+[1mCLIPTextModelWithProjection LOAD REPORT[0m from: ./checkpoints/longclip
+Key                                                            | Status     |  | 
+---------------------------------------------------------------+------------+--+-
+vision_model.encoder.layers.{0...23}.layer_norm2.bias          | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.layer_norm1.weight        | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.k_proj.bias     | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.layer_norm1.bias          | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.mlp.fc1.weight            | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.out_proj.weight | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.v_proj.bias     | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.q_proj.bias     | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.mlp.fc2.weight            | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.layer_norm2.weight        | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.mlp.fc2.bias              | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.out_proj.bias   | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.k_proj.weight   | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.mlp.fc1.bias              | UNEXPECTED |  | 
+vision_model.post_layernorm.weight                             | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.q_proj.weight   | UNEXPECTED |  | 
+vision_model.post_layernorm.bias                               | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.v_proj.weight   | UNEXPECTED |  | 
+visual_projection.weight                                       | UNEXPECTED |  | 
+vision_model.pre_layrnorm.weight                               | UNEXPECTED |  | 
+vision_model.embeddings.position_embedding.weight              | UNEXPECTED |  | 
+vision_model.embeddings.class_embedding                        | UNEXPECTED |  | 
+vision_model.embeddings.patch_embedding.weight                 | UNEXPECTED |  | 
+vision_model.pre_layrnorm.bias                                 | UNEXPECTED |  | 
+logit_scale                                                    | UNEXPECTED |  | 
+
+[3mNotes:
+- UNEXPECTED[3m	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.[0m
+[Extracting data] Starting (0/95)...
+CLIP initialization failed: "Batch must contain 'cap' (raw text) for CLIP text embedding"
+CLIP initialization failed, CLIP-dependent metrics will be skipped
+
+Running evaluation...
+[Evaluating (generating)] Starting (0/145)...
+Evaluation failed: Text condition enabled but no 'cap_emb' found in batch. Provide precomputed embeddings in the dataset.
+Exception type: ValueError
+Traceback:
+Traceback (most recent call last):
+  File "/public/home/xiongzhzh2023/PT4ConTSG/contsg/cli.py", line 639, in evaluate
+    results = evaluator.evaluate(
+              ^^^^^^^^^^^^^^^^^^^
+  File "/public/home/xiongzhzh2023/PT4ConTSG/contsg/eval/evaluator.py", line 630, in evaluate
+    all_batches_data = self._run_evaluation_loop(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/public/home/xiongzhzh2023/PT4ConTSG/contsg/eval/evaluator.py", line 695, in _run_evaluation_loop
+    batch_data, cache_item = self._process_batch_with_cache(
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/public/home/xiongzhzh2023/PT4ConTSG/contsg/eval/evaluator.py", line 805, in _process_batch_with_cache
+    multi_preds = self._generate_predictions(batch, n_samples, sampler)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/public/home/xiongzhzh2023/PT4ConTSG/contsg/eval/evaluator.py", line 988, in _generate_predictions
+    condition = self._select_condition(batch)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/public/home/xiongzhzh2023/PT4ConTSG/contsg/eval/evaluator.py", line 1062, in _select_condition
+    raise ValueError(
+ValueError: Text condition enabled but no 'cap_emb' found in batch. Provide precomputed embeddings in the dataset.

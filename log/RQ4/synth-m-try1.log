@@ -1,0 +1,239 @@
+=================================================================
+ Phase 0: Creating Compositional Split of synth-m
+=================================================================
+  Loaded train_ts: (24000, 128, 2)
+  Loaded valid_ts: (4000, 128, 2)
+  Loaded test_ts: (4000, 128, 2)
+
+Total samples: 32000, Attributes: 4
+Unique attribute combinations: 128
+Training combos: 96
+Test (held-out) combos: 32
+
+Held-out combos Hamming distance to training (min per combo):
+  dist=1: 32 combos
+
+Final split:
+  Train: 21592 samples (96 combos)
+  Valid: 2399 samples (subset of train combos)
+  Test:  8009 samples (32 held-out combos)
+
+Dataset saved to: datasets/synth-m-compo
+Meta saved to: datasets/synth-m-compo/meta.json
+
+=================================================================
+ Phase 1: Training Ablation Models on synth-m-compo
+=================================================================
+[1/2] Training PTFG-best (with cross-talk)...
+Loading config from: configs/ablation/ptfg_synth-m-compo_best.yaml
+Model schema mode: relaxed (no model-specific schema for 'pt_factor_generator')
+         Configuration Summary         
+┌───────────────┬─────────────────────┐
+│ Dataset       │ synth-m             │
+│ Model         │ pt_factor_generator │
+│ Epochs        │ 700                 │
+│ Batch Size    │ 128                 │
+│ Learning Rate │ 0.001               │
+│ Device        │ cuda:0              │
+│ Seed          │ 42                  │
+└───────────────┴─────────────────────┘
+
+Experiment directory: experiments/20260405_103501_synth-m_pt_factor_generator
+Seed set to 42
+
+Model: pt_factor_generator
+Creating data module: synth-m
+
+Starting multi-stage training (1 stage(s))...
+  Stage 1: finetune (700 epochs, lr=0.001)
+/public/home/xiongzhzh2023/Anaconda/envs/contsg/lib/python3.12/site-packages/lightning_fabric/plugins/environments/slurm.py:204: The `srun` command is available on your system but is not used. HINT: If your intention is to run Lightning on SLURM, prepend your python command with `srun` like so: srun python3.1 /public/home/xiongzhzh2023/Anaconda/envs/contsg/b ...
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+`Trainer(limit_train_batches=1.0)` was configured so 100% of the batches per epoch will be used..
+`Trainer(limit_val_batches=1.0)` was configured so 100% of the batches will be used..
+`Trainer(limit_test_batches=1.0)` was configured so 100% of the batches will be used..
+`Trainer(val_check_interval=1.0)` was configured so validation will run at the end of the training epoch..
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+┏━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━┳━━━━━━━┓
+┃   ┃ Name         ┃ Type                   ┃ Params ┃ Mode  ┃ FLOPs ┃
+┡━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━╇━━━━━━━┩
+│ 0 │ net          │ PTFactorNoisePredictor │  5.2 M │ train │     0 │
+│   │ other params │ n/a                    │  1.0 K │ n/a   │   n/a │
+└───┴──────────────┴────────────────────────┴────────┴───────┴───────┘
+Trainable params: 5.2 M                                                                                                                                                 
+Non-trainable params: 0                                                                                                                                                 
+Total params: 5.2 M                                                                                                                                                     
+Total estimated model params size (MB): 20                                                                                                                              
+Modules in train mode: 195                                                                                                                                              
+Modules in eval mode: 0                                                                                                                                                 
+Total FLOPs: 0                                                                                                                                                          
+
+[Training] Starting 700 epochs...
+  [Epoch 1] Batch 50/168 (30%)
+  [Epoch 1] Batch 100/168 (60%)
+  [Epoch 1] Batch 150/168 (89%)
+[Epoch 1/700] train_loss=1.1381 val_loss=0.9057 lr=1.00e-03 (11s)
+Metric val/loss improved. New best score: 0.906
+  [Epoch 2] Batch 50/168 (30%)
+  [Epoch 2] Batch 100/168 (60%)
+  [Epoch 2] Batch 150/168 (89%)
+[Epoch 2/700] train_loss=0.8979 val_loss=0.8975 lr=1.00e-03 (10s)
+Metric val/loss improved by 0.008 >= min_delta = 0.0. New best score: 0.898
+  [Epoch 3] Batch 50/168 (30%)
+  [Epoch 3] Batch 100/168 (60%)
+  [Epoch 3] Batch 150/168 (89%)
+[Epoch 3/700] train_loss=0.8816 val_loss=0.8515 lr=1.00e-03 (12s)
+Metric val/loss improved by 0.046 >= min_delta = 0.0. New best score: 0.851
+  [Epoch 4] Batch 50/168 (30%)
+  [Epoch 4] Batch 100/168 (60%)
+  [Epoch 4] Batch 150/168 (89%)
+[Epoch 4/700] train_loss=0.8625 val_loss=0.8733 lr=1.00e-03 (10s)
+  [Epoch 5] Batch 50/168 (30%)
+  [Epoch 5] Batch 100/168 (60%)
+  [Epoch 5] Batch 150/168 (89%)
+[Epoch 5/700] train_loss=0.8635 val_loss=0.8621 lr=1.00e-03 (10s)
+  [Epoch 6] Batch 50/168 (30%)
+  [Epoch 6] Batch 100/168 (60%)
+  [Epoch 6] Batch 150/168 (89%)
+[Epoch 6/700] train_loss=0.8524 val_loss=0.8621 lr=1.00e-03 (10s)
+  [Epoch 7] Batch 50/168 (30%)
+  [Epoch 7] Batch 100/168 (60%)
+  [Epoch 7] Batch 150/168 (89%)
+[Epoch 7/700] train_loss=0.8531 val_loss=0.8512 lr=1.00e-03 (10s)
+Metric val/loss improved by 0.000 >= min_delta = 0.0. New best score: 0.851
+  [Epoch 8] Batch 50/168 (30%)
+  [Epoch 8] Batch 100/168 (60%)
+  [Epoch 8] Batch 150/168 (89%)
+[Epoch 8/700] train_loss=0.8478 val_loss=0.8700 lr=1.00e-03 (10s)
+  [Epoch 9] Batch 50/168 (30%)
+  [Epoch 9] Batch 100/168 (60%)
+  [Epoch 9] Batch 150/168 (89%)
+[Epoch 9/700] train_loss=0.8436 val_loss=0.8365 lr=1.00e-03 (10s)
+Metric val/loss improved by 0.015 >= min_delta = 0.0. New best score: 0.836
+  [Epoch 10] Batch 50/168 (30%)
+  [Epoch 10] Batch 100/168 (60%)
+  [Epoch 10] Batch 150/168 (89%)
+[Epoch 10/700] train_loss=0.8383 val_loss=0.8355 lr=9.99e-04 (10s)
+Metric val/loss improved by 0.001 >= min_delta = 0.0. New best score: 0.836
+  [Epoch 11] Batch 50/168 (30%)
+  [Epoch 11] Batch 100/168 (60%)
+  [Epoch 11] Batch 150/168 (89%)
+[Epoch 11/700] train_loss=0.8377 val_loss=0.8193 lr=9.99e-04 (10s)
+Metric val/loss improved by 0.016 >= min_delta = 0.0. New best score: 0.819
+  [Epoch 12] Batch 50/168 (30%)
+  [Epoch 12] Batch 100/168 (60%)
+  [Epoch 12] Batch 150/168 (89%)
+[Epoch 12/700] train_loss=0.8356 val_loss=0.8347 lr=9.99e-04 (11s)
+  [Epoch 13] Batch 50/168 (30%)
+  [Epoch 13] Batch 100/168 (60%)
+  [Epoch 13] Batch 150/168 (89%)
+[Epoch 13/700] train_loss=0.8324 val_loss=0.8500 lr=9.99e-04 (11s)
+  [Epoch 14] Batch 50/168 (30%)
+  [Epoch 14] Batch 100/168 (60%)
+  [Epoch 14] Batch 150/168 (89%)
+[Epoch 14/700] train_loss=0.8264 val_loss=0.8491 lr=9.99e-04 (14s)
+  [Epoch 15] Batch 50/168 (30%)
+  [Epoch 15] Batch 100/168 (60%)
+  [Epoch 15] Batch 150/168 (89%)
+[Epoch 15/700] train_loss=0.8250 val_loss=0.8020 lr=9.99e-04 (11s)
+Metric val/loss improved by 0.017 >= min_delta = 0.0. New best score: 0.802
+  [Epoch 16] Batch 50/168 (30%)
+  [Epoch 16] Batch 100/168 (60%)
+  [Epoch 16] Batch 150/168 (89%)
+[Epoch 16/700] train_loss=0.8203 val_loss=0.8418 lr=9.99e-04 (10s)
+  [Epoch 17] Batch 50/168 (30%)
+  [Epoch 17] Batch 100/168 (60%)
+  [Epoch 17] Batch 150/168 (89%)
+[Epoch 17/700] train_loss=0.8220 val_loss=0.8306 lr=9.99e-04 (10s)
+  [Epoch 18] Batch 50/168 (30%)
+  [Epoch 18] Batch 100/168 (60%)
+  [Epoch 18] Batch 150/168 (89%)
+[Epoch 18/700] train_loss=0.8225 val_loss=0.8265 lr=9.98e-04 (10s)
+  [Epoch 19] Batch 50/168 (30%)
+  [Epoch 19] Batch 100/168 (60%)
+  [Epoch 19] Batch 150/168 (89%)
+[Epoch 19/700] train_loss=0.8149 val_loss=0.7968 lr=9.98e-04 (12s)
+Metric val/loss improved by 0.005 >= min_delta = 0.0. New best score: 0.797
+  [Epoch 20] Batch 50/168 (30%)
+  [Epoch 20] Batch 100/168 (60%)
+  [Epoch 20] Batch 150/168 (89%)
+[Epoch 20/700] train_loss=0.8115 val_loss=0.8205 lr=9.98e-04 (18s)
+  [Epoch 21] Batch 50/168 (30%)
+  [Epoch 21] Batch 100/168 (60%)
+  [Epoch 21] Batch 150/168 (89%)
+[Epoch 21/700] train_loss=0.8157 val_loss=0.8151 lr=9.98e-04 (10s)
+  [Epoch 22] Batch 50/168 (30%)
+  [Epoch 22] Batch 100/168 (60%)
+  [Epoch 22] Batch 150/168 (89%)
+[Epoch 22/700] train_loss=0.8090 val_loss=0.8171 lr=9.98e-04 (10s)
+  [Epoch 23] Batch 50/168 (30%)
+  [Epoch 23] Batch 100/168 (60%)
+  [Epoch 23] Batch 150/168 (89%)
+[Epoch 23/700] train_loss=0.8103 val_loss=0.8043 lr=9.97e-04 (10s)
+  [Epoch 24] Batch 50/168 (30%)
+  [Epoch 24] Batch 100/168 (60%)
+  [Epoch 24] Batch 150/168 (89%)
+[Epoch 24/700] train_loss=0.8045 val_loss=0.8076 lr=9.97e-04 (10s)
+  [Epoch 25] Batch 50/168 (30%)
+  [Epoch 25] Batch 100/168 (60%)
+  [Epoch 25] Batch 150/168 (89%)
+[Epoch 25/700] train_loss=0.8109 val_loss=0.8088 lr=9.97e-04 (10s)
+  [Epoch 26] Batch 50/168 (30%)
+  [Epoch 26] Batch 100/168 (60%)
+  [Epoch 26] Batch 150/168 (89%)
+[Epoch 26/700] train_loss=0.8065 val_loss=0.8088 lr=9.97e-04 (10s)
+  [Epoch 27] Batch 50/168 (30%)
+  [Epoch 27] Batch 100/168 (60%)
+  [Epoch 27] Batch 150/168 (89%)
+[Epoch 27/700] train_loss=0.8031 val_loss=0.8153 lr=9.96e-04 (10s)
+  [Epoch 28] Batch 50/168 (30%)
+  [Epoch 28] Batch 100/168 (60%)
+  [Epoch 28] Batch 150/168 (89%)
+[Epoch 28/700] train_loss=0.8030 val_loss=0.8017 lr=9.96e-04 (11s)
+  [Epoch 29] Batch 50/168 (30%)
+  [Epoch 29] Batch 100/168 (60%)
+  [Epoch 29] Batch 150/168 (89%)
+[Epoch 29/700] train_loss=0.8035 val_loss=0.8048 lr=9.96e-04 (10s)
+  [Epoch 30] Batch 50/168 (30%)
+  [Epoch 30] Batch 100/168 (60%)
+  [Epoch 30] Batch 150/168 (89%)
+[Epoch 30/700] train_loss=0.7938 val_loss=0.8015 lr=9.95e-04 (10s)
+  [Epoch 31] Batch 50/168 (30%)
+  [Epoch 31] Batch 100/168 (60%)
+  [Epoch 31] Batch 150/168 (89%)
+[Epoch 31/700] train_loss=0.8045 val_loss=0.8062 lr=9.95e-04 (11s)
+  [Epoch 32] Batch 50/168 (30%)
+  [Epoch 32] Batch 100/168 (60%)
+  [Epoch 32] Batch 150/168 (89%)
+[Epoch 32/700] train_loss=0.8054 val_loss=0.7913 lr=9.95e-04 (10s)
+Metric val/loss improved by 0.005 >= min_delta = 0.0. New best score: 0.791
+  [Epoch 33] Batch 50/168 (30%)
+  [Epoch 33] Batch 100/168 (60%)
+  [Epoch 33] Batch 150/168 (89%)
+[Epoch 33/700] train_loss=0.7993 val_loss=0.7818 lr=9.95e-04 (10s)
+Metric val/loss improved by 0.010 >= min_delta = 0.0. New best score: 0.782
+  [Epoch 34] Batch 50/168 (30%)
+  [Epoch 34] Batch 100/168 (60%)
+  [Epoch 34] Batch 150/168 (89%)
+[Epoch 34/700] train_loss=0.7968 val_loss=0.7870 lr=9.94e-04 (10s)
+  [Epoch 35] Batch 50/168 (30%)
+  [Epoch 35] Batch 100/168 (60%)
+  [Epoch 35] Batch 150/168 (89%)
+[Epoch 35/700] train_loss=0.7974 val_loss=0.7941 lr=9.94e-04 (10s)
+  [Epoch 36] Batch 50/168 (30%)
+  [Epoch 36] Batch 100/168 (60%)
+  [Epoch 36] Batch 150/168 (89%)
+[Epoch 36/700] train_loss=0.7983 val_loss=0.7896 lr=9.93e-04 (10s)
+  [Epoch 37] Batch 50/168 (30%)
+  [Epoch 37] Batch 100/168 (60%)
+  [Epoch 37] Batch 150/168 (89%)
+[Epoch 37/700] train_loss=0.8006 val_loss=0.7905 lr=9.93e-04 (10s)
+  [Epoch 38] Batch 50/168 (30%)
+  [Epoch 38] Batch 100/168 (60%)
+  [Epoch 38] Batch 150/168 (89%)
+[Epoch 38/700] train_loss=0.7998 val_loss=0.7862 lr=9.93e-04 (10s)
+  [Epoch 39] Batch 50/168 (30%)
+  [Epoch 39] Batch 100/168 (60%)
+  [Epoch 39] Batch 150/168 (89%)
+[Epoch 39/700] train_loss=0.7990 val_loss=0.8170 lr=9.92e-04 (10s)
