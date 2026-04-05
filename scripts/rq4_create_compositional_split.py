@@ -111,10 +111,18 @@ def main():
             data = np.load(path, allow_pickle=True)
             all_split_files.setdefault(suffix, []).append(data)
 
-    # Concatenate all splits
+    # Concatenate all splits — only keep files present in ALL splits
+    n_splits_loaded = sum(1 for s in ["train", "valid", "test"]
+                         if (dst / f"{s}_ts.npy").exists())
     merged = {}
     for suffix in sorted(all_suffixes):
-        merged[suffix] = np.concatenate(all_split_files[suffix], axis=0)
+        parts = all_split_files[suffix]
+        if len(parts) != n_splits_loaded:
+            total_len = sum(p.shape[0] for p in parts)
+            print(f"  [skip] {suffix}: only in {len(parts)}/{n_splits_loaded} splits "
+                  f"({total_len} samples, expected {total_samples})")
+            continue
+        merged[suffix] = np.concatenate(parts, axis=0)
 
     all_ts = merged["ts.npy"]
     all_attrs = merged["attrs_idx.npy"]
