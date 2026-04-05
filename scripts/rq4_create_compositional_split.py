@@ -2,21 +2,18 @@
 """
 RQ4 Data Preparation: Create a structured compositional split of synth-m.
 
-Instead of random holdout (which produces only dist=1 in a dense 128-combo
-space), we use a STRUCTURED holdout strategy:
+Strategy:
+  1. Copy the ENTIRE synth-m folder to synth-m-compo (preserving all files)
+  2. Re-split: hold out attribute combos with "novel values" for testing
+  3. Overwrite train/valid/test npy files with the new split
 
-  - Define "novel values" for 3 of 4 attributes: attr0=3, attr2=3, attr3=3
-  - Training set: combos where NONE of these novel values appear
-    → 3*2*3*3 = 54 combos (42% of 128)
-  - Test set: combos where AT LEAST ONE novel value appears
-    → 74 combos (58%)
+This preserves ALL auxiliary files (cap_emb, caps, meta.json, etc.) that
+the evaluation pipeline needs, avoiding missing-file errors.
 
-This creates a natural Hamming distance gradient:
-  - 1 novel attr → dist=1 from training (54 combos) → Head
-  - 2 novel attrs → dist=2 from training (18 combos) → Tail
-  - 3 novel attrs → dist=3 from training (2 combos)  → Tail
-
-Produces: datasets/synth-m-compo/
+Novel values: attr0=3 (trend), attr2=3 (periodicity), attr3=3 (shape)
+  - Training: combos where NONE of these appear (54 combos, ~42%)
+  - Test: combos with AT LEAST ONE novel value (74 combos, ~58%)
+    - dist=1: 54 combos, dist=2: 18 combos, dist=3: 2 combos
 
 Usage:
     python scripts/rq4_create_compositional_split.py \
@@ -28,108 +25,109 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import glob
 import json
+import shutil
 from pathlib import Path
 
 import numpy as np
 
 
-# Novel attribute values: these values will NOT appear in training
-# synth-m attributes: trend(4), volatility(2), periodicity(4), shape(4)
-# We pick the last class of 3 attributes as "novel"
+# Novel attribute values: these will NOT appear in training
+# synth-m: trend(4), volatility(2), periodicity(4), shape(4)
 NOVEL_VALUES = {
-    0: 3,   # trend type: class 3 is novel
+    0: 3,   # trend: class 3 is novel
     2: 3,   # periodicity: class 3 is novel
     3: 3,   # shape: class 3 is novel
 }
-# Note: attr1 (volatility) only has 2 classes, not used as novel dimension
 
 
 def count_novel(attrs_row: np.ndarray) -> int:
-    """Count how many novel attribute values are present in a sample."""
-    count = 0
-    for dim, novel_val in NOVEL_VALUES.items():
-        if attrs_row[dim] == novel_val:
-            count += 1
-    return count
+    """Count how many novel attribute values are present."""
+    return sum(1 for dim, val in NOVEL_VALUES.items() if attrs_row[dim] == val)
 
 
 def combo_key(attrs_row: np.ndarray) -> tuple:
     return tuple(attrs_row.tolist())
 
 
+def find_split_npy_files(folder: Path, split: str) -> dict:
+    """Find all npy files for a given split, return {suffix: path} dict.
+
+    E.g. for split='train': {'ts.npy': Path(...), 'caps.npy': Path(...), ...}
+    Also matches benchmark-style names like train_text_caps_embeddings_1024.npy.
+    """
+    files = {}
+    for p in sorted(folder.glob(f"{split}_*.npy")):
+        suffix = p.name[len(split) + 1:]  # strip "{split}_"
+        files[suffix] = p
+    return files
+
+
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--src", type=str, default="./datasets/synth-m",
-                        help="Source synth-m dataset folder")
-    parser.add_argument("--dst", type=str, default="./datasets/synth-m-compo",
-                        help="Output dataset folder for compositional split")
+    parser.add_argument("--src", type=str, default="./datasets/synth-m")
+    parser.add_argument("--dst", type=str, default="./datasets/synth-m-compo")
     parser.add_argument("--seed", type=int, default=42)
-    parser.add_argument("--val-ratio", type=float, default=0.1,
-                        help="Fraction of training samples for validation")
+    parser.add_argument("--val-ratio", type=float, default=0.1)
     args = parser.parse_args()
 
     rng = np.random.RandomState(args.seed)
     src = Path(args.src)
     dst = Path(args.dst)
 
-    # ---- Load ALL data (merge original train+valid+test) ----
-    all_ts, all_caps, all_cap_emb, all_attrs = [], [], [], []
+    # ================================================================
+    # Step 0: Copy entire source folder
+    # ================================================================
+    if dst.exists():
+        shutil.rmtree(dst)
+    shutil.copytree(src, dst)
+    print(f"Copied {src} -> {dst}")
+    print(f"Files preserved:")
+    for f in sorted(dst.iterdir()):
+        print(f"  {f.name}  ({f.stat().st_size:,} bytes)")
+    print()
+
+    # ================================================================
+    # Step 1: Load all samples (merge train+valid+test)
+    # ================================================================
+    # Discover all per-split npy files so we can re-split ALL of them
+    all_split_files = {}  # suffix -> list of arrays (one per original split)
+    all_suffixes = set()
+    total_samples = 0
 
     for split in ["train", "valid", "test"]:
-        ts_path = src / f"{split}_ts.npy"
-        if not ts_path.exists():
-            print(f"  [skip] {ts_path} not found")
+        npy_files = find_split_npy_files(dst, split)
+        if "ts.npy" not in npy_files:
+            print(f"  [skip] {split}_ts.npy not found")
             continue
 
-        ts = np.load(ts_path)
-        all_ts.append(ts)
-        print(f"  Loaded {split}_ts: {ts.shape}")
+        n = np.load(npy_files["ts.npy"]).shape[0]
+        print(f"  {split}: {n} samples, files: {list(npy_files.keys())}")
+        total_samples += n
 
-        caps_path = src / f"{split}_caps.npy"
-        if caps_path.exists():
-            all_caps.append(np.load(caps_path, allow_pickle=True))
+        for suffix, path in npy_files.items():
+            all_suffixes.add(suffix)
+            data = np.load(path, allow_pickle=True)
+            all_split_files.setdefault(suffix, []).append(data)
 
-        # Try cap_emb.npy first, then benchmark-style text_caps_embeddings_*.npy
-        cap_emb_path = src / f"{split}_cap_emb.npy"
-        if cap_emb_path.exists():
-            all_cap_emb.append(np.load(cap_emb_path))
-            print(f"  Loaded {split}_cap_emb: {all_cap_emb[-1].shape}")
-        else:
-            import glob
-            pattern = str(src / f"{split}_text_caps_embeddings_*.npy")
-            emb_files = sorted(glob.glob(pattern))
-            if emb_files:
-                # Prefer 1024-dim embeddings
-                chosen = emb_files[0]
-                for f in emb_files:
-                    if "1024" in f:
-                        chosen = f
-                        break
-                all_cap_emb.append(np.load(chosen))
-                print(f"  Loaded {chosen}: {all_cap_emb[-1].shape}")
+    # Concatenate all splits
+    merged = {}
+    for suffix in sorted(all_suffixes):
+        merged[suffix] = np.concatenate(all_split_files[suffix], axis=0)
 
-        attrs_path = src / f"{split}_attrs_idx.npy"
-        if attrs_path.exists():
-            all_attrs.append(np.load(attrs_path))
-
-    all_ts = np.concatenate(all_ts, axis=0)
-    all_attrs = np.concatenate(all_attrs, axis=0)
-    has_caps = len(all_caps) > 0
-    has_cap_emb = len(all_cap_emb) > 0
-    if has_caps:
-        all_caps = np.concatenate(all_caps, axis=0)
-    if has_cap_emb:
-        all_cap_emb = np.concatenate(all_cap_emb, axis=0)
-
+    all_ts = merged["ts.npy"]
+    all_attrs = merged["attrs_idx.npy"]
     N = len(all_ts)
     A = all_attrs.shape[1]
-    print(f"\nTotal samples: {N}, Attributes: {A}")
-    print(f"Attribute ranges: {[len(np.unique(all_attrs[:, i])) for i in range(A)]}")
-    print(f"  has_caps (raw text): {has_caps} ({len(all_caps)} samples)" if has_caps else "  has_caps: False  *** WARNING: no text captions found! ***")
-    print(f"  has_cap_emb (embeddings): {has_cap_emb} ({len(all_cap_emb)} samples)" if has_cap_emb else "  has_cap_emb: False  *** WARNING: no text embeddings found! ***")
 
-    # ---- Classify each sample by novelty level ----
+    print(f"\nTotal: {N} samples, {A} attributes")
+    print(f"Attribute ranges: {[len(np.unique(all_attrs[:, i])) for i in range(A)]}")
+    print(f"All per-sample files: {sorted(all_suffixes)}")
+
+    # ================================================================
+    # Step 2: Classify by novelty level & split
+    # ================================================================
     novelty_levels = np.array([count_novel(all_attrs[i]) for i in range(N)])
 
     print(f"\nNovel values: {NOVEL_VALUES}")
@@ -139,14 +137,9 @@ def main():
         if n > 0:
             print(f"  level {lv} (Hamming dist={lv}): {n} samples")
 
-    # ---- Split: train = novelty 0, test = novelty >= 1 ----
-    train_mask = novelty_levels == 0
-    test_mask = novelty_levels >= 1
+    train_indices = np.where(novelty_levels == 0)[0]
+    test_indices = np.where(novelty_levels >= 1)[0]
 
-    train_indices = np.where(train_mask)[0]
-    test_indices = np.where(test_mask)[0]
-
-    # Shuffle
     rng.shuffle(train_indices)
     rng.shuffle(test_indices)
 
@@ -155,46 +148,39 @@ def main():
     val_indices = train_indices[:n_val]
     train_indices = train_indices[n_val:]
 
-    # ---- Compute combo statistics ----
     train_combos = set(combo_key(all_attrs[i]) for i in train_indices)
-    val_combos = set(combo_key(all_attrs[i]) for i in val_indices)
     test_combos = set(combo_key(all_attrs[i]) for i in test_indices)
 
     print(f"\nFinal split:")
-    print(f"  Train: {len(train_indices)} samples ({len(train_combos)} unique combos)")
-    print(f"  Valid: {len(val_indices)} samples ({len(val_combos)} unique combos)")
-    print(f"  Test:  {len(test_indices)} samples ({len(test_combos)} unique combos)")
+    print(f"  Train: {len(train_indices)} samples ({len(train_combos)} combos)")
+    print(f"  Valid: {len(val_indices)} samples")
+    print(f"  Test:  {len(test_indices)} samples ({len(test_combos)} combos)")
 
-    # ---- Verify Hamming distances ----
-    train_attrs_arr = all_attrs[np.concatenate([train_indices, val_indices])]
-    test_attrs_arr = all_attrs[test_indices]
-
-    # For each test sample, compute min Hamming distance to training
-    print(f"\nTest set Hamming distance distribution to training:")
     test_novelty = novelty_levels[test_indices]
+    print(f"\nTest Hamming distance distribution:")
     for lv in sorted(np.unique(test_novelty)):
-        n = (test_novelty == lv).sum()
-        print(f"  dist={lv}: {n} samples")
+        print(f"  dist={lv}: {(test_novelty == lv).sum()} samples")
 
-    # ---- Write new dataset ----
-    dst.mkdir(parents=True, exist_ok=True)
+    # ================================================================
+    # Step 3: Overwrite ALL per-split npy files with new split
+    # ================================================================
+    print(f"\nOverwriting split files in {dst}:")
 
     def save_split(name, indices):
         indices = np.array(indices)
-        np.save(dst / f"{name}_ts.npy", all_ts[indices])
-        np.save(dst / f"{name}_attrs_idx.npy", all_attrs[indices])
-        if has_caps:
-            np.save(dst / f"{name}_caps.npy", all_caps[indices])
-        if has_cap_emb:
-            np.save(dst / f"{name}_cap_emb.npy", all_cap_emb[indices])
-        print(f"  Saved {name}: {len(indices)} samples")
+        for suffix, full_data in merged.items():
+            out_path = dst / f"{name}_{suffix}"
+            np.save(out_path, full_data[indices])
+        print(f"  {name}: {len(indices)} samples x {len(merged)} files")
 
     save_split("train", train_indices)
     save_split("valid", val_indices)
     save_split("test", test_indices)
 
-    # ---- Save metadata ----
-    meta_path = src / "meta.json"
+    # ================================================================
+    # Step 4: Update meta.json
+    # ================================================================
+    meta_path = dst / "meta.json"
     meta = {}
     if meta_path.exists():
         with open(meta_path) as f:
@@ -214,11 +200,10 @@ def main():
             for lv in sorted(np.unique(test_novelty))
         },
     }
-    with open(dst / "meta.json", "w") as f:
+    with open(meta_path, "w") as f:
         json.dump(meta, f, indent=2)
 
-    print(f"\nDataset saved to: {dst}")
-    print(f"Meta saved to: {dst / 'meta.json'}")
+    print(f"\nDone! Dataset: {dst}")
 
 
 if __name__ == "__main__":
