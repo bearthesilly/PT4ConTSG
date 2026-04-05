@@ -90,9 +90,24 @@ def main():
         if caps_path.exists():
             all_caps.append(np.load(caps_path, allow_pickle=True))
 
+        # Try cap_emb.npy first, then benchmark-style text_caps_embeddings_*.npy
         cap_emb_path = src / f"{split}_cap_emb.npy"
         if cap_emb_path.exists():
             all_cap_emb.append(np.load(cap_emb_path))
+            print(f"  Loaded {split}_cap_emb: {all_cap_emb[-1].shape}")
+        else:
+            import glob
+            pattern = str(src / f"{split}_text_caps_embeddings_*.npy")
+            emb_files = sorted(glob.glob(pattern))
+            if emb_files:
+                # Prefer 1024-dim embeddings
+                chosen = emb_files[0]
+                for f in emb_files:
+                    if "1024" in f:
+                        chosen = f
+                        break
+                all_cap_emb.append(np.load(chosen))
+                print(f"  Loaded {chosen}: {all_cap_emb[-1].shape}")
 
         attrs_path = src / f"{split}_attrs_idx.npy"
         if attrs_path.exists():
@@ -111,6 +126,8 @@ def main():
     A = all_attrs.shape[1]
     print(f"\nTotal samples: {N}, Attributes: {A}")
     print(f"Attribute ranges: {[len(np.unique(all_attrs[:, i])) for i in range(A)]}")
+    print(f"  has_caps (raw text): {has_caps} ({len(all_caps)} samples)" if has_caps else "  has_caps: False  *** WARNING: no text captions found! ***")
+    print(f"  has_cap_emb (embeddings): {has_cap_emb} ({len(all_cap_emb)} samples)" if has_cap_emb else "  has_cap_emb: False  *** WARNING: no text embeddings found! ***")
 
     # ---- Classify each sample by novelty level ----
     novelty_levels = np.array([count_novel(all_attrs[i]) for i in range(N)])

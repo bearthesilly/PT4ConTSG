@@ -51,9 +51,10 @@ echo "================================================================="
 echo " Phase 1 Complete. Finding experiment directories..."
 echo "================================================================="
 
-# Auto-detect the two most recent experiment directories
-PTFG_NOCT=$(ls -td experiments/*synth-m*pt_factor* 2>/dev/null | head -1)
-PTFG_BEST=$(ls -td experiments/*synth-m*pt_factor* 2>/dev/null | head -2 | tail -1)
+# Auto-detect the two most recent experiment directories (created today)
+TODAY=$(date +%Y%m%d)
+PTFG_NOCT=$(ls -td experiments/${TODAY}*synth-m*pt_factor* 2>/dev/null | head -1)
+PTFG_BEST=$(ls -td experiments/${TODAY}*synth-m*pt_factor* 2>/dev/null | head -2 | tail -1)
 
 echo "  PTFG_BEST = $PTFG_BEST"
 echo "  PTFG_NOCT = $PTFG_NOCT"

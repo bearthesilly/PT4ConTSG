@@ -78,7 +78,7 @@ condition:
     dropout: 0.0
     cfg_scale: 1.0
   attribute:
-    enabled: false
+    enabled: true
     continuous_dim: 0
     discrete_configs:
     - num_classes: 4   # trend type
