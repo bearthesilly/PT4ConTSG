@@ -1,20 +1,27 @@
 # -*- coding: utf-8 -*-
 """
-RQ4 Data Preparation: Create a compositional split of synth-m.
+RQ4 Data Preparation: Create a structured compositional split of synth-m.
 
-Holds out ~25% of attribute combinations for testing. The remaining
-~75% are used for training. This guarantees that the test set contains
-novel attribute combinations unseen during training, enabling
-meaningful Head-Tail analysis for compositional generalization.
+Instead of random holdout (which produces only dist=1 in a dense 128-combo
+space), we use a STRUCTURED holdout strategy:
 
-Produces a new dataset folder: datasets/synth-m-compo/
-with the same file structure as synth-m but with the new split.
+  - Define "novel values" for 3 of 4 attributes: attr0=3, attr2=3, attr3=3
+  - Training set: combos where NONE of these novel values appear
+    → 3*2*3*3 = 54 combos (42% of 128)
+  - Test set: combos where AT LEAST ONE novel value appears
+    → 74 combos (58%)
+
+This creates a natural Hamming distance gradient:
+  - 1 novel attr → dist=1 from training (54 combos) → Head
+  - 2 novel attrs → dist=2 from training (18 combos) → Tail
+  - 3 novel attrs → dist=3 from training (2 combos)  → Tail
+
+Produces: datasets/synth-m-compo/
 
 Usage:
     python scripts/rq4_create_compositional_split.py \
         --src ./datasets/synth-m \
         --dst ./datasets/synth-m-compo \
-        --holdout-ratio 0.25 \
         --seed 42
 """
 
@@ -22,10 +29,29 @@ from __future__ import annotations
 
 import argparse
 import json
-import shutil
 from pathlib import Path
 
 import numpy as np
+
+
+# Novel attribute values: these values will NOT appear in training
+# synth-m attributes: trend(4), volatility(2), periodicity(4), shape(4)
+# We pick the last class of 3 attributes as "novel"
+NOVEL_VALUES = {
+    0: 3,   # trend type: class 3 is novel
+    2: 3,   # periodicity: class 3 is novel
+    3: 3,   # shape: class 3 is novel
+}
+# Note: attr1 (volatility) only has 2 classes, not used as novel dimension
+
+
+def count_novel(attrs_row: np.ndarray) -> int:
+    """Count how many novel attribute values are present in a sample."""
+    count = 0
+    for dim, novel_val in NOVEL_VALUES.items():
+        if attrs_row[dim] == novel_val:
+            count += 1
+    return count
 
 
 def combo_key(attrs_row: np.ndarray) -> tuple:
@@ -38,11 +64,9 @@ def main():
                         help="Source synth-m dataset folder")
     parser.add_argument("--dst", type=str, default="./datasets/synth-m-compo",
                         help="Output dataset folder for compositional split")
-    parser.add_argument("--holdout-ratio", type=float, default=0.25,
-                        help="Fraction of unique combinations to hold out for test")
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--val-ratio", type=float, default=0.1,
-                        help="Fraction of training combos' samples for validation")
+                        help="Fraction of training samples for validation")
     args = parser.parse_args()
 
     rng = np.random.RandomState(args.seed)
@@ -86,76 +110,54 @@ def main():
     N = len(all_ts)
     A = all_attrs.shape[1]
     print(f"\nTotal samples: {N}, Attributes: {A}")
+    print(f"Attribute ranges: {[len(np.unique(all_attrs[:, i])) for i in range(A)]}")
 
-    # ---- Enumerate unique attribute combinations ----
-    combo_to_indices = {}
-    for i in range(N):
-        key = combo_key(all_attrs[i])
-        combo_to_indices.setdefault(key, []).append(i)
+    # ---- Classify each sample by novelty level ----
+    novelty_levels = np.array([count_novel(all_attrs[i]) for i in range(N)])
 
-    unique_combos = sorted(combo_to_indices.keys())
-    n_combos = len(unique_combos)
-    print(f"Unique attribute combinations: {n_combos}")
+    print(f"\nNovel values: {NOVEL_VALUES}")
+    print(f"Samples by novelty level:")
+    for lv in range(4):
+        n = (novelty_levels == lv).sum()
+        if n > 0:
+            print(f"  level {lv} (Hamming dist={lv}): {n} samples")
 
-    # ---- Stratified holdout: ensure test combos span various Hamming distances ----
-    # We hold out ~25% of combos, trying to get a range of distances
-    n_holdout = max(1, int(n_combos * args.holdout_ratio))
-    n_train_combos = n_combos - n_holdout
+    # ---- Split: train = novelty 0, test = novelty >= 1 ----
+    train_mask = novelty_levels == 0
+    test_mask = novelty_levels >= 1
 
-    # Shuffle and split
-    perm = rng.permutation(n_combos)
-    train_combo_idx = perm[:n_train_combos]
-    test_combo_idx = perm[n_train_combos:]
+    train_indices = np.where(train_mask)[0]
+    test_indices = np.where(test_mask)[0]
 
-    train_combos = set(unique_combos[i] for i in train_combo_idx)
-    test_combos = set(unique_combos[i] for i in test_combo_idx)
+    # Shuffle
+    rng.shuffle(train_indices)
+    rng.shuffle(test_indices)
 
-    print(f"Training combos: {len(train_combos)}")
-    print(f"Test (held-out) combos: {len(test_combos)}")
+    # Split off validation from training
+    n_val = max(1, int(len(train_indices) * args.val_ratio))
+    val_indices = train_indices[:n_val]
+    train_indices = train_indices[n_val:]
 
-    # ---- Verify Hamming distances of test combos to train combos ----
-    train_combos_arr = np.array(sorted(train_combos))  # (n_train_combos, A)
-    test_combos_arr = np.array(sorted(test_combos))    # (n_test_combos, A)
-
-    # Min Hamming distance for each test combo to nearest train combo
-    min_dists = []
-    for tc in test_combos_arr:
-        dists = (tc[None, :] != train_combos_arr).sum(axis=1)
-        min_dists.append(dists.min())
-    min_dists = np.array(min_dists)
-
-    print(f"\nHeld-out combos Hamming distance to training (min per combo):")
-    for d in range(A + 1):
-        count = (min_dists == d).sum()
-        if count > 0:
-            print(f"  dist={d}: {count} combos")
-
-    if (min_dists == 0).any():
-        print("\n  WARNING: Some held-out combos have dist=0 (exist in training).")
-        print("  This should not happen. Check for duplicates.")
-
-    # ---- Collect sample indices ----
-    train_sample_idx = []
-    for combo in sorted(train_combos):
-        train_sample_idx.extend(combo_to_indices[combo])
-
-    test_sample_idx = []
-    for combo in sorted(test_combos):
-        test_sample_idx.extend(combo_to_indices[combo])
-
-    # Shuffle within splits
-    rng.shuffle(train_sample_idx)
-    rng.shuffle(test_sample_idx)
-
-    # Split off validation from training samples
-    n_val = max(1, int(len(train_sample_idx) * args.val_ratio))
-    val_sample_idx = train_sample_idx[:n_val]
-    train_sample_idx = train_sample_idx[n_val:]
+    # ---- Compute combo statistics ----
+    train_combos = set(combo_key(all_attrs[i]) for i in train_indices)
+    val_combos = set(combo_key(all_attrs[i]) for i in val_indices)
+    test_combos = set(combo_key(all_attrs[i]) for i in test_indices)
 
     print(f"\nFinal split:")
-    print(f"  Train: {len(train_sample_idx)} samples ({len(train_combos)} combos)")
-    print(f"  Valid: {len(val_sample_idx)} samples (subset of train combos)")
-    print(f"  Test:  {len(test_sample_idx)} samples ({len(test_combos)} held-out combos)")
+    print(f"  Train: {len(train_indices)} samples ({len(train_combos)} unique combos)")
+    print(f"  Valid: {len(val_indices)} samples ({len(val_combos)} unique combos)")
+    print(f"  Test:  {len(test_indices)} samples ({len(test_combos)} unique combos)")
+
+    # ---- Verify Hamming distances ----
+    train_attrs_arr = all_attrs[np.concatenate([train_indices, val_indices])]
+    test_attrs_arr = all_attrs[test_indices]
+
+    # For each test sample, compute min Hamming distance to training
+    print(f"\nTest set Hamming distance distribution to training:")
+    test_novelty = novelty_levels[test_indices]
+    for lv in sorted(np.unique(test_novelty)):
+        n = (test_novelty == lv).sum()
+        print(f"  dist={lv}: {n} samples")
 
     # ---- Write new dataset ----
     dst.mkdir(parents=True, exist_ok=True)
@@ -168,12 +170,13 @@ def main():
             np.save(dst / f"{name}_caps.npy", all_caps[indices])
         if has_cap_emb:
             np.save(dst / f"{name}_cap_emb.npy", all_cap_emb[indices])
+        print(f"  Saved {name}: {len(indices)} samples")
 
-    save_split("train", train_sample_idx)
-    save_split("valid", val_sample_idx)
-    save_split("test", test_sample_idx)
+    save_split("train", train_indices)
+    save_split("valid", val_indices)
+    save_split("test", test_indices)
 
-    # Copy meta.json if exists, add split info
+    # ---- Save metadata ----
     meta_path = src / "meta.json"
     meta = {}
     if meta_path.exists():
@@ -181,22 +184,21 @@ def main():
             meta = json.load(f)
 
     meta["compositional_split"] = {
+        "strategy": "structured_novel_values",
+        "novel_values": {str(k): int(v) for k, v in NOVEL_VALUES.items()},
         "seed": args.seed,
-        "holdout_ratio": args.holdout_ratio,
         "n_train_combos": len(train_combos),
         "n_test_combos": len(test_combos),
-        "n_train_samples": len(train_sample_idx),
-        "n_val_samples": len(val_sample_idx),
-        "n_test_samples": len(test_sample_idx),
-        "test_hamming_dist_distribution": {
-            str(d): int((min_dists == d).sum()) for d in range(A + 1)
+        "n_train_samples": len(train_indices),
+        "n_val_samples": len(val_indices),
+        "n_test_samples": len(test_indices),
+        "test_distance_distribution": {
+            str(lv): int((test_novelty == lv).sum())
+            for lv in sorted(np.unique(test_novelty))
         },
     }
     with open(dst / "meta.json", "w") as f:
         json.dump(meta, f, indent=2)
-
-    # Save train combo list for reference (used by evaluation script)
-    np.save(dst / "train_combos.npy", train_combos_arr)
 
     print(f"\nDataset saved to: {dst}")
     print(f"Meta saved to: {dst / 'meta.json'}")
