@@ -1,50 +1,81 @@
 seed: 42
 device: cuda:0
 train:
+  stages:
+  - name: finetune
+    epochs: 700
+    lr: 0.001
+    use_condition: true
+    freeze_modules: []
+    early_stopping_patience: 50
   epochs: 700
-  batch_size: 64
+  batch_size: 128
   lr: 0.001
   weight_decay: 0.0001
   scheduler: cosine
+  scheduler_params: {}
   early_stopping_patience: 50
   gradient_clip_val: 1.0
-  accumulate_grad_batches: 4
+  accumulate_grad_batches: 1
+  val_check_interval: 1.0
   num_workers: 4
+  pin_memory: true
+  limit_train_batches: 1.0
+  limit_val_batches: 1.0
+  limit_test_batches: 1.0
+  num_sanity_val_steps: 2
+  log_grad_norm: true
+  log_param_norm: true
+  log_norm_every_n_steps: 50
 data:
   name: ptbxl_morphology
-  data_folder: ./datasets/ptbxl_morphology
+  data_folder: /storage/group/renkan/lansc/gents_bench/huggingface_archive/datasets/ptbxl_morphology
   n_var: 12
   seq_length: 1000
   normalize: false
+  train_split: 0.8
+  val_split: 0.1
 model:
   name: verbalts
-  layers: 3
   channels: 64
+  layers: 3
   nheads: 8
-  diffusion_steps: 50
-  noise_schedule: quad
-  beta_start: 0.0001
-  beta_end: 0.5
+  dropout: 0.1
   condition_type: adaLN
   L_patch_len: 3
   multipatch_num: 3
   base_patch: 9
+  diffusion_steps: 50
   attention_mask_type: parallel
-  var_dep_type: DEP
+  noise_schedule: quad
+  beta_start: 0.0001
+  beta_end: 0.5
   side_var_emb: 16
   side_time_emb: 112
+  var_dep_type: DEP
 condition:
   text:
     enabled: true
     input_dim: 1024
+    embedding_key: cap_emb
+    dropout: 0.0
     text_projector: var_scale_diffstep_multi
     num_stages: 3
+    cfg_scale: 1.0
   attribute:
     enabled: false
+    continuous_dim: 0
+    discrete_configs: []
+    output_dim: 128
+    dropout: 0.0
   label:
     enabled: false
+    num_classes: 10
+    output_dim: 64
   fusion: concat
+  condition_dropout: 0.1
 eval:
+  n_samples: 10
   metrics:
   - dtw
   - wape
@@ -59,14 +90,57 @@ eval:
   - prdc_f1
   - joint_prdc_f1
   - cttp
-  n_samples: 10
-  batch_size: 128
+  - disc_auc
+  batch_size: 64
   save_samples: true
+  sampler: ddim
+  display_interval: 10
+  clip_config_path: /storage/group/renkan/lansc/gents_bench/contsg_repo/configs/cttp/cttp_ptbxl_morphology.yaml
+  clip_model_path: /storage/group/renkan/lansc/gents_bench/constg_results/ptb_intrinsic_cttp/20251230_172328_ptbxl_intrinsic_cttp/checkpoints/finetune/finetune-epoch=183-val/loss=4.1135.ckpt
+  cache_folder: ./cache/ptbxl_morphology
+  use_longalign: false
+  reference_split: train
+  disc_auc:
+    k_folds: 5
+    epochs: 5
+    batch_size: 128
+    lr: 0.001
+    weight_decay: 0.0001
+    hidden_channels: 128
+    num_layers: 3
+    dropout: 0.1
+    seed: 42
+    num_workers: 0
+  prdc:
+    k: 5
+    max_samples: 5000
+    seed: 0
+    metric: euclidean
+    backend: auto
+    knn_chunk_size: 4096
+    joint_enable: true
+    joint_weights:
+      ts: 1.0
+      text: 1.0
+    joint_normalize: standard
+  segment_classifier:
+    enable: false
+    segment_len: 1000
+    n_segments: 3
+    seed: 42
+  acd_max_lag: 50
+  mdd_bins: 32
+  use_cache: false
+  cache_file: predictions_cache.pkl
   viz:
     enable: true
-    n_cases: 20
+    k_cases: 20
+    max_vars: 8
+    ncols: 5
+    seed: 42
+    dpi: 200
+    alpha: 0.25
+    figsize_per_subplot:
+    - 3.0
+    - 2.0
     output_type: pdf
-  clip_config_path: ./configs/cttp/<CTTP_CONFIG>.yaml
-  clip_model_path: ./checkpoints/cttp/<CTTP_CHECKPOINT>.ckpt
-  clip_normalize_embeddings: false
-  cache_folder: ./cache/ptbxl_morphology

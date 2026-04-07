@@ -1,0 +1,85 @@
+Loading experiment: experiments/20260407_102205_synth-m_pt_factor_generator
+Using checkpoint: /public/home/xiongzhzh2023/PT4ConTSG/experiments/20260407_102205_synth-m_pt_factor_generator/checkpoints/finetune/finetune-epoch=180-val/loss=0.5236.ckpt
+Computing metrics: dtw, wape, ed, crps, acd, sd, kd, mdd, fid, jftsd, prdc_f1, joint_prdc_f1, cttp, disc_auc
+Samples per condition: 10
+Sampler: ddim
+Initializing CLIP embedder...
+Loading weights:   0%|          | 0/197 [00:00<?, ?it/s]Loading weights: 100%|██████████| 197/197 [00:00<00:00, 3666.22it/s]
+[1mCLIPTextModelWithProjection LOAD REPORT[0m from: ./checkpoints/longclip
+Key                                                            | Status     |  | 
+---------------------------------------------------------------+------------+--+-
+vision_model.encoder.layers.{0...23}.layer_norm2.weight        | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.layer_norm1.bias          | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.mlp.fc2.bias              | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.mlp.fc1.weight            | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.layer_norm1.weight        | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.mlp.fc1.bias              | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.k_proj.bias     | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.layer_norm2.bias          | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.v_proj.weight   | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.out_proj.bias   | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.k_proj.weight   | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.q_proj.weight   | UNEXPECTED |  | 
+logit_scale                                                    | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.mlp.fc2.weight            | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.out_proj.weight | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.q_proj.bias     | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.v_proj.bias     | UNEXPECTED |  | 
+vision_model.embeddings.class_embedding                        | UNEXPECTED |  | 
+vision_model.embeddings.patch_embedding.weight                 | UNEXPECTED |  | 
+vision_model.pre_layrnorm.bias                                 | UNEXPECTED |  | 
+vision_model.post_layernorm.weight                             | UNEXPECTED |  | 
+vision_model.post_layernorm.bias                               | UNEXPECTED |  | 
+vision_model.pre_layrnorm.weight                               | UNEXPECTED |  | 
+visual_projection.weight                                       | UNEXPECTED |  | 
+vision_model.embeddings.position_embedding.weight              | UNEXPECTED |  | 
+
+[3mNotes:
+- UNEXPECTED[3m	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.[0m
+CLIP initialized successfully
+
+Running evaluation...
+[Evaluating (generating)] Starting (0/145)...
+[Evaluating (generating)] 1/145 (1%)
+[Evaluating (generating)] 15/145 (10%)
+[Evaluating (generating)] 29/145 (20%)
+[Evaluating (generating)] 44/145 (30%)
+[Evaluating (generating)] 58/145 (40%)
+[Evaluating (generating)] 73/145 (50%)
+[Evaluating (generating)] 88/145 (61%)
+[Evaluating (generating)] 102/145 (70%)
+[Evaluating (generating)] 116/145 (80%)
+[Evaluating (generating)] 131/145 (90%)
+[Evaluating (generating)] 145/145 (100%)
+[Evaluating (generating)] Completed (145 items)
+/public/home/xiongzhzh2023/PT4ConTSG/contsg/eval/metrics/specialized.py:328: RuntimeWarning: overflow encountered in exp
+  probs = 1.0 / (1.0 + np.exp(-logits_np))
+/public/home/xiongzhzh2023/PT4ConTSG/contsg/eval/metrics/specialized.py:328: RuntimeWarning: overflow encountered in exp
+  probs = 1.0 / (1.0 + np.exp(-logits_np))
+/public/home/xiongzhzh2023/PT4ConTSG/contsg/eval/metrics/specialized.py:328: RuntimeWarning: overflow encountered in exp
+  probs = 1.0 / (1.0 + np.exp(-logits_np))
+
+Results saved to: experiments/20260407_102205_synth-m_pt_factor_generator/results/eval_results.json
+           Evaluation Results           
+┏━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
+┃ Metric                  ┃      Value ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━┩
+│ dtw                     │  12.649850 │
+│ wape                    │ 102.665237 │
+│ ed                      │  16.016344 │
+│ crps                    │   0.611436 │
+│ acd                     │   0.078782 │
+│ sd                      │   0.065374 │
+│ kd                      │   0.178518 │
+│ mdd                     │   0.015074 │
+│ fid                     │  57.464949 │
+│ jftsd                   │  65.959778 │
+│ cttp                    │  16.226316 │
+│ disc_auc                │   0.999346 │
+│ prdc_f1.f1              │   0.271537 │
+│ prdc_f1.precision       │   0.289076 │
+│ prdc_f1.recall          │   0.256004 │
+│ joint_prdc_f1.f1        │   0.143721 │
+│ joint_prdc_f1.precision │   0.107184 │
+│ joint_prdc_f1.recall    │   0.218054 │
+└─────────────────────────┴────────────┘

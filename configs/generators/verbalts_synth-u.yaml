@@ -61,7 +61,7 @@ condition:
     dropout: 0.0
     text_projector: var_scale_diffstep_multi
     num_stages: 3
-    cfg_scale: 1.0
+    cfg_scale: 1.5
   attribute:
     enabled: false
     continuous_dim: 0
@@ -73,7 +73,7 @@ condition:
     num_classes: 10
     output_dim: 64
   fusion: concat
-  condition_dropout: 0.0
+  condition_dropout: 0.1
 eval:
   n_samples: 10
   metrics:
@@ -86,7 +86,6 @@ eval:
   - kd
   - mdd
   - fid
-  - sfd
   - jftsd
   - prdc_f1
   - joint_prdc_f1
@@ -97,7 +96,7 @@ eval:
   sampler: ddim
   display_interval: 10
   clip_config_path: ./configs/cttp/cttp_synth-u.yaml
-  clip_model_path: ./checkpoints/cttp/<CTTP_CHECKPOINT>.ckpt
+  clip_model_path: ./checkpoints/cttp/clip_model_synth-u.pth
   cache_folder: ./cache/synth-u
   use_longalign: false
   reference_split: train
@@ -125,8 +124,8 @@ eval:
       text: 1.0
     joint_normalize: standard
   segment_classifier:
-    enable: false
-    segment_len: 128
+    enable: true
+    segment_len: 43
     n_segments: 3
     seed: 42
   acd_max_lag: 50

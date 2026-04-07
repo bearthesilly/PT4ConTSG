@@ -73,7 +73,7 @@ condition:
     num_classes: 10
     output_dim: 64
   fusion: concat
-  condition_dropout: 0.0
+  condition_dropout: 0.1
 eval:
   n_samples: 10
   metrics:
@@ -86,7 +86,6 @@ eval:
   - kd
   - mdd
   - fid
-  - sfd
   - jftsd
   - prdc_f1
   - joint_prdc_f1

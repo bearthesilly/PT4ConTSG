@@ -1,0 +1,81 @@
+Loading experiment: experiments/20260407_121523_synth-m_pt_factor_generator
+Using checkpoint: /public/home/xiongzhzh2023/PT4ConTSG/experiments/20260407_121523_synth-m_pt_factor_generator/checkpoints/finetune/finetune-epoch=33-val/loss=0.6686.ckpt
+Computing metrics: dtw, wape, ed, crps, acd, sd, kd, mdd, fid, jftsd, prdc_f1, joint_prdc_f1, cttp, disc_auc
+Samples per condition: 10
+Sampler: ddim
+Initializing CLIP embedder...
+Loading weights:   0%|          | 0/197 [00:00<?, ?it/s]Loading weights: 100%|██████████| 197/197 [00:00<00:00, 3437.40it/s]
+[1mCLIPTextModelWithProjection LOAD REPORT[0m from: ./checkpoints/longclip
+Key                                                            | Status     |  | 
+---------------------------------------------------------------+------------+--+-
+vision_model.encoder.layers.{0...23}.mlp.fc1.bias              | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.q_proj.weight   | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.k_proj.weight   | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.k_proj.bias     | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.mlp.fc1.weight            | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.q_proj.bias     | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.layer_norm2.weight        | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.out_proj.weight | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.mlp.fc2.weight            | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.layer_norm2.bias          | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.out_proj.bias   | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.mlp.fc2.bias              | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.layer_norm1.bias          | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.v_proj.bias     | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.v_proj.weight   | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.layer_norm1.weight        | UNEXPECTED |  | 
+logit_scale                                                    | UNEXPECTED |  | 
+vision_model.post_layernorm.bias                               | UNEXPECTED |  | 
+vision_model.pre_layrnorm.bias                                 | UNEXPECTED |  | 
+vision_model.post_layernorm.weight                             | UNEXPECTED |  | 
+vision_model.embeddings.class_embedding                        | UNEXPECTED |  | 
+vision_model.pre_layrnorm.weight                               | UNEXPECTED |  | 
+vision_model.embeddings.patch_embedding.weight                 | UNEXPECTED |  | 
+vision_model.embeddings.position_embedding.weight              | UNEXPECTED |  | 
+visual_projection.weight                                       | UNEXPECTED |  | 
+
+[3mNotes:
+- UNEXPECTED[3m	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.[0m
+CLIP initialized successfully
+
+Running evaluation...
+[Evaluating (generating)] Starting (0/145)...
+[Evaluating (generating)] 1/145 (1%)
+[Evaluating (generating)] 15/145 (10%)
+[Evaluating (generating)] 29/145 (20%)
+[Evaluating (generating)] 44/145 (30%)
+[Evaluating (generating)] 58/145 (40%)
+[Evaluating (generating)] 73/145 (50%)
+[Evaluating (generating)] 88/145 (61%)
+[Evaluating (generating)] 102/145 (70%)
+[Evaluating (generating)] 116/145 (80%)
+[Evaluating (generating)] 131/145 (90%)
+[Evaluating (generating)] 145/145 (100%)
+[Evaluating (generating)] Completed (145 items)
+/public/home/xiongzhzh2023/PT4ConTSG/contsg/eval/metrics/specialized.py:328: RuntimeWarning: overflow encountered in exp
+  probs = 1.0 / (1.0 + np.exp(-logits_np))
+
+Results saved to: experiments/20260407_121523_synth-m_pt_factor_generator/results/eval_results.json
+           Evaluation Results           
+┏━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
+┃ Metric                  ┃      Value ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━┩
+│ dtw                     │  13.774592 │
+│ wape                    │ 102.789246 │
+│ ed                      │  16.228783 │
+│ crps                    │   0.555384 │
+│ acd                     │   0.062472 │
+│ sd                      │   0.014669 │
+│ kd                      │   0.197137 │
+│ mdd                     │   0.018852 │
+│ fid                     │  48.356004 │
+│ jftsd                   │  57.407656 │
+│ cttp                    │  11.486062 │
+│ disc_auc                │   0.999941 │
+│ prdc_f1.f1              │   0.203318 │
+│ prdc_f1.precision       │   0.308430 │
+│ prdc_f1.recall          │   0.151640 │
+│ joint_prdc_f1.f1        │   0.141635 │
+│ joint_prdc_f1.precision │   0.114069 │
+│ joint_prdc_f1.recall    │   0.186771 │
+└─────────────────────────┴────────────┘

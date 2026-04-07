@@ -1,0 +1,306 @@
+Loading config from: configs/ablation/rq4_D_text_attr_fusion.yaml
+Model schema mode: relaxed (no model-specific schema for 'pt_factor_generator')
+         Configuration Summary         
+┌───────────────┬─────────────────────┐
+│ Dataset       │ synth-m             │
+│ Model         │ pt_factor_generator │
+│ Epochs        │ 700                 │
+│ Batch Size    │ 128                 │
+│ Learning Rate │ 0.001               │
+│ Device        │ cuda:0              │
+│ Seed          │ 42                  │
+└───────────────┴─────────────────────┘
+
+Experiment directory: experiments/20260407_121523_synth-m_pt_factor_generator
+Seed set to 42
+
+Model: pt_factor_generator
+Creating data module: synth-m
+
+Starting multi-stage training (1 stage(s))...
+  Stage 1: finetune (700 epochs, lr=0.001)
+/public/home/xiongzhzh2023/Anaconda/envs/contsg/lib/python3.12/site-packages/lightning_fabric/plugins/environments/slurm.py:204: The `srun` command is available on your system but is not used. HINT: If your intention is to run Lightning on SLURM, prepend your python command with `srun` like so: srun python3.1 /public/home/xiongzhzh2023/Anaconda/envs/contsg/b ...
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+`Trainer(limit_train_batches=1.0)` was configured so 100% of the batches per epoch will be used..
+`Trainer(limit_val_batches=1.0)` was configured so 100% of the batches will be used..
+`Trainer(limit_test_batches=1.0)` was configured so 100% of the batches will be used..
+`Trainer(val_check_interval=1.0)` was configured so validation will run at the end of the training epoch..
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+┏━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━┳━━━━━━━┓
+┃   ┃ Name          ┃ Type                   ┃ Params ┃ Mode  ┃ FLOPs ┃
+┡━━━╇━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━╇━━━━━━━┩
+│ 0 │ net           │ PTFactorNoisePredictor │  5.2 M │ train │     0 │
+│ 1 │ _attr_encoder │ AttrEncoder            │  1.1 M │ train │     0 │
+│ 2 │ _fusion_proj  │ Sequential             │  3.1 M │ train │     0 │
+│   │ other params  │ n/a                    │  1.0 K │ n/a   │   n/a │
+└───┴───────────────┴────────────────────────┴────────┴───────┴───────┘
+Trainable params: 9.5 M                                                                                                                                                                         
+Non-trainable params: 0                                                                                                                                                                         
+Total params: 9.5 M                                                                                                                                                                             
+Total estimated model params size (MB): 37                                                                                                                                                      
+Modules in train mode: 213                                                                                                                                                                      
+Modules in eval mode: 0                                                                                                                                                                         
+Total FLOPs: 0                                                                                                                                                                                  
+/public/home/xiongzhzh2023/Anaconda/envs/contsg/lib/python3.12/site-packages/pytorch_lightning/utilities/data.py:79: Trying to infer the `batch_size` from an ambiguous collection. The batch size we found is 128. To avoid any miscalculations, use `self.log(..., batch_size=batch_size)`.
+
+[Training] Starting 700 epochs...
+  [Epoch 1] Batch 50/95 (53%)
+/public/home/xiongzhzh2023/Anaconda/envs/contsg/lib/python3.12/site-packages/pytorch_lightning/utilities/data.py:79: Trying to infer the `batch_size` from an ambiguous collection. The batch size we found is 75. To avoid any miscalculations, use `self.log(..., batch_size=batch_size)`.
+[Epoch 1/700] train_loss=1.3868 val_loss=0.9279 lr=1.00e-03 (11s)
+Metric val/loss improved. New best score: 0.928
+  [Epoch 2] Batch 50/95 (53%)
+[Epoch 2/700] train_loss=0.8867 val_loss=0.8593 lr=1.00e-03 (10s)
+Metric val/loss improved by 0.069 >= min_delta = 0.0. New best score: 0.859
+  [Epoch 3] Batch 50/95 (53%)
+[Epoch 3/700] train_loss=0.8511 val_loss=0.8386 lr=1.00e-03 (11s)
+Metric val/loss improved by 0.021 >= min_delta = 0.0. New best score: 0.839
+  [Epoch 4] Batch 50/95 (53%)
+[Epoch 4/700] train_loss=0.8302 val_loss=0.8411 lr=1.00e-03 (10s)
+  [Epoch 5] Batch 50/95 (53%)
+[Epoch 5/700] train_loss=0.8128 val_loss=0.8052 lr=1.00e-03 (11s)
+Metric val/loss improved by 0.033 >= min_delta = 0.0. New best score: 0.805
+  [Epoch 6] Batch 50/95 (53%)
+[Epoch 6/700] train_loss=0.8026 val_loss=0.7921 lr=1.00e-03 (11s)
+Metric val/loss improved by 0.013 >= min_delta = 0.0. New best score: 0.792
+  [Epoch 7] Batch 50/95 (53%)
+[Epoch 7/700] train_loss=0.7986 val_loss=0.8019 lr=1.00e-03 (10s)
+  [Epoch 8] Batch 50/95 (53%)
+[Epoch 8/700] train_loss=0.7882 val_loss=0.7907 lr=1.00e-03 (11s)
+Metric val/loss improved by 0.001 >= min_delta = 0.0. New best score: 0.791
+  [Epoch 9] Batch 50/95 (53%)
+[Epoch 9/700] train_loss=0.7712 val_loss=0.7530 lr=1.00e-03 (10s)
+Metric val/loss improved by 0.038 >= min_delta = 0.0. New best score: 0.753
+  [Epoch 10] Batch 50/95 (53%)
+[Epoch 10/700] train_loss=0.7721 val_loss=0.7571 lr=9.99e-04 (10s)
+  [Epoch 11] Batch 50/95 (53%)
+[Epoch 11/700] train_loss=0.7519 val_loss=0.7524 lr=9.99e-04 (12s)
+Metric val/loss improved by 0.001 >= min_delta = 0.0. New best score: 0.752
+  [Epoch 12] Batch 50/95 (53%)
+[Epoch 12/700] train_loss=0.7516 val_loss=0.7054 lr=9.99e-04 (11s)
+Metric val/loss improved by 0.047 >= min_delta = 0.0. New best score: 0.705
+  [Epoch 13] Batch 50/95 (53%)
+[Epoch 13/700] train_loss=0.7461 val_loss=0.7564 lr=9.99e-04 (11s)
+  [Epoch 14] Batch 50/95 (53%)
+[Epoch 14/700] train_loss=0.7442 val_loss=0.7409 lr=9.99e-04 (11s)
+  [Epoch 15] Batch 50/95 (53%)
+[Epoch 15/700] train_loss=0.7365 val_loss=0.7352 lr=9.99e-04 (11s)
+  [Epoch 16] Batch 50/95 (53%)
+[Epoch 16/700] train_loss=0.7349 val_loss=0.7210 lr=9.99e-04 (10s)
+  [Epoch 17] Batch 50/95 (53%)
+[Epoch 17/700] train_loss=0.7303 val_loss=0.7773 lr=9.99e-04 (10s)
+  [Epoch 18] Batch 50/95 (53%)
+[Epoch 18/700] train_loss=0.7301 val_loss=0.7308 lr=9.98e-04 (11s)
+  [Epoch 19] Batch 50/95 (53%)
+[Epoch 19/700] train_loss=0.7273 val_loss=0.7390 lr=9.98e-04 (11s)
+  [Epoch 20] Batch 50/95 (53%)
+[Epoch 20/700] train_loss=0.7214 val_loss=0.7455 lr=9.98e-04 (10s)
+  [Epoch 21] Batch 50/95 (53%)
+[Epoch 21/700] train_loss=0.7154 val_loss=0.7172 lr=9.98e-04 (11s)
+  [Epoch 22] Batch 50/95 (53%)
+[Epoch 22/700] train_loss=0.7224 val_loss=0.7300 lr=9.98e-04 (10s)
+  [Epoch 23] Batch 50/95 (53%)
+[Epoch 23/700] train_loss=0.7206 val_loss=0.7150 lr=9.97e-04 (11s)
+  [Epoch 24] Batch 50/95 (53%)
+[Epoch 24/700] train_loss=0.7175 val_loss=0.7280 lr=9.97e-04 (9s)
+  [Epoch 25] Batch 50/95 (53%)
+[Epoch 25/700] train_loss=0.7122 val_loss=0.7212 lr=9.97e-04 (11s)
+  [Epoch 26] Batch 50/95 (53%)
+[Epoch 26/700] train_loss=0.7097 val_loss=0.7329 lr=9.97e-04 (11s)
+  [Epoch 27] Batch 50/95 (53%)
+[Epoch 27/700] train_loss=0.7081 val_loss=0.7401 lr=9.96e-04 (12s)
+  [Epoch 28] Batch 50/95 (53%)
+[Epoch 28/700] train_loss=0.7129 val_loss=0.7093 lr=9.96e-04 (11s)
+  [Epoch 29] Batch 50/95 (53%)
+[Epoch 29/700] train_loss=0.7119 val_loss=0.6887 lr=9.96e-04 (8s)
+Metric val/loss improved by 0.017 >= min_delta = 0.0. New best score: 0.689
+  [Epoch 30] Batch 50/95 (53%)
+[Epoch 30/700] train_loss=0.7076 val_loss=0.6961 lr=9.95e-04 (6s)
+  [Epoch 31] Batch 50/95 (53%)
+[Epoch 31/700] train_loss=0.7080 val_loss=0.7188 lr=9.95e-04 (7s)
+  [Epoch 32] Batch 50/95 (53%)
+[Epoch 32/700] train_loss=0.7027 val_loss=0.7118 lr=9.95e-04 (8s)
+  [Epoch 33] Batch 50/95 (53%)
+[Epoch 33/700] train_loss=0.7055 val_loss=0.6993 lr=9.95e-04 (7s)
+  [Epoch 34] Batch 50/95 (53%)
+[Epoch 34/700] train_loss=0.7091 val_loss=0.6686 lr=9.94e-04 (6s)
+Metric val/loss improved by 0.020 >= min_delta = 0.0. New best score: 0.669
+  [Epoch 35] Batch 50/95 (53%)
+[Epoch 35/700] train_loss=0.7012 val_loss=0.7567 lr=9.94e-04 (7s)
+  [Epoch 36] Batch 50/95 (53%)
+[Epoch 36/700] train_loss=14.7498 val_loss=0.9128 lr=9.93e-04 (7s)
+  [Epoch 37] Batch 50/95 (53%)
+[Epoch 37/700] train_loss=0.8980 val_loss=0.8791 lr=9.93e-04 (7s)
+  [Epoch 38] Batch 50/95 (53%)
+[Epoch 38/700] train_loss=0.8633 val_loss=0.8604 lr=9.93e-04 (7s)
+  [Epoch 39] Batch 50/95 (53%)
+[Epoch 39/700] train_loss=0.8476 val_loss=0.8374 lr=9.92e-04 (6s)
+  [Epoch 40] Batch 50/95 (53%)
+[Epoch 40/700] train_loss=0.8417 val_loss=0.8117 lr=9.92e-04 (6s)
+  [Epoch 41] Batch 50/95 (53%)
+[Epoch 41/700] train_loss=0.8364 val_loss=0.8324 lr=9.92e-04 (7s)
+  [Epoch 42] Batch 50/95 (53%)
+[Epoch 42/700] train_loss=0.8210 val_loss=0.8035 lr=9.91e-04 (7s)
+  [Epoch 43] Batch 50/95 (53%)
+[Epoch 43/700] train_loss=0.8178 val_loss=0.8159 lr=9.91e-04 (6s)
+  [Epoch 44] Batch 50/95 (53%)
+[Epoch 44/700] train_loss=0.8103 val_loss=0.8115 lr=9.90e-04 (6s)
+  [Epoch 45] Batch 50/95 (53%)
+[Epoch 45/700] train_loss=0.7951 val_loss=0.8083 lr=9.90e-04 (7s)
+  [Epoch 46] Batch 50/95 (53%)
+[Epoch 46/700] train_loss=0.7954 val_loss=0.7918 lr=9.89e-04 (7s)
+  [Epoch 47] Batch 50/95 (53%)
+[Epoch 47/700] train_loss=0.7984 val_loss=0.8067 lr=9.89e-04 (7s)
+  [Epoch 48] Batch 50/95 (53%)
+[Epoch 48/700] train_loss=0.8071 val_loss=0.8254 lr=9.88e-04 (7s)
+  [Epoch 49] Batch 50/95 (53%)
+[Epoch 49/700] train_loss=0.8296 val_loss=0.8512 lr=9.88e-04 (6s)
+  [Epoch 50] Batch 50/95 (53%)
+[Epoch 50/700] train_loss=0.8562 val_loss=0.9376 lr=9.87e-04 (6s)
+  [Epoch 51] Batch 50/95 (53%)
+[Epoch 51/700] train_loss=1.0714 val_loss=0.9741 lr=9.87e-04 (6s)
+  [Epoch 52] Batch 50/95 (53%)
+[Epoch 52/700] train_loss=0.9791 val_loss=1.0076 lr=9.86e-04 (6s)
+  [Epoch 53] Batch 50/95 (53%)
+[Epoch 53/700] train_loss=3.1594 val_loss=0.9969 lr=9.86e-04 (6s)
+  [Epoch 54] Batch 50/95 (53%)
+[Epoch 54/700] train_loss=0.9549 val_loss=0.9339 lr=9.85e-04 (6s)
+  [Epoch 55] Batch 50/95 (53%)
+[Epoch 55/700] train_loss=0.9336 val_loss=0.9203 lr=9.85e-04 (6s)
+  [Epoch 56] Batch 50/95 (53%)
+[Epoch 56/700] train_loss=0.9294 val_loss=0.9314 lr=9.84e-04 (6s)
+  [Epoch 57] Batch 50/95 (53%)
+[Epoch 57/700] train_loss=0.9390 val_loss=0.9701 lr=9.84e-04 (7s)
+  [Epoch 58] Batch 50/95 (53%)
+[Epoch 58/700] train_loss=0.9335 val_loss=0.9305 lr=9.83e-04 (6s)
+  [Epoch 59] Batch 50/95 (53%)
+[Epoch 59/700] train_loss=0.9357 val_loss=0.9949 lr=9.83e-04 (6s)
+  [Epoch 60] Batch 50/95 (53%)
+[Epoch 60/700] train_loss=0.9471 val_loss=0.9249 lr=9.82e-04 (6s)
+  [Epoch 61] Batch 50/95 (53%)
+[Epoch 61/700] train_loss=0.9289 val_loss=0.9078 lr=9.81e-04 (6s)
+  [Epoch 62] Batch 50/95 (53%)
+[Epoch 62/700] train_loss=0.9207 val_loss=0.9307 lr=9.81e-04 (6s)
+  [Epoch 63] Batch 50/95 (53%)
+[Epoch 63/700] train_loss=0.9099 val_loss=0.9050 lr=9.80e-04 (6s)
+  [Epoch 64] Batch 50/95 (53%)
+[Epoch 64/700] train_loss=0.9110 val_loss=0.9107 lr=9.80e-04 (6s)
+  [Epoch 65] Batch 50/95 (53%)
+[Epoch 65/700] train_loss=0.9017 val_loss=0.9159 lr=9.79e-04 (6s)
+  [Epoch 66] Batch 50/95 (53%)
+[Epoch 66/700] train_loss=0.9009 val_loss=0.9088 lr=9.78e-04 (6s)
+  [Epoch 67] Batch 50/95 (53%)
+[Epoch 67/700] train_loss=0.8851 val_loss=0.9029 lr=9.78e-04 (6s)
+  [Epoch 68] Batch 50/95 (53%)
+[Epoch 68/700] train_loss=1.0990 val_loss=0.8870 lr=9.77e-04 (6s)
+  [Epoch 69] Batch 50/95 (53%)
+[Epoch 69/700] train_loss=0.8855 val_loss=0.8737 lr=9.76e-04 (7s)
+  [Epoch 70] Batch 50/95 (53%)
+[Epoch 70/700] train_loss=0.8819 val_loss=0.8918 lr=9.76e-04 (6s)
+  [Epoch 71] Batch 50/95 (53%)
+[Epoch 71/700] train_loss=0.8836 val_loss=0.8649 lr=9.75e-04 (7s)
+  [Epoch 72] Batch 50/95 (53%)
+[Epoch 72/700] train_loss=0.8766 val_loss=0.8832 lr=9.74e-04 (7s)
+  [Epoch 73] Batch 50/95 (53%)
+[Epoch 73/700] train_loss=0.8767 val_loss=0.9005 lr=9.73e-04 (6s)
+  [Epoch 74] Batch 50/95 (53%)
+[Epoch 74/700] train_loss=0.8762 val_loss=0.8872 lr=9.73e-04 (6s)
+  [Epoch 75] Batch 50/95 (53%)
+[Epoch 75/700] train_loss=0.8799 val_loss=0.8688 lr=9.72e-04 (8s)
+  [Epoch 76] Batch 50/95 (53%)
+[Epoch 76/700] train_loss=0.8661 val_loss=0.8834 lr=9.71e-04 (6s)
+  [Epoch 77] Batch 50/95 (53%)
+[Epoch 77/700] train_loss=0.8629 val_loss=0.8853 lr=9.70e-04 (7s)
+  [Epoch 78] Batch 50/95 (53%)
+[Epoch 78/700] train_loss=0.8651 val_loss=0.8706 lr=9.70e-04 (7s)
+  [Epoch 79] Batch 50/95 (53%)
+[Epoch 79/700] train_loss=0.8649 val_loss=0.8649 lr=9.69e-04 (6s)
+  [Epoch 80] Batch 50/95 (53%)
+[Epoch 80/700] train_loss=0.8634 val_loss=0.8901 lr=9.68e-04 (6s)
+  [Epoch 81] Batch 50/95 (53%)
+[Epoch 81/700] train_loss=0.8633 val_loss=0.8587 lr=9.67e-04 (6s)
+  [Epoch 82] Batch 50/95 (53%)
+[Epoch 82/700] train_loss=0.8525 val_loss=0.8534 lr=9.67e-04 (6s)
+  [Epoch 83] Batch 50/95 (53%)
+[Epoch 83/700] train_loss=0.8530 val_loss=0.8456 lr=9.66e-04 (6s)
+  [Epoch 84] Batch 50/95 (53%)
+[Epoch 84/700] train_loss=0.8536 val_loss=0.8486 lr=9.65e-04 (6s)
+Monitored metric val/loss did not improve in the last 50 records. Best score: 0.669. Signaling Trainer to stop.
+
+[Training] Completed!
+
+✓ Training completed!
+  Final checkpoint: /public/home/xiongzhzh2023/PT4ConTSG/experiments/20260407_121523_synth-m_pt_factor_generator/checkpoints/finetune/finetune-epoch=33-val/loss=0.6686.ckpt
+  Experiment: experiments/20260407_121523_synth-m_pt_factor_generator
+
+Running automatic evaluation...
+Loading weights:   0%|          | 0/197 [00:00<?, ?it/s]Loading weights: 100%|██████████| 197/197 [00:00<00:00, 3568.22it/s]
+[1mCLIPTextModelWithProjection LOAD REPORT[0m from: ./checkpoints/longclip
+Key                                                            | Status     |  | 
+---------------------------------------------------------------+------------+--+-
+vision_model.encoder.layers.{0...23}.mlp.fc2.weight            | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.v_proj.bias     | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.v_proj.weight   | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.k_proj.bias     | UNEXPECTED |  | 
+vision_model.post_layernorm.weight                             | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.q_proj.weight   | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.layer_norm1.weight        | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.layer_norm2.weight        | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.out_proj.bias   | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.mlp.fc2.bias              | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.mlp.fc1.bias              | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.k_proj.weight   | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.layer_norm2.bias          | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.out_proj.weight | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.q_proj.bias     | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.layer_norm1.bias          | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.mlp.fc1.weight            | UNEXPECTED |  | 
+visual_projection.weight                                       | UNEXPECTED |  | 
+vision_model.embeddings.position_embedding.weight              | UNEXPECTED |  | 
+vision_model.embeddings.class_embedding                        | UNEXPECTED |  | 
+vision_model.pre_layrnorm.weight                               | UNEXPECTED |  | 
+vision_model.pre_layrnorm.bias                                 | UNEXPECTED |  | 
+logit_scale                                                    | UNEXPECTED |  | 
+vision_model.post_layernorm.bias                               | UNEXPECTED |  | 
+vision_model.embeddings.patch_embedding.weight                 | UNEXPECTED |  | 
+
+[3mNotes:
+- UNEXPECTED[3m	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.[0m
+[Evaluating (generating)] Starting (0/145)...
+[Evaluating (generating)] 1/145 (1%)
+[Evaluating (generating)] 15/145 (10%)
+[Evaluating (generating)] 29/145 (20%)
+[Evaluating (generating)] 44/145 (30%)
+[Evaluating (generating)] 58/145 (40%)
+[Evaluating (generating)] 73/145 (50%)
+[Evaluating (generating)] 88/145 (61%)
+[Evaluating (generating)] 102/145 (70%)
+[Evaluating (generating)] 116/145 (80%)
+[Evaluating (generating)] 131/145 (90%)
+[Evaluating (generating)] 145/145 (100%)
+[Evaluating (generating)] Completed (145 items)
+Evaluation results saved to: experiments/20260407_121523_synth-m_pt_factor_generator/results/eval_results.json
+           Evaluation Results           
+┏━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┓
+┃ Metric                  ┃      Value ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━┩
+│ dtw                     │  13.774236 │
+│ wape                    │ 102.748787 │
+│ ed                      │  16.224230 │
+│ crps                    │   0.555116 │
+│ acd                     │   0.062144 │
+│ sd                      │   0.011018 │
+│ kd                      │   0.200242 │
+│ mdd                     │   0.018925 │
+│ fid                     │  48.722343 │
+│ jftsd                   │  57.744397 │
+│ cttp                    │  11.612567 │
+│ disc_auc                │   0.999934 │
+│ prdc_f1.f1              │   0.206816 │
+│ prdc_f1.precision       │   0.301708 │
+│ prdc_f1.recall          │   0.157333 │
+│ joint_prdc_f1.f1        │   0.142408 │
+│ joint_prdc_f1.precision │   0.115533 │
+│ joint_prdc_f1.recall    │   0.185579 │
+└─────────────────────────┴────────────┘
