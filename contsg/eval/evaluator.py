@@ -1050,12 +1050,18 @@ class Evaluator:
         )
 
     def _select_condition(self, batch: Dict[str, Any]) -> Optional[Tensor]:
-        """Select the appropriate condition tensor based on config and batch."""
+        """Select the appropriate condition tensor based on config and batch.
+
+        When both text and attribute are enabled, text (cap_emb) is returned as
+        the primary condition tensor; attrs are passed via gen_kwargs separately
+        so that the model's generate() can fuse them internally.
+        """
         if not getattr(self.model, "use_condition", True):
             return None
 
         cond_cfg = self.config.condition
 
+        # When both text+attr enabled, return text as primary (attrs via kwargs)
         if cond_cfg.text.enabled:
             if "cap_emb" in batch:
                 return batch["cap_emb"]

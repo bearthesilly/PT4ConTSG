@@ -816,6 +816,18 @@ class PTFactorGeneratorModule(BaseGeneratorModule):
         self._attr_enabled  = cond_cfg.attribute.enabled
         self._label_enabled = cond_cfg.label.enabled
 
+        # ── [V2-14] Text+Attr fusion projection ────────────────────────────
+        self._cond_fusion: Optional[str] = None
+        self._fusion_proj: Optional[nn.Module] = None
+        if self._text_enabled and self._attr_enabled and self._attr_encoder is not None:
+            text_dim = int(getattr(cond_cfg.text, "input_dim", cond_dim))
+            self._cond_fusion = str(getattr(cond_cfg, "fusion", "concat"))
+            self._fusion_proj = nn.Sequential(
+                nn.Linear(text_dim + cond_dim, cond_dim),
+                nn.SiLU(),
+                nn.Linear(cond_dim, cond_dim),
+            )
+
     # ---------------------------------------------------------------
     # Condition extraction
     # ---------------------------------------------------------------
@@ -831,7 +843,16 @@ class PTFactorGeneratorModule(BaseGeneratorModule):
         if force_null or not self.use_condition:
             return self.null_condition.expand(B, -1).to(device)
 
-        if self._text_enabled and "cap_emb" in batch:
+        # [V2-14] Text+Attr fusion: concat both modalities when both enabled
+        if (self._cond_fusion is not None
+                and self._fusion_proj is not None
+                and "cap_emb" in batch
+                and "attrs" in batch
+                and self._attr_encoder is not None):
+            text_cond = batch["cap_emb"].float().to(device)
+            attr_cond = self._attr_encoder(batch["attrs"].to(device))
+            cond = self._fusion_proj(torch.cat([text_cond, attr_cond], dim=-1))
+        elif self._text_enabled and "cap_emb" in batch:
             cond = batch["cap_emb"].float().to(device)
         elif self._attr_enabled and "attrs" in batch and self._attr_encoder is not None:
             cond = self._attr_encoder(batch["attrs"].to(device))
@@ -991,7 +1012,18 @@ class PTFactorGeneratorModule(BaseGeneratorModule):
         steps = int(kwargs.get("steps", self.sample_steps))
 
         # Encode condition once
-        if self._attr_enabled and self._attr_encoder is not None and not condition.is_floating_point():
+        # [V2-14] Text+Attr fusion: when both enabled, condition is cap_emb
+        # and attrs comes via kwargs
+        attrs = kwargs.get("attrs", None)
+        if (self._cond_fusion is not None
+                and self._fusion_proj is not None
+                and self._attr_encoder is not None
+                and attrs is not None
+                and condition.is_floating_point()):
+            text_cond = condition.float().to(device)
+            attr_cond = self._attr_encoder(attrs.to(device))
+            cond = self._fusion_proj(torch.cat([text_cond, attr_cond], dim=-1))
+        elif self._attr_enabled and self._attr_encoder is not None and not condition.is_floating_point():
             cond = self._attr_encoder(condition.to(device))
         else:
             cond = condition.float().to(device)
