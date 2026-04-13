@@ -1,0 +1,380 @@
+Loading config from: configs/generators/verbalts_airquality_beijing.yaml
+Model schema mode: relaxed (builtin: VerbalTSModelConfig)
+        Configuration Summary         
+┌───────────────┬────────────────────┐
+│ Dataset       │ airquality_beijing │
+│ Model         │ verbalts           │
+│ Epochs        │ 700                │
+│ Batch Size    │ 128                │
+│ Learning Rate │ 0.001              │
+│ Device        │ cuda:0             │
+│ Seed          │ 42                 │
+└───────────────┴────────────────────┘
+
+Experiment directory: experiments/20260407_182806_airquality_beijing_verbalts
+Seed set to 42
+
+Model: verbalts
+Creating data module: airquality_beijing
+
+Starting multi-stage training (1 stage(s))...
+  Stage 1: finetune (700 epochs, lr=0.001)
+/public/home/xiongzhzh2023/Anaconda/envs/contsg/lib/python3.12/site-packages/lightning_fabric/plugins/environments/slurm.py:204: The `srun` command is available on your system but is not used. HINT: If your intention is to run Lightning on SLURM, prepend your python command with `srun` like so: srun python3.1 /public/home/xiongzhzh2023/Anaconda/envs/contsg/b ...
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+`Trainer(limit_train_batches=1.0)` was configured so 100% of the batches per epoch will be used..
+`Trainer(limit_val_batches=1.0)` was configured so 100% of the batches will be used..
+`Trainer(limit_test_batches=1.0)` was configured so 100% of the batches will be used..
+`Trainer(val_check_interval=1.0)` was configured so validation will run at the end of the training epoch..
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+┏━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━┳━━━━━━━┓
+┃   ┃ Name           ┃ Type                         ┃ Params ┃ Mode  ┃ FLOPs ┃
+┡━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━╇━━━━━━━┩
+│ 0 │ verbalts       │ VerbalTSCore                 │  400 K │ train │     0 │
+│ 1 │ cond_projector │ TextProjectorMVarMScaleMStep │ 51.3 M │ train │     0 │
+└───┴────────────────┴──────────────────────────────┴────────┴───────┴───────┘
+Trainable params: 51.7 M                                                                                                                                                                        
+Non-trainable params: 0                                                                                                                                                                         
+Total params: 51.7 M                                                                                                                                                                            
+Total estimated model params size (MB): 206                                                                                                                                                     
+Modules in train mode: 222                                                                                                                                                                      
+Modules in eval mode: 0                                                                                                                                                                         
+Total FLOPs: 0                                                                                                                                                                                  
+/public/home/xiongzhzh2023/Anaconda/envs/contsg/lib/python3.12/site-packages/pytorch_lightning/utilities/data.py:79: Trying to infer the `batch_size` from an ambiguous collection. The batch size we found is 128. To avoid any miscalculations, use `self.log(..., batch_size=batch_size)`.
+
+[Training] Starting 700 epochs...
+  [Epoch 1] Batch 50/109 (46%)
+  [Epoch 1] Batch 100/109 (92%)
+/public/home/xiongzhzh2023/Anaconda/envs/contsg/lib/python3.12/site-packages/pytorch_lightning/utilities/data.py:79: Trying to infer the `batch_size` from an ambiguous collection. The batch size we found is 89. To avoid any miscalculations, use `self.log(..., batch_size=batch_size)`.
+[Epoch 1/700] train_loss=0.3434 val_loss=0.2796 lr=1.00e-03 (14s)
+Metric val/loss improved. New best score: 0.280
+  [Epoch 2] Batch 50/109 (46%)
+  [Epoch 2] Batch 100/109 (92%)
+[Epoch 2/700] train_loss=0.2624 val_loss=0.2544 lr=1.00e-03 (14s)
+Metric val/loss improved by 0.025 >= min_delta = 0.0. New best score: 0.254
+  [Epoch 3] Batch 50/109 (46%)
+  [Epoch 3] Batch 100/109 (92%)
+[Epoch 3/700] train_loss=0.2451 val_loss=0.2344 lr=1.00e-03 (14s)
+Metric val/loss improved by 0.020 >= min_delta = 0.0. New best score: 0.234
+  [Epoch 4] Batch 50/109 (46%)
+  [Epoch 4] Batch 100/109 (92%)
+[Epoch 4/700] train_loss=0.2359 val_loss=0.2254 lr=1.00e-03 (14s)
+Metric val/loss improved by 0.009 >= min_delta = 0.0. New best score: 0.225
+  [Epoch 5] Batch 50/109 (46%)
+  [Epoch 5] Batch 100/109 (92%)
+[Epoch 5/700] train_loss=0.2268 val_loss=0.2148 lr=1.00e-03 (14s)
+Metric val/loss improved by 0.011 >= min_delta = 0.0. New best score: 0.215
+  [Epoch 6] Batch 50/109 (46%)
+  [Epoch 6] Batch 100/109 (92%)
+[Epoch 6/700] train_loss=0.2191 val_loss=0.2216 lr=1.00e-03 (14s)
+  [Epoch 7] Batch 50/109 (46%)
+  [Epoch 7] Batch 100/109 (92%)
+[Epoch 7/700] train_loss=0.2181 val_loss=0.2112 lr=1.00e-03 (15s)
+Metric val/loss improved by 0.004 >= min_delta = 0.0. New best score: 0.211
+  [Epoch 8] Batch 50/109 (46%)
+  [Epoch 8] Batch 100/109 (92%)
+[Epoch 8/700] train_loss=0.2156 val_loss=0.2084 lr=1.00e-03 (14s)
+Metric val/loss improved by 0.003 >= min_delta = 0.0. New best score: 0.208
+  [Epoch 9] Batch 50/109 (46%)
+  [Epoch 9] Batch 100/109 (92%)
+[Epoch 9/700] train_loss=0.2169 val_loss=0.2129 lr=1.00e-03 (15s)
+  [Epoch 10] Batch 50/109 (46%)
+  [Epoch 10] Batch 100/109 (92%)
+[Epoch 10/700] train_loss=0.2050 val_loss=0.2061 lr=9.99e-04 (14s)
+Metric val/loss improved by 0.002 >= min_delta = 0.0. New best score: 0.206
+  [Epoch 11] Batch 50/109 (46%)
+  [Epoch 11] Batch 100/109 (92%)
+[Epoch 11/700] train_loss=0.2116 val_loss=0.2104 lr=9.99e-04 (15s)
+  [Epoch 12] Batch 50/109 (46%)
+  [Epoch 12] Batch 100/109 (92%)
+[Epoch 12/700] train_loss=0.2041 val_loss=0.2013 lr=9.99e-04 (15s)
+Metric val/loss improved by 0.005 >= min_delta = 0.0. New best score: 0.201
+  [Epoch 13] Batch 50/109 (46%)
+  [Epoch 13] Batch 100/109 (92%)
+[Epoch 13/700] train_loss=0.2044 val_loss=0.1942 lr=9.99e-04 (15s)
+Metric val/loss improved by 0.007 >= min_delta = 0.0. New best score: 0.194
+  [Epoch 14] Batch 50/109 (46%)
+  [Epoch 14] Batch 100/109 (92%)
+[Epoch 14/700] train_loss=0.2037 val_loss=0.2042 lr=9.99e-04 (14s)
+  [Epoch 15] Batch 50/109 (46%)
+  [Epoch 15] Batch 100/109 (92%)
+[Epoch 15/700] train_loss=0.2012 val_loss=0.2027 lr=9.99e-04 (15s)
+  [Epoch 16] Batch 50/109 (46%)
+  [Epoch 16] Batch 100/109 (92%)
+[Epoch 16/700] train_loss=0.2010 val_loss=0.1969 lr=9.99e-04 (14s)
+  [Epoch 17] Batch 50/109 (46%)
+  [Epoch 17] Batch 100/109 (92%)
+[Epoch 17/700] train_loss=0.2002 val_loss=0.1931 lr=9.99e-04 (15s)
+Metric val/loss improved by 0.001 >= min_delta = 0.0. New best score: 0.193
+  [Epoch 18] Batch 50/109 (46%)
+  [Epoch 18] Batch 100/109 (92%)
+[Epoch 18/700] train_loss=0.1992 val_loss=0.2003 lr=9.98e-04 (15s)
+  [Epoch 19] Batch 50/109 (46%)
+  [Epoch 19] Batch 100/109 (92%)
+[Epoch 19/700] train_loss=0.1999 val_loss=0.2009 lr=9.98e-04 (15s)
+  [Epoch 20] Batch 50/109 (46%)
+  [Epoch 20] Batch 100/109 (92%)
+[Epoch 20/700] train_loss=0.1990 val_loss=0.1942 lr=9.98e-04 (15s)
+  [Epoch 21] Batch 50/109 (46%)
+  [Epoch 21] Batch 100/109 (92%)
+[Epoch 21/700] train_loss=0.1973 val_loss=0.2035 lr=9.98e-04 (15s)
+  [Epoch 22] Batch 50/109 (46%)
+  [Epoch 22] Batch 100/109 (92%)
+[Epoch 22/700] train_loss=0.2023 val_loss=0.1947 lr=9.98e-04 (15s)
+  [Epoch 23] Batch 50/109 (46%)
+  [Epoch 23] Batch 100/109 (92%)
+[Epoch 23/700] train_loss=0.1978 val_loss=0.2049 lr=9.97e-04 (14s)
+  [Epoch 24] Batch 50/109 (46%)
+  [Epoch 24] Batch 100/109 (92%)
+[Epoch 24/700] train_loss=0.1931 val_loss=0.1960 lr=9.97e-04 (14s)
+  [Epoch 25] Batch 50/109 (46%)
+  [Epoch 25] Batch 100/109 (92%)
+[Epoch 25/700] train_loss=0.1960 val_loss=0.1951 lr=9.97e-04 (14s)
+  [Epoch 26] Batch 50/109 (46%)
+  [Epoch 26] Batch 100/109 (92%)
+[Epoch 26/700] train_loss=0.1933 val_loss=0.1970 lr=9.97e-04 (15s)
+  [Epoch 27] Batch 50/109 (46%)
+  [Epoch 27] Batch 100/109 (92%)
+[Epoch 27/700] train_loss=0.1953 val_loss=0.1871 lr=9.96e-04 (15s)
+Metric val/loss improved by 0.006 >= min_delta = 0.0. New best score: 0.187
+  [Epoch 28] Batch 50/109 (46%)
+  [Epoch 28] Batch 100/109 (92%)
+[Epoch 28/700] train_loss=0.1963 val_loss=0.1768 lr=9.96e-04 (14s)
+Metric val/loss improved by 0.010 >= min_delta = 0.0. New best score: 0.177
+  [Epoch 29] Batch 50/109 (46%)
+  [Epoch 29] Batch 100/109 (92%)
+[Epoch 29/700] train_loss=0.1940 val_loss=0.1880 lr=9.96e-04 (15s)
+  [Epoch 30] Batch 50/109 (46%)
+  [Epoch 30] Batch 100/109 (92%)
+[Epoch 30/700] train_loss=0.1944 val_loss=0.1857 lr=9.95e-04 (15s)
+  [Epoch 31] Batch 50/109 (46%)
+  [Epoch 31] Batch 100/109 (92%)
+[Epoch 31/700] train_loss=0.1952 val_loss=0.1870 lr=9.95e-04 (14s)
+  [Epoch 32] Batch 50/109 (46%)
+  [Epoch 32] Batch 100/109 (92%)
+[Epoch 32/700] train_loss=0.1950 val_loss=0.1857 lr=9.95e-04 (14s)
+  [Epoch 33] Batch 50/109 (46%)
+  [Epoch 33] Batch 100/109 (92%)
+[Epoch 33/700] train_loss=0.1949 val_loss=0.1888 lr=9.95e-04 (14s)
+  [Epoch 34] Batch 50/109 (46%)
+  [Epoch 34] Batch 100/109 (92%)
+[Epoch 34/700] train_loss=0.1905 val_loss=0.1903 lr=9.94e-04 (13s)
+  [Epoch 35] Batch 50/109 (46%)
+  [Epoch 35] Batch 100/109 (92%)
+[Epoch 35/700] train_loss=0.1964 val_loss=0.1967 lr=9.94e-04 (14s)
+  [Epoch 36] Batch 50/109 (46%)
+  [Epoch 36] Batch 100/109 (92%)
+[Epoch 36/700] train_loss=0.1933 val_loss=0.1733 lr=9.93e-04 (14s)
+Metric val/loss improved by 0.003 >= min_delta = 0.0. New best score: 0.173
+  [Epoch 37] Batch 50/109 (46%)
+  [Epoch 37] Batch 100/109 (92%)
+[Epoch 37/700] train_loss=0.1916 val_loss=0.1943 lr=9.93e-04 (14s)
+  [Epoch 38] Batch 50/109 (46%)
+  [Epoch 38] Batch 100/109 (92%)
+[Epoch 38/700] train_loss=0.1922 val_loss=0.1825 lr=9.93e-04 (14s)
+  [Epoch 39] Batch 50/109 (46%)
+  [Epoch 39] Batch 100/109 (92%)
+[Epoch 39/700] train_loss=0.1932 val_loss=0.1887 lr=9.92e-04 (14s)
+  [Epoch 40] Batch 50/109 (46%)
+  [Epoch 40] Batch 100/109 (92%)
+[Epoch 40/700] train_loss=0.1932 val_loss=0.1853 lr=9.92e-04 (14s)
+  [Epoch 41] Batch 50/109 (46%)
+  [Epoch 41] Batch 100/109 (92%)
+[Epoch 41/700] train_loss=0.1909 val_loss=0.1847 lr=9.92e-04 (14s)
+  [Epoch 42] Batch 50/109 (46%)
+  [Epoch 42] Batch 100/109 (92%)
+[Epoch 42/700] train_loss=0.1912 val_loss=0.1874 lr=9.91e-04 (14s)
+  [Epoch 43] Batch 50/109 (46%)
+  [Epoch 43] Batch 100/109 (92%)
+[Epoch 43/700] train_loss=0.1933 val_loss=0.1778 lr=9.91e-04 (14s)
+  [Epoch 44] Batch 50/109 (46%)
+  [Epoch 44] Batch 100/109 (92%)
+[Epoch 44/700] train_loss=0.1931 val_loss=0.1791 lr=9.90e-04 (14s)
+  [Epoch 45] Batch 50/109 (46%)
+  [Epoch 45] Batch 100/109 (92%)
+[Epoch 45/700] train_loss=0.1906 val_loss=0.1765 lr=9.90e-04 (14s)
+  [Epoch 46] Batch 50/109 (46%)
+  [Epoch 46] Batch 100/109 (92%)
+[Epoch 46/700] train_loss=0.1895 val_loss=0.1863 lr=9.89e-04 (14s)
+  [Epoch 47] Batch 50/109 (46%)
+  [Epoch 47] Batch 100/109 (92%)
+[Epoch 47/700] train_loss=0.1896 val_loss=0.1781 lr=9.89e-04 (14s)
+  [Epoch 48] Batch 50/109 (46%)
+  [Epoch 48] Batch 100/109 (92%)
+[Epoch 48/700] train_loss=0.1866 val_loss=0.1894 lr=9.88e-04 (14s)
+  [Epoch 49] Batch 50/109 (46%)
+  [Epoch 49] Batch 100/109 (92%)
+[Epoch 49/700] train_loss=0.1885 val_loss=0.1895 lr=9.88e-04 (14s)
+  [Epoch 50] Batch 50/109 (46%)
+  [Epoch 50] Batch 100/109 (92%)
+[Epoch 50/700] train_loss=0.1904 val_loss=0.1906 lr=9.87e-04 (14s)
+  [Epoch 51] Batch 50/109 (46%)
+  [Epoch 51] Batch 100/109 (92%)
+[Epoch 51/700] train_loss=0.1896 val_loss=0.1935 lr=9.87e-04 (14s)
+  [Epoch 52] Batch 50/109 (46%)
+  [Epoch 52] Batch 100/109 (92%)
+[Epoch 52/700] train_loss=0.1902 val_loss=0.1927 lr=9.86e-04 (14s)
+  [Epoch 53] Batch 50/109 (46%)
+  [Epoch 53] Batch 100/109 (92%)
+[Epoch 53/700] train_loss=0.1883 val_loss=0.1957 lr=9.86e-04 (14s)
+  [Epoch 54] Batch 50/109 (46%)
+  [Epoch 54] Batch 100/109 (92%)
+[Epoch 54/700] train_loss=0.1905 val_loss=0.1878 lr=9.85e-04 (14s)
+  [Epoch 55] Batch 50/109 (46%)
+  [Epoch 55] Batch 100/109 (92%)
+[Epoch 55/700] train_loss=0.1879 val_loss=0.1790 lr=9.85e-04 (14s)
+  [Epoch 56] Batch 50/109 (46%)
+  [Epoch 56] Batch 100/109 (92%)
+[Epoch 56/700] train_loss=0.1906 val_loss=0.1813 lr=9.84e-04 (14s)
+  [Epoch 57] Batch 50/109 (46%)
+  [Epoch 57] Batch 100/109 (92%)
+[Epoch 57/700] train_loss=0.1900 val_loss=0.1874 lr=9.84e-04 (14s)
+  [Epoch 58] Batch 50/109 (46%)
+  [Epoch 58] Batch 100/109 (92%)
+[Epoch 58/700] train_loss=0.1865 val_loss=0.1922 lr=9.83e-04 (14s)
+  [Epoch 59] Batch 50/109 (46%)
+  [Epoch 59] Batch 100/109 (92%)
+[Epoch 59/700] train_loss=0.1889 val_loss=0.1770 lr=9.83e-04 (14s)
+  [Epoch 60] Batch 50/109 (46%)
+  [Epoch 60] Batch 100/109 (92%)
+[Epoch 60/700] train_loss=0.1880 val_loss=0.1845 lr=9.82e-04 (14s)
+  [Epoch 61] Batch 50/109 (46%)
+  [Epoch 61] Batch 100/109 (92%)
+[Epoch 61/700] train_loss=0.1874 val_loss=0.1830 lr=9.81e-04 (14s)
+  [Epoch 62] Batch 50/109 (46%)
+  [Epoch 62] Batch 100/109 (92%)
+[Epoch 62/700] train_loss=0.1896 val_loss=0.1783 lr=9.81e-04 (14s)
+  [Epoch 63] Batch 50/109 (46%)
+  [Epoch 63] Batch 100/109 (92%)
+[Epoch 63/700] train_loss=0.1881 val_loss=0.1896 lr=9.80e-04 (14s)
+  [Epoch 64] Batch 50/109 (46%)
+  [Epoch 64] Batch 100/109 (92%)
+[Epoch 64/700] train_loss=0.1910 val_loss=0.1962 lr=9.80e-04 (14s)
+  [Epoch 65] Batch 50/109 (46%)
+  [Epoch 65] Batch 100/109 (92%)
+[Epoch 65/700] train_loss=0.1858 val_loss=0.1826 lr=9.79e-04 (14s)
+  [Epoch 66] Batch 50/109 (46%)
+  [Epoch 66] Batch 100/109 (92%)
+[Epoch 66/700] train_loss=0.1871 val_loss=0.1862 lr=9.78e-04 (14s)
+  [Epoch 67] Batch 50/109 (46%)
+  [Epoch 67] Batch 100/109 (92%)
+[Epoch 67/700] train_loss=0.1886 val_loss=0.1819 lr=9.78e-04 (14s)
+  [Epoch 68] Batch 50/109 (46%)
+  [Epoch 68] Batch 100/109 (92%)
+[Epoch 68/700] train_loss=0.1868 val_loss=0.1844 lr=9.77e-04 (14s)
+  [Epoch 69] Batch 50/109 (46%)
+  [Epoch 69] Batch 100/109 (92%)
+[Epoch 69/700] train_loss=0.1841 val_loss=0.1927 lr=9.76e-04 (14s)
+  [Epoch 70] Batch 50/109 (46%)
+  [Epoch 70] Batch 100/109 (92%)
+[Epoch 70/700] train_loss=0.1868 val_loss=0.1790 lr=9.76e-04 (15s)
+  [Epoch 71] Batch 50/109 (46%)
+  [Epoch 71] Batch 100/109 (92%)
+[Epoch 71/700] train_loss=0.1867 val_loss=0.1812 lr=9.75e-04 (15s)
+  [Epoch 72] Batch 50/109 (46%)
+  [Epoch 72] Batch 100/109 (92%)
+[Epoch 72/700] train_loss=0.1868 val_loss=0.1842 lr=9.74e-04 (15s)
+  [Epoch 73] Batch 50/109 (46%)
+  [Epoch 73] Batch 100/109 (92%)
+[Epoch 73/700] train_loss=0.1826 val_loss=0.1803 lr=9.73e-04 (14s)
+  [Epoch 74] Batch 50/109 (46%)
+  [Epoch 74] Batch 100/109 (92%)
+[Epoch 74/700] train_loss=0.1872 val_loss=0.1808 lr=9.73e-04 (14s)
+  [Epoch 75] Batch 50/109 (46%)
+  [Epoch 75] Batch 100/109 (92%)
+[Epoch 75/700] train_loss=0.1884 val_loss=0.1851 lr=9.72e-04 (14s)
+  [Epoch 76] Batch 50/109 (46%)
+  [Epoch 76] Batch 100/109 (92%)
+[Epoch 76/700] train_loss=0.1874 val_loss=0.1840 lr=9.71e-04 (14s)
+  [Epoch 77] Batch 50/109 (46%)
+  [Epoch 77] Batch 100/109 (92%)
+[Epoch 77/700] train_loss=0.1894 val_loss=0.1900 lr=9.70e-04 (14s)
+  [Epoch 78] Batch 50/109 (46%)
+  [Epoch 78] Batch 100/109 (92%)
+[Epoch 78/700] train_loss=0.1867 val_loss=0.1871 lr=9.70e-04 (14s)
+  [Epoch 79] Batch 50/109 (46%)
+  [Epoch 79] Batch 100/109 (92%)
+[Epoch 79/700] train_loss=0.1851 val_loss=0.1895 lr=9.69e-04 (14s)
+  [Epoch 80] Batch 50/109 (46%)
+  [Epoch 80] Batch 100/109 (92%)
+[Epoch 80/700] train_loss=0.1835 val_loss=0.1818 lr=9.68e-04 (14s)
+  [Epoch 81] Batch 50/109 (46%)
+  [Epoch 81] Batch 100/109 (92%)
+[Epoch 81/700] train_loss=0.1829 val_loss=0.1743 lr=9.67e-04 (14s)
+  [Epoch 82] Batch 50/109 (46%)
+  [Epoch 82] Batch 100/109 (92%)
+[Epoch 82/700] train_loss=0.1859 val_loss=0.1787 lr=9.67e-04 (14s)
+  [Epoch 83] Batch 50/109 (46%)
+  [Epoch 83] Batch 100/109 (92%)
+[Epoch 83/700] train_loss=0.1833 val_loss=0.1753 lr=9.66e-04 (14s)
+  [Epoch 84] Batch 50/109 (46%)
+  [Epoch 84] Batch 100/109 (92%)
+[Epoch 84/700] train_loss=0.1858 val_loss=0.1808 lr=9.65e-04 (14s)
+  [Epoch 85] Batch 50/109 (46%)
+  [Epoch 85] Batch 100/109 (92%)
+[Epoch 85/700] train_loss=0.1826 val_loss=0.1880 lr=9.64e-04 (14s)
+  [Epoch 86] Batch 50/109 (46%)
+  [Epoch 86] Batch 100/109 (92%)
+[Epoch 86/700] train_loss=0.1854 val_loss=0.1860 lr=9.63e-04 (14s)
+Monitored metric val/loss did not improve in the last 50 records. Best score: 0.173. Signaling Trainer to stop.
+
+[Training] Completed!
+
+✓ Training completed!
+  Final checkpoint: /public/home/xiongzhzh2023/PT4ConTSG/experiments/20260407_182806_airquality_beijing_verbalts/checkpoints/finetune/finetune-epoch=35-val/loss=0.1733.ckpt
+  Experiment: experiments/20260407_182806_airquality_beijing_verbalts
+
+Running automatic evaluation...
+Post-training evaluation failed: Error(s) in loading state_dict for VerbalTSModule:
+        Missing key(s) in state_dict: "verbalts.ts_downsample.2.value_embedding.0.weight", "verbalts.ts_downsample.2.value_embedding.0.bias", 
+"verbalts.side_downsample.2.value_embedding.0.weight", "verbalts.side_downsample.2.value_embedding.0.bias", "verbalts.patch_decoder.2.linear.weight", "verbalts.patch_decoder.2.linear.bias". 
+        size mismatch for verbalts.ts_downsample.0.value_embedding.0.weight: copying a param with shape torch.Size([64, 1]) from checkpoint, the shape in current model is torch.Size([64, 4]).
+        size mismatch for verbalts.ts_downsample.1.value_embedding.0.weight: copying a param with shape torch.Size([64, 2]) from checkpoint, the shape in current model is torch.Size([64, 12]).
+        size mismatch for verbalts.side_downsample.0.value_embedding.0.weight: copying a param with shape torch.Size([128, 128]) from checkpoint, the shape in current model is torch.Size([128,
+512]).
+        size mismatch for verbalts.side_downsample.1.value_embedding.0.weight: copying a param with shape torch.Size([128, 256]) from checkpoint, the shape in current model is torch.Size([128,
+1536]).
+        size mismatch for verbalts.patch_decoder.0.linear.weight: copying a param with shape torch.Size([1, 64]) from checkpoint, the shape in current model is torch.Size([4, 64]).
+        size mismatch for verbalts.patch_decoder.0.linear.bias: copying a param with shape torch.Size([1]) from checkpoint, the shape in current model is torch.Size([4]).
+        size mismatch for verbalts.patch_decoder.1.linear.weight: copying a param with shape torch.Size([2, 64]) from checkpoint, the shape in current model is torch.Size([12, 64]).
+        size mismatch for verbalts.patch_decoder.1.linear.bias: copying a param with shape torch.Size([2]) from checkpoint, the shape in current model is torch.Size([12]).
+        size mismatch for verbalts.multipatch_mixer.weight: copying a param with shape torch.Size([1, 2]) from checkpoint, the shape in current model is torch.Size([1, 3]).
+        size mismatch for cond_projector.scale_emb: copying a param with shape torch.Size([1, 2, 1024]) from checkpoint, the shape in current model is torch.Size([1, 3, 1024]).
+Traceback (most recent call last):
+  File "/public/home/xiongzhzh2023/PT4ConTSG/contsg/cli.py", line 1051, in _run_post_training_evaluation
+    evaluator = Evaluator.from_experiment(experiment_dir, checkpoint="best")
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/public/home/xiongzhzh2023/PT4ConTSG/contsg/eval/evaluator.py", line 348, in from_experiment
+    model = model_cls.load_from_checkpoint(ckpt_path, config=config)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/public/home/xiongzhzh2023/Anaconda/envs/contsg/lib/python3.12/site-packages/pytorch_lightning/utilities/model_helpers.py", line 130, in wrapper
+    return self.method(cls_type, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/public/home/xiongzhzh2023/Anaconda/envs/contsg/lib/python3.12/site-packages/pytorch_lightning/core/module.py", line 1797, in load_from_checkpoint
+    loaded = _load_from_checkpoint(
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "/public/home/xiongzhzh2023/Anaconda/envs/contsg/lib/python3.12/site-packages/pytorch_lightning/core/saving.py", line 93, in _load_from_checkpoint
+    model = _load_state(cls, checkpoint, strict=strict, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/public/home/xiongzhzh2023/Anaconda/envs/contsg/lib/python3.12/site-packages/pytorch_lightning/core/saving.py", line 189, in _load_state
+    keys = obj.load_state_dict(checkpoint["state_dict"], strict=strict)  # type: ignore
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/public/home/xiongzhzh2023/Anaconda/envs/contsg/lib/python3.12/site-packages/torch/nn/modules/module.py", line 2581, in load_state_dict
+    raise RuntimeError(
+RuntimeError: Error(s) in loading state_dict for VerbalTSModule:
+        Missing key(s) in state_dict: "verbalts.ts_downsample.2.value_embedding.0.weight", "verbalts.ts_downsample.2.value_embedding.0.bias", 
+"verbalts.side_downsample.2.value_embedding.0.weight", "verbalts.side_downsample.2.value_embedding.0.bias", "verbalts.patch_decoder.2.linear.weight", "verbalts.patch_decoder.2.linear.bias". 
+        size mismatch for verbalts.ts_downsample.0.value_embedding.0.weight: copying a param with shape torch.Size([64, 1]) from checkpoint, the shape in current model is torch.Size([64, 4]).
+        size mismatch for verbalts.ts_downsample.1.value_embedding.0.weight: copying a param with shape torch.Size([64, 2]) from checkpoint, the shape in current model is torch.Size([64, 12]).
+        size mismatch for verbalts.side_downsample.0.value_embedding.0.weight: copying a param with shape torch.Size([128, 128]) from checkpoint, the shape in current model is torch.Size([128,
+512]).
+        size mismatch for verbalts.side_downsample.1.value_embedding.0.weight: copying a param with shape torch.Size([128, 256]) from checkpoint, the shape in current model is torch.Size([128,
+1536]).
+        size mismatch for verbalts.patch_decoder.0.linear.weight: copying a param with shape torch.Size([1, 64]) from checkpoint, the shape in current model is torch.Size([4, 64]).
+        size mismatch for verbalts.patch_decoder.0.linear.bias: copying a param with shape torch.Size([1]) from checkpoint, the shape in current model is torch.Size([4]).
+        size mismatch for verbalts.patch_decoder.1.linear.weight: copying a param with shape torch.Size([2, 64]) from checkpoint, the shape in current model is torch.Size([12, 64]).
+        size mismatch for verbalts.patch_decoder.1.linear.bias: copying a param with shape torch.Size([2]) from checkpoint, the shape in current model is torch.Size([12]).
+        size mismatch for verbalts.multipatch_mixer.weight: copying a param with shape torch.Size([1, 2]) from checkpoint, the shape in current model is torch.Size([1, 3]).
+        size mismatch for cond_projector.scale_emb: copying a param with shape torch.Size([1, 2, 1024]) from checkpoint, the shape in current model is torch.Size([1, 3, 1024]).
+

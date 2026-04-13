@@ -1,0 +1,655 @@
+Loading config from: configs/generators/verbalts_istanbul_traffic.yaml
+Model schema mode: relaxed (builtin: VerbalTSModelConfig)
+       Configuration Summary        
+┌───────────────┬──────────────────┐
+│ Dataset       │ istanbul_traffic │
+│ Model         │ verbalts         │
+│ Epochs        │ 700              │
+│ Batch Size    │ 128              │
+│ Learning Rate │ 0.001            │
+│ Device        │ cuda:0           │
+│ Seed          │ 42               │
+└───────────────┴──────────────────┘
+
+Experiment directory: experiments/20260407_185034_istanbul_traffic_verbalts
+Seed set to 42
+
+Model: verbalts
+Creating data module: istanbul_traffic
+
+Starting multi-stage training (1 stage(s))...
+  Stage 1: finetune (700 epochs, lr=0.001)
+/public/home/xiongzhzh2023/Anaconda/envs/contsg/lib/python3.12/site-packages/lightning_fabric/plugins/environments/slurm.py:204: The `srun` command is available on your system but is not used. HINT: If your intention is to run Lightning on SLURM, prepend your python command with `srun` like so: srun python3.1 /public/home/xiongzhzh2023/Anaconda/envs/contsg/b ...
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+`Trainer(limit_train_batches=1.0)` was configured so 100% of the batches per epoch will be used..
+`Trainer(limit_val_batches=1.0)` was configured so 100% of the batches will be used..
+`Trainer(limit_test_batches=1.0)` was configured so 100% of the batches will be used..
+`Trainer(val_check_interval=1.0)` was configured so validation will run at the end of the training epoch..
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+┏━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━┳━━━━━━━┓
+┃   ┃ Name           ┃ Type                         ┃ Params ┃ Mode  ┃ FLOPs ┃
+┡━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━╇━━━━━━━┩
+│ 0 │ verbalts       │ VerbalTSCore                 │  1.2 M │ train │     0 │
+│ 1 │ cond_projector │ TextProjectorMVarMScaleMStep │ 51.3 M │ train │     0 │
+└───┴────────────────┴──────────────────────────────┴────────┴───────┴───────┘
+Trainable params: 52.5 M                                                                                                                                                                        
+Non-trainable params: 0                                                                                                                                                                         
+Total params: 52.5 M                                                                                                                                                                            
+Total estimated model params size (MB): 209                                                                                                                                                     
+Modules in train mode: 233                                                                                                                                                                      
+Modules in eval mode: 0                                                                                                                                                                         
+Total FLOPs: 0                                                                                                                                                                                  
+/public/home/xiongzhzh2023/Anaconda/envs/contsg/lib/python3.12/site-packages/pytorch_lightning/utilities/data.py:79: Trying to infer the `batch_size` from an ambiguous collection. The batch size we found is 128. To avoid any miscalculations, use `self.log(..., batch_size=batch_size)`.
+
+[Training] Starting 700 epochs...
+  [Epoch 1] Batch 50/199 (25%)
+  [Epoch 1] Batch 100/199 (50%)
+  [Epoch 1] Batch 150/199 (75%)
+/public/home/xiongzhzh2023/Anaconda/envs/contsg/lib/python3.12/site-packages/pytorch_lightning/utilities/data.py:79: Trying to infer the `batch_size` from an ambiguous collection. The batch size we found is 114. To avoid any miscalculations, use `self.log(..., batch_size=batch_size)`.
+[Epoch 1/700] train_loss=0.2299 val_loss=0.1143 lr=1.00e-03 (16s)
+Metric val/loss improved. New best score: 0.114
+  [Epoch 2] Batch 50/199 (25%)
+  [Epoch 2] Batch 100/199 (50%)
+  [Epoch 2] Batch 150/199 (75%)
+[Epoch 2/700] train_loss=0.1045 val_loss=0.1063 lr=1.00e-03 (17s)
+Metric val/loss improved by 0.008 >= min_delta = 0.0. New best score: 0.106
+  [Epoch 3] Batch 50/199 (25%)
+  [Epoch 3] Batch 100/199 (50%)
+  [Epoch 3] Batch 150/199 (75%)
+[Epoch 3/700] train_loss=0.0882 val_loss=0.0904 lr=1.00e-03 (16s)
+Metric val/loss improved by 0.016 >= min_delta = 0.0. New best score: 0.090
+  [Epoch 4] Batch 50/199 (25%)
+  [Epoch 4] Batch 100/199 (50%)
+  [Epoch 4] Batch 150/199 (75%)
+[Epoch 4/700] train_loss=0.0823 val_loss=0.0912 lr=1.00e-03 (17s)
+  [Epoch 5] Batch 50/199 (25%)
+  [Epoch 5] Batch 100/199 (50%)
+  [Epoch 5] Batch 150/199 (75%)
+[Epoch 5/700] train_loss=0.0774 val_loss=0.0742 lr=1.00e-03 (21s)
+Metric val/loss improved by 0.016 >= min_delta = 0.0. New best score: 0.074
+  [Epoch 6] Batch 50/199 (25%)
+  [Epoch 6] Batch 100/199 (50%)
+  [Epoch 6] Batch 150/199 (75%)
+[Epoch 6/700] train_loss=0.0708 val_loss=0.0683 lr=1.00e-03 (16s)
+Metric val/loss improved by 0.006 >= min_delta = 0.0. New best score: 0.068
+  [Epoch 7] Batch 50/199 (25%)
+  [Epoch 7] Batch 100/199 (50%)
+  [Epoch 7] Batch 150/199 (75%)
+[Epoch 7/700] train_loss=0.0692 val_loss=0.0698 lr=1.00e-03 (14s)
+  [Epoch 8] Batch 50/199 (25%)
+  [Epoch 8] Batch 100/199 (50%)
+  [Epoch 8] Batch 150/199 (75%)
+[Epoch 8/700] train_loss=0.0659 val_loss=0.0652 lr=1.00e-03 (15s)
+Metric val/loss improved by 0.003 >= min_delta = 0.0. New best score: 0.065
+  [Epoch 9] Batch 50/199 (25%)
+  [Epoch 9] Batch 100/199 (50%)
+  [Epoch 9] Batch 150/199 (75%)
+[Epoch 9/700] train_loss=0.0636 val_loss=0.0625 lr=1.00e-03 (14s)
+Metric val/loss improved by 0.003 >= min_delta = 0.0. New best score: 0.063
+  [Epoch 10] Batch 50/199 (25%)
+  [Epoch 10] Batch 100/199 (50%)
+  [Epoch 10] Batch 150/199 (75%)
+[Epoch 10/700] train_loss=0.0639 val_loss=0.0634 lr=9.99e-04 (14s)
+  [Epoch 11] Batch 50/199 (25%)
+  [Epoch 11] Batch 100/199 (50%)
+  [Epoch 11] Batch 150/199 (75%)
+[Epoch 11/700] train_loss=0.0613 val_loss=0.0609 lr=9.99e-04 (15s)
+Metric val/loss improved by 0.002 >= min_delta = 0.0. New best score: 0.061
+  [Epoch 12] Batch 50/199 (25%)
+  [Epoch 12] Batch 100/199 (50%)
+  [Epoch 12] Batch 150/199 (75%)
+[Epoch 12/700] train_loss=0.0588 val_loss=0.0597 lr=9.99e-04 (14s)
+Metric val/loss improved by 0.001 >= min_delta = 0.0. New best score: 0.060
+  [Epoch 13] Batch 50/199 (25%)
+  [Epoch 13] Batch 100/199 (50%)
+  [Epoch 13] Batch 150/199 (75%)
+[Epoch 13/700] train_loss=0.0591 val_loss=0.0592 lr=9.99e-04 (15s)
+Metric val/loss improved by 0.000 >= min_delta = 0.0. New best score: 0.059
+  [Epoch 14] Batch 50/199 (25%)
+  [Epoch 14] Batch 100/199 (50%)
+  [Epoch 14] Batch 150/199 (75%)
+[Epoch 14/700] train_loss=0.0576 val_loss=0.0584 lr=9.99e-04 (14s)
+Metric val/loss improved by 0.001 >= min_delta = 0.0. New best score: 0.058
+  [Epoch 15] Batch 50/199 (25%)
+  [Epoch 15] Batch 100/199 (50%)
+  [Epoch 15] Batch 150/199 (75%)
+[Epoch 15/700] train_loss=0.0556 val_loss=0.0584 lr=9.99e-04 (15s)
+  [Epoch 16] Batch 50/199 (25%)
+  [Epoch 16] Batch 100/199 (50%)
+  [Epoch 16] Batch 150/199 (75%)
+[Epoch 16/700] train_loss=0.0577 val_loss=0.0592 lr=9.99e-04 (14s)
+  [Epoch 17] Batch 50/199 (25%)
+  [Epoch 17] Batch 100/199 (50%)
+  [Epoch 17] Batch 150/199 (75%)
+[Epoch 17/700] train_loss=0.0558 val_loss=0.0599 lr=9.99e-04 (14s)
+  [Epoch 18] Batch 50/199 (25%)
+  [Epoch 18] Batch 100/199 (50%)
+  [Epoch 18] Batch 150/199 (75%)
+[Epoch 18/700] train_loss=0.0563 val_loss=0.0554 lr=9.98e-04 (14s)
+Metric val/loss improved by 0.003 >= min_delta = 0.0. New best score: 0.055
+  [Epoch 19] Batch 50/199 (25%)
+  [Epoch 19] Batch 100/199 (50%)
+  [Epoch 19] Batch 150/199 (75%)
+[Epoch 19/700] train_loss=0.0568 val_loss=0.0564 lr=9.98e-04 (14s)
+  [Epoch 20] Batch 50/199 (25%)
+  [Epoch 20] Batch 100/199 (50%)
+  [Epoch 20] Batch 150/199 (75%)
+[Epoch 20/700] train_loss=0.0543 val_loss=0.0531 lr=9.98e-04 (15s)
+Metric val/loss improved by 0.002 >= min_delta = 0.0. New best score: 0.053
+  [Epoch 21] Batch 50/199 (25%)
+  [Epoch 21] Batch 100/199 (50%)
+  [Epoch 21] Batch 150/199 (75%)
+[Epoch 21/700] train_loss=0.0544 val_loss=0.0549 lr=9.98e-04 (15s)
+  [Epoch 22] Batch 50/199 (25%)
+  [Epoch 22] Batch 100/199 (50%)
+  [Epoch 22] Batch 150/199 (75%)
+[Epoch 22/700] train_loss=0.0539 val_loss=0.0579 lr=9.98e-04 (15s)
+  [Epoch 23] Batch 50/199 (25%)
+  [Epoch 23] Batch 100/199 (50%)
+  [Epoch 23] Batch 150/199 (75%)
+[Epoch 23/700] train_loss=0.0523 val_loss=0.0569 lr=9.97e-04 (15s)
+  [Epoch 24] Batch 50/199 (25%)
+  [Epoch 24] Batch 100/199 (50%)
+  [Epoch 24] Batch 150/199 (75%)
+[Epoch 24/700] train_loss=0.0533 val_loss=0.0549 lr=9.97e-04 (14s)
+  [Epoch 25] Batch 50/199 (25%)
+  [Epoch 25] Batch 100/199 (50%)
+  [Epoch 25] Batch 150/199 (75%)
+[Epoch 25/700] train_loss=0.0522 val_loss=0.0552 lr=9.97e-04 (15s)
+  [Epoch 26] Batch 50/199 (25%)
+  [Epoch 26] Batch 100/199 (50%)
+  [Epoch 26] Batch 150/199 (75%)
+[Epoch 26/700] train_loss=0.0530 val_loss=0.0555 lr=9.97e-04 (15s)
+  [Epoch 27] Batch 50/199 (25%)
+  [Epoch 27] Batch 100/199 (50%)
+  [Epoch 27] Batch 150/199 (75%)
+[Epoch 27/700] train_loss=0.0514 val_loss=0.0557 lr=9.96e-04 (16s)
+  [Epoch 28] Batch 50/199 (25%)
+  [Epoch 28] Batch 100/199 (50%)
+  [Epoch 28] Batch 150/199 (75%)
+[Epoch 28/700] train_loss=0.0508 val_loss=0.0563 lr=9.96e-04 (15s)
+  [Epoch 29] Batch 50/199 (25%)
+  [Epoch 29] Batch 100/199 (50%)
+  [Epoch 29] Batch 150/199 (75%)
+[Epoch 29/700] train_loss=0.0523 val_loss=0.0576 lr=9.96e-04 (15s)
+  [Epoch 30] Batch 50/199 (25%)
+  [Epoch 30] Batch 100/199 (50%)
+  [Epoch 30] Batch 150/199 (75%)
+[Epoch 30/700] train_loss=0.0518 val_loss=0.0557 lr=9.95e-04 (14s)
+  [Epoch 31] Batch 50/199 (25%)
+  [Epoch 31] Batch 100/199 (50%)
+  [Epoch 31] Batch 150/199 (75%)
+[Epoch 31/700] train_loss=0.0504 val_loss=0.0540 lr=9.95e-04 (15s)
+  [Epoch 32] Batch 50/199 (25%)
+  [Epoch 32] Batch 100/199 (50%)
+  [Epoch 32] Batch 150/199 (75%)
+[Epoch 32/700] train_loss=0.0500 val_loss=0.0572 lr=9.95e-04 (14s)
+  [Epoch 33] Batch 50/199 (25%)
+  [Epoch 33] Batch 100/199 (50%)
+  [Epoch 33] Batch 150/199 (75%)
+[Epoch 33/700] train_loss=0.0512 val_loss=0.0515 lr=9.95e-04 (14s)
+Metric val/loss improved by 0.002 >= min_delta = 0.0. New best score: 0.051
+  [Epoch 34] Batch 50/199 (25%)
+  [Epoch 34] Batch 100/199 (50%)
+  [Epoch 34] Batch 150/199 (75%)
+[Epoch 34/700] train_loss=0.0509 val_loss=0.0538 lr=9.94e-04 (16s)
+  [Epoch 35] Batch 50/199 (25%)
+  [Epoch 35] Batch 100/199 (50%)
+  [Epoch 35] Batch 150/199 (75%)
+[Epoch 35/700] train_loss=0.0511 val_loss=0.0534 lr=9.94e-04 (17s)
+  [Epoch 36] Batch 50/199 (25%)
+  [Epoch 36] Batch 100/199 (50%)
+  [Epoch 36] Batch 150/199 (75%)
+[Epoch 36/700] train_loss=0.0502 val_loss=0.0530 lr=9.93e-04 (17s)
+  [Epoch 37] Batch 50/199 (25%)
+  [Epoch 37] Batch 100/199 (50%)
+  [Epoch 37] Batch 150/199 (75%)
+[Epoch 37/700] train_loss=0.0506 val_loss=0.0532 lr=9.93e-04 (17s)
+  [Epoch 38] Batch 50/199 (25%)
+  [Epoch 38] Batch 100/199 (50%)
+  [Epoch 38] Batch 150/199 (75%)
+[Epoch 38/700] train_loss=0.0503 val_loss=0.0510 lr=9.93e-04 (19s)
+Metric val/loss improved by 0.000 >= min_delta = 0.0. New best score: 0.051
+  [Epoch 39] Batch 50/199 (25%)
+  [Epoch 39] Batch 100/199 (50%)
+  [Epoch 39] Batch 150/199 (75%)
+[Epoch 39/700] train_loss=0.0504 val_loss=0.0524 lr=9.92e-04 (19s)
+  [Epoch 40] Batch 50/199 (25%)
+  [Epoch 40] Batch 100/199 (50%)
+  [Epoch 40] Batch 150/199 (75%)
+[Epoch 40/700] train_loss=0.0507 val_loss=0.0539 lr=9.92e-04 (16s)
+  [Epoch 41] Batch 50/199 (25%)
+  [Epoch 41] Batch 100/199 (50%)
+  [Epoch 41] Batch 150/199 (75%)
+[Epoch 41/700] train_loss=0.0493 val_loss=0.0515 lr=9.92e-04 (14s)
+  [Epoch 42] Batch 50/199 (25%)
+  [Epoch 42] Batch 100/199 (50%)
+  [Epoch 42] Batch 150/199 (75%)
+[Epoch 42/700] train_loss=0.0490 val_loss=0.0497 lr=9.91e-04 (15s)
+Metric val/loss improved by 0.001 >= min_delta = 0.0. New best score: 0.050
+  [Epoch 43] Batch 50/199 (25%)
+  [Epoch 43] Batch 100/199 (50%)
+  [Epoch 43] Batch 150/199 (75%)
+[Epoch 43/700] train_loss=0.0493 val_loss=0.0514 lr=9.91e-04 (15s)
+  [Epoch 44] Batch 50/199 (25%)
+  [Epoch 44] Batch 100/199 (50%)
+  [Epoch 44] Batch 150/199 (75%)
+[Epoch 44/700] train_loss=0.0500 val_loss=0.0519 lr=9.90e-04 (14s)
+  [Epoch 45] Batch 50/199 (25%)
+  [Epoch 45] Batch 100/199 (50%)
+  [Epoch 45] Batch 150/199 (75%)
+[Epoch 45/700] train_loss=0.0494 val_loss=0.0514 lr=9.90e-04 (15s)
+  [Epoch 46] Batch 50/199 (25%)
+  [Epoch 46] Batch 100/199 (50%)
+  [Epoch 46] Batch 150/199 (75%)
+[Epoch 46/700] train_loss=0.0479 val_loss=0.0550 lr=9.89e-04 (15s)
+  [Epoch 47] Batch 50/199 (25%)
+  [Epoch 47] Batch 100/199 (50%)
+  [Epoch 47] Batch 150/199 (75%)
+[Epoch 47/700] train_loss=0.0505 val_loss=0.0520 lr=9.89e-04 (14s)
+  [Epoch 48] Batch 50/199 (25%)
+  [Epoch 48] Batch 100/199 (50%)
+  [Epoch 48] Batch 150/199 (75%)
+[Epoch 48/700] train_loss=0.0480 val_loss=0.0540 lr=9.88e-04 (14s)
+  [Epoch 49] Batch 50/199 (25%)
+  [Epoch 49] Batch 100/199 (50%)
+  [Epoch 49] Batch 150/199 (75%)
+[Epoch 49/700] train_loss=0.0479 val_loss=0.0498 lr=9.88e-04 (15s)
+  [Epoch 50] Batch 50/199 (25%)
+  [Epoch 50] Batch 100/199 (50%)
+  [Epoch 50] Batch 150/199 (75%)
+[Epoch 50/700] train_loss=0.0483 val_loss=0.0558 lr=9.87e-04 (14s)
+  [Epoch 51] Batch 50/199 (25%)
+  [Epoch 51] Batch 100/199 (50%)
+  [Epoch 51] Batch 150/199 (75%)
+[Epoch 51/700] train_loss=0.0489 val_loss=0.0532 lr=9.87e-04 (14s)
+  [Epoch 52] Batch 50/199 (25%)
+  [Epoch 52] Batch 100/199 (50%)
+  [Epoch 52] Batch 150/199 (75%)
+[Epoch 52/700] train_loss=0.0485 val_loss=0.0522 lr=9.86e-04 (15s)
+  [Epoch 53] Batch 50/199 (25%)
+  [Epoch 53] Batch 100/199 (50%)
+  [Epoch 53] Batch 150/199 (75%)
+[Epoch 53/700] train_loss=0.0487 val_loss=0.0539 lr=9.86e-04 (15s)
+  [Epoch 54] Batch 50/199 (25%)
+  [Epoch 54] Batch 100/199 (50%)
+  [Epoch 54] Batch 150/199 (75%)
+[Epoch 54/700] train_loss=0.0493 val_loss=0.0561 lr=9.85e-04 (14s)
+  [Epoch 55] Batch 50/199 (25%)
+  [Epoch 55] Batch 100/199 (50%)
+  [Epoch 55] Batch 150/199 (75%)
+[Epoch 55/700] train_loss=0.0474 val_loss=0.0521 lr=9.85e-04 (14s)
+  [Epoch 56] Batch 50/199 (25%)
+  [Epoch 56] Batch 100/199 (50%)
+  [Epoch 56] Batch 150/199 (75%)
+[Epoch 56/700] train_loss=0.0476 val_loss=0.0476 lr=9.84e-04 (14s)
+Metric val/loss improved by 0.002 >= min_delta = 0.0. New best score: 0.048
+  [Epoch 57] Batch 50/199 (25%)
+  [Epoch 57] Batch 100/199 (50%)
+  [Epoch 57] Batch 150/199 (75%)
+[Epoch 57/700] train_loss=0.0468 val_loss=0.0543 lr=9.84e-04 (14s)
+  [Epoch 58] Batch 50/199 (25%)
+  [Epoch 58] Batch 100/199 (50%)
+  [Epoch 58] Batch 150/199 (75%)
+[Epoch 58/700] train_loss=0.0486 val_loss=0.0497 lr=9.83e-04 (15s)
+  [Epoch 59] Batch 50/199 (25%)
+  [Epoch 59] Batch 100/199 (50%)
+  [Epoch 59] Batch 150/199 (75%)
+[Epoch 59/700] train_loss=0.0475 val_loss=0.0492 lr=9.83e-04 (14s)
+  [Epoch 60] Batch 50/199 (25%)
+  [Epoch 60] Batch 100/199 (50%)
+  [Epoch 60] Batch 150/199 (75%)
+[Epoch 60/700] train_loss=0.0475 val_loss=0.0512 lr=9.82e-04 (14s)
+  [Epoch 61] Batch 50/199 (25%)
+  [Epoch 61] Batch 100/199 (50%)
+  [Epoch 61] Batch 150/199 (75%)
+[Epoch 61/700] train_loss=0.0468 val_loss=0.0482 lr=9.81e-04 (14s)
+  [Epoch 62] Batch 50/199 (25%)
+  [Epoch 62] Batch 100/199 (50%)
+  [Epoch 62] Batch 150/199 (75%)
+[Epoch 62/700] train_loss=0.0473 val_loss=0.0521 lr=9.81e-04 (16s)
+  [Epoch 63] Batch 50/199 (25%)
+  [Epoch 63] Batch 100/199 (50%)
+  [Epoch 63] Batch 150/199 (75%)
+[Epoch 63/700] train_loss=0.0480 val_loss=0.0517 lr=9.80e-04 (15s)
+  [Epoch 64] Batch 50/199 (25%)
+  [Epoch 64] Batch 100/199 (50%)
+  [Epoch 64] Batch 150/199 (75%)
+[Epoch 64/700] train_loss=0.0467 val_loss=0.0542 lr=9.80e-04 (15s)
+  [Epoch 65] Batch 50/199 (25%)
+  [Epoch 65] Batch 100/199 (50%)
+  [Epoch 65] Batch 150/199 (75%)
+[Epoch 65/700] train_loss=0.0463 val_loss=0.0496 lr=9.79e-04 (15s)
+  [Epoch 66] Batch 50/199 (25%)
+  [Epoch 66] Batch 100/199 (50%)
+  [Epoch 66] Batch 150/199 (75%)
+[Epoch 66/700] train_loss=0.0474 val_loss=0.0515 lr=9.78e-04 (15s)
+  [Epoch 67] Batch 50/199 (25%)
+  [Epoch 67] Batch 100/199 (50%)
+  [Epoch 67] Batch 150/199 (75%)
+[Epoch 67/700] train_loss=0.0473 val_loss=0.0544 lr=9.78e-04 (14s)
+  [Epoch 68] Batch 50/199 (25%)
+  [Epoch 68] Batch 100/199 (50%)
+  [Epoch 68] Batch 150/199 (75%)
+[Epoch 68/700] train_loss=0.0461 val_loss=0.0537 lr=9.77e-04 (14s)
+  [Epoch 69] Batch 50/199 (25%)
+  [Epoch 69] Batch 100/199 (50%)
+  [Epoch 69] Batch 150/199 (75%)
+[Epoch 69/700] train_loss=0.0470 val_loss=0.0499 lr=9.76e-04 (14s)
+  [Epoch 70] Batch 50/199 (25%)
+  [Epoch 70] Batch 100/199 (50%)
+  [Epoch 70] Batch 150/199 (75%)
+[Epoch 70/700] train_loss=0.0470 val_loss=0.0515 lr=9.76e-04 (14s)
+  [Epoch 71] Batch 50/199 (25%)
+  [Epoch 71] Batch 100/199 (50%)
+  [Epoch 71] Batch 150/199 (75%)
+[Epoch 71/700] train_loss=0.0471 val_loss=0.0551 lr=9.75e-04 (13s)
+  [Epoch 72] Batch 50/199 (25%)
+  [Epoch 72] Batch 100/199 (50%)
+  [Epoch 72] Batch 150/199 (75%)
+[Epoch 72/700] train_loss=0.0464 val_loss=0.0505 lr=9.74e-04 (15s)
+  [Epoch 73] Batch 50/199 (25%)
+  [Epoch 73] Batch 100/199 (50%)
+  [Epoch 73] Batch 150/199 (75%)
+[Epoch 73/700] train_loss=0.0466 val_loss=0.0516 lr=9.73e-04 (14s)
+  [Epoch 74] Batch 50/199 (25%)
+  [Epoch 74] Batch 100/199 (50%)
+  [Epoch 74] Batch 150/199 (75%)
+[Epoch 74/700] train_loss=0.0466 val_loss=0.0526 lr=9.73e-04 (14s)
+  [Epoch 75] Batch 50/199 (25%)
+  [Epoch 75] Batch 100/199 (50%)
+  [Epoch 75] Batch 150/199 (75%)
+[Epoch 75/700] train_loss=0.0454 val_loss=0.0535 lr=9.72e-04 (15s)
+  [Epoch 76] Batch 50/199 (25%)
+  [Epoch 76] Batch 100/199 (50%)
+  [Epoch 76] Batch 150/199 (75%)
+[Epoch 76/700] train_loss=0.0464 val_loss=0.0515 lr=9.71e-04 (15s)
+  [Epoch 77] Batch 50/199 (25%)
+  [Epoch 77] Batch 100/199 (50%)
+  [Epoch 77] Batch 150/199 (75%)
+[Epoch 77/700] train_loss=0.0456 val_loss=0.0502 lr=9.70e-04 (14s)
+  [Epoch 78] Batch 50/199 (25%)
+  [Epoch 78] Batch 100/199 (50%)
+  [Epoch 78] Batch 150/199 (75%)
+[Epoch 78/700] train_loss=0.0451 val_loss=0.0458 lr=9.70e-04 (14s)
+Metric val/loss improved by 0.002 >= min_delta = 0.0. New best score: 0.046
+  [Epoch 79] Batch 50/199 (25%)
+  [Epoch 79] Batch 100/199 (50%)
+  [Epoch 79] Batch 150/199 (75%)
+[Epoch 79/700] train_loss=0.0457 val_loss=0.0497 lr=9.69e-04 (15s)
+  [Epoch 80] Batch 50/199 (25%)
+  [Epoch 80] Batch 100/199 (50%)
+  [Epoch 80] Batch 150/199 (75%)
+[Epoch 80/700] train_loss=0.0463 val_loss=0.0506 lr=9.68e-04 (14s)
+  [Epoch 81] Batch 50/199 (25%)
+  [Epoch 81] Batch 100/199 (50%)
+  [Epoch 81] Batch 150/199 (75%)
+[Epoch 81/700] train_loss=0.0441 val_loss=0.0465 lr=9.67e-04 (14s)
+  [Epoch 82] Batch 50/199 (25%)
+  [Epoch 82] Batch 100/199 (50%)
+  [Epoch 82] Batch 150/199 (75%)
+[Epoch 82/700] train_loss=0.0453 val_loss=0.0509 lr=9.67e-04 (15s)
+  [Epoch 83] Batch 50/199 (25%)
+  [Epoch 83] Batch 100/199 (50%)
+  [Epoch 83] Batch 150/199 (75%)
+[Epoch 83/700] train_loss=0.0455 val_loss=0.0477 lr=9.66e-04 (14s)
+  [Epoch 84] Batch 50/199 (25%)
+  [Epoch 84] Batch 100/199 (50%)
+  [Epoch 84] Batch 150/199 (75%)
+[Epoch 84/700] train_loss=0.0449 val_loss=0.0497 lr=9.65e-04 (14s)
+  [Epoch 85] Batch 50/199 (25%)
+  [Epoch 85] Batch 100/199 (50%)
+  [Epoch 85] Batch 150/199 (75%)
+[Epoch 85/700] train_loss=0.0447 val_loss=0.0484 lr=9.64e-04 (16s)
+  [Epoch 86] Batch 50/199 (25%)
+  [Epoch 86] Batch 100/199 (50%)
+  [Epoch 86] Batch 150/199 (75%)
+[Epoch 86/700] train_loss=0.0454 val_loss=0.0473 lr=9.63e-04 (14s)
+  [Epoch 87] Batch 50/199 (25%)
+  [Epoch 87] Batch 100/199 (50%)
+  [Epoch 87] Batch 150/199 (75%)
+[Epoch 87/700] train_loss=0.0461 val_loss=0.0486 lr=9.62e-04 (14s)
+  [Epoch 88] Batch 50/199 (25%)
+  [Epoch 88] Batch 100/199 (50%)
+  [Epoch 88] Batch 150/199 (75%)
+[Epoch 88/700] train_loss=0.0454 val_loss=0.0502 lr=9.62e-04 (15s)
+  [Epoch 89] Batch 50/199 (25%)
+  [Epoch 89] Batch 100/199 (50%)
+  [Epoch 89] Batch 150/199 (75%)
+[Epoch 89/700] train_loss=0.0448 val_loss=0.0543 lr=9.61e-04 (16s)
+  [Epoch 90] Batch 50/199 (25%)
+  [Epoch 90] Batch 100/199 (50%)
+  [Epoch 90] Batch 150/199 (75%)
+[Epoch 90/700] train_loss=0.0445 val_loss=0.0506 lr=9.60e-04 (15s)
+  [Epoch 91] Batch 50/199 (25%)
+  [Epoch 91] Batch 100/199 (50%)
+  [Epoch 91] Batch 150/199 (75%)
+[Epoch 91/700] train_loss=0.0440 val_loss=0.0494 lr=9.59e-04 (14s)
+  [Epoch 92] Batch 50/199 (25%)
+  [Epoch 92] Batch 100/199 (50%)
+  [Epoch 92] Batch 150/199 (75%)
+[Epoch 92/700] train_loss=0.0444 val_loss=0.0479 lr=9.58e-04 (15s)
+  [Epoch 93] Batch 50/199 (25%)
+  [Epoch 93] Batch 100/199 (50%)
+  [Epoch 93] Batch 150/199 (75%)
+[Epoch 93/700] train_loss=0.0451 val_loss=0.0512 lr=9.57e-04 (14s)
+  [Epoch 94] Batch 50/199 (25%)
+  [Epoch 94] Batch 100/199 (50%)
+  [Epoch 94] Batch 150/199 (75%)
+[Epoch 94/700] train_loss=0.0445 val_loss=0.0531 lr=9.56e-04 (14s)
+  [Epoch 95] Batch 50/199 (25%)
+  [Epoch 95] Batch 100/199 (50%)
+  [Epoch 95] Batch 150/199 (75%)
+[Epoch 95/700] train_loss=0.0449 val_loss=0.0520 lr=9.55e-04 (15s)
+  [Epoch 96] Batch 50/199 (25%)
+  [Epoch 96] Batch 100/199 (50%)
+  [Epoch 96] Batch 150/199 (75%)
+[Epoch 96/700] train_loss=0.0434 val_loss=0.0466 lr=9.54e-04 (14s)
+  [Epoch 97] Batch 50/199 (25%)
+  [Epoch 97] Batch 100/199 (50%)
+  [Epoch 97] Batch 150/199 (75%)
+[Epoch 97/700] train_loss=0.0439 val_loss=0.0485 lr=9.53e-04 (14s)
+  [Epoch 98] Batch 50/199 (25%)
+  [Epoch 98] Batch 100/199 (50%)
+  [Epoch 98] Batch 150/199 (75%)
+[Epoch 98/700] train_loss=0.0439 val_loss=0.0521 lr=9.52e-04 (14s)
+  [Epoch 99] Batch 50/199 (25%)
+  [Epoch 99] Batch 100/199 (50%)
+  [Epoch 99] Batch 150/199 (75%)
+[Epoch 99/700] train_loss=0.0445 val_loss=0.0476 lr=9.51e-04 (15s)
+  [Epoch 100] Batch 50/199 (25%)
+  [Epoch 100] Batch 100/199 (50%)
+  [Epoch 100] Batch 150/199 (75%)
+[Epoch 100/700] train_loss=0.0448 val_loss=0.0476 lr=9.50e-04 (15s)
+  [Epoch 101] Batch 50/199 (25%)
+  [Epoch 101] Batch 100/199 (50%)
+  [Epoch 101] Batch 150/199 (75%)
+[Epoch 101/700] train_loss=0.0435 val_loss=0.0503 lr=9.50e-04 (13s)
+  [Epoch 102] Batch 50/199 (25%)
+  [Epoch 102] Batch 100/199 (50%)
+  [Epoch 102] Batch 150/199 (75%)
+[Epoch 102/700] train_loss=0.0445 val_loss=0.0502 lr=9.49e-04 (15s)
+  [Epoch 103] Batch 50/199 (25%)
+  [Epoch 103] Batch 100/199 (50%)
+  [Epoch 103] Batch 150/199 (75%)
+[Epoch 103/700] train_loss=0.0433 val_loss=0.0494 lr=9.48e-04 (14s)
+  [Epoch 104] Batch 50/199 (25%)
+  [Epoch 104] Batch 100/199 (50%)
+  [Epoch 104] Batch 150/199 (75%)
+[Epoch 104/700] train_loss=0.0441 val_loss=0.0489 lr=9.47e-04 (13s)
+  [Epoch 105] Batch 50/199 (25%)
+  [Epoch 105] Batch 100/199 (50%)
+  [Epoch 105] Batch 150/199 (75%)
+[Epoch 105/700] train_loss=0.0435 val_loss=0.0473 lr=9.46e-04 (13s)
+  [Epoch 106] Batch 50/199 (25%)
+  [Epoch 106] Batch 100/199 (50%)
+  [Epoch 106] Batch 150/199 (75%)
+[Epoch 106/700] train_loss=0.0441 val_loss=0.0477 lr=9.44e-04 (14s)
+  [Epoch 107] Batch 50/199 (25%)
+  [Epoch 107] Batch 100/199 (50%)
+  [Epoch 107] Batch 150/199 (75%)
+[Epoch 107/700] train_loss=0.0426 val_loss=0.0469 lr=9.43e-04 (14s)
+  [Epoch 108] Batch 50/199 (25%)
+  [Epoch 108] Batch 100/199 (50%)
+  [Epoch 108] Batch 150/199 (75%)
+[Epoch 108/700] train_loss=0.0442 val_loss=0.0487 lr=9.42e-04 (13s)
+  [Epoch 109] Batch 50/199 (25%)
+  [Epoch 109] Batch 100/199 (50%)
+  [Epoch 109] Batch 150/199 (75%)
+[Epoch 109/700] train_loss=0.0447 val_loss=0.0475 lr=9.41e-04 (14s)
+  [Epoch 110] Batch 50/199 (25%)
+  [Epoch 110] Batch 100/199 (50%)
+  [Epoch 110] Batch 150/199 (75%)
+[Epoch 110/700] train_loss=0.0434 val_loss=0.0513 lr=9.40e-04 (14s)
+  [Epoch 111] Batch 50/199 (25%)
+  [Epoch 111] Batch 100/199 (50%)
+  [Epoch 111] Batch 150/199 (75%)
+[Epoch 111/700] train_loss=0.0437 val_loss=0.0505 lr=9.39e-04 (14s)
+  [Epoch 112] Batch 50/199 (25%)
+  [Epoch 112] Batch 100/199 (50%)
+  [Epoch 112] Batch 150/199 (75%)
+[Epoch 112/700] train_loss=0.0441 val_loss=0.0495 lr=9.38e-04 (14s)
+  [Epoch 113] Batch 50/199 (25%)
+  [Epoch 113] Batch 100/199 (50%)
+  [Epoch 113] Batch 150/199 (75%)
+[Epoch 113/700] train_loss=0.0444 val_loss=0.0532 lr=9.37e-04 (15s)
+  [Epoch 114] Batch 50/199 (25%)
+  [Epoch 114] Batch 100/199 (50%)
+  [Epoch 114] Batch 150/199 (75%)
+[Epoch 114/700] train_loss=0.0438 val_loss=0.0469 lr=9.36e-04 (14s)
+  [Epoch 115] Batch 50/199 (25%)
+  [Epoch 115] Batch 100/199 (50%)
+  [Epoch 115] Batch 150/199 (75%)
+[Epoch 115/700] train_loss=0.0431 val_loss=0.0507 lr=9.35e-04 (13s)
+  [Epoch 116] Batch 50/199 (25%)
+  [Epoch 116] Batch 100/199 (50%)
+  [Epoch 116] Batch 150/199 (75%)
+[Epoch 116/700] train_loss=0.0422 val_loss=0.0504 lr=9.34e-04 (15s)
+  [Epoch 117] Batch 50/199 (25%)
+  [Epoch 117] Batch 100/199 (50%)
+  [Epoch 117] Batch 150/199 (75%)
+[Epoch 117/700] train_loss=0.0433 val_loss=0.0464 lr=9.33e-04 (14s)
+  [Epoch 118] Batch 50/199 (25%)
+  [Epoch 118] Batch 100/199 (50%)
+  [Epoch 118] Batch 150/199 (75%)
+[Epoch 118/700] train_loss=0.0440 val_loss=0.0476 lr=9.32e-04 (14s)
+  [Epoch 119] Batch 50/199 (25%)
+  [Epoch 119] Batch 100/199 (50%)
+  [Epoch 119] Batch 150/199 (75%)
+[Epoch 119/700] train_loss=0.0434 val_loss=0.0492 lr=9.30e-04 (13s)
+  [Epoch 120] Batch 50/199 (25%)
+  [Epoch 120] Batch 100/199 (50%)
+  [Epoch 120] Batch 150/199 (75%)
+[Epoch 120/700] train_loss=0.0431 val_loss=0.0496 lr=9.29e-04 (14s)
+  [Epoch 121] Batch 50/199 (25%)
+  [Epoch 121] Batch 100/199 (50%)
+  [Epoch 121] Batch 150/199 (75%)
+[Epoch 121/700] train_loss=0.0431 val_loss=0.0490 lr=9.28e-04 (14s)
+  [Epoch 122] Batch 50/199 (25%)
+  [Epoch 122] Batch 100/199 (50%)
+  [Epoch 122] Batch 150/199 (75%)
+[Epoch 122/700] train_loss=0.0437 val_loss=0.0480 lr=9.27e-04 (13s)
+  [Epoch 123] Batch 50/199 (25%)
+  [Epoch 123] Batch 100/199 (50%)
+  [Epoch 123] Batch 150/199 (75%)
+[Epoch 123/700] train_loss=0.0433 val_loss=0.0484 lr=9.26e-04 (14s)
+  [Epoch 124] Batch 50/199 (25%)
+  [Epoch 124] Batch 100/199 (50%)
+  [Epoch 124] Batch 150/199 (75%)
+[Epoch 124/700] train_loss=0.0428 val_loss=0.0459 lr=9.25e-04 (14s)
+  [Epoch 125] Batch 50/199 (25%)
+  [Epoch 125] Batch 100/199 (50%)
+  [Epoch 125] Batch 150/199 (75%)
+[Epoch 125/700] train_loss=0.0441 val_loss=0.0468 lr=9.23e-04 (13s)
+  [Epoch 126] Batch 50/199 (25%)
+  [Epoch 126] Batch 100/199 (50%)
+  [Epoch 126] Batch 150/199 (75%)
+[Epoch 126/700] train_loss=0.0428 val_loss=0.0478 lr=9.22e-04 (13s)
+  [Epoch 127] Batch 50/199 (25%)
+  [Epoch 127] Batch 100/199 (50%)
+  [Epoch 127] Batch 150/199 (75%)
+[Epoch 127/700] train_loss=0.0427 val_loss=0.0462 lr=9.21e-04 (15s)
+  [Epoch 128] Batch 50/199 (25%)
+  [Epoch 128] Batch 100/199 (50%)
+  [Epoch 128] Batch 150/199 (75%)
+[Epoch 128/700] train_loss=0.0428 val_loss=0.0501 lr=9.20e-04 (14s)
+Monitored metric val/loss did not improve in the last 50 records. Best score: 0.046. Signaling Trainer to stop.
+
+[Training] Completed!
+
+✓ Training completed!
+  Final checkpoint: /public/home/xiongzhzh2023/PT4ConTSG/experiments/20260407_185034_istanbul_traffic_verbalts/checkpoints/finetune/finetune-epoch=77-val/loss=0.0458.ckpt
+  Experiment: experiments/20260407_185034_istanbul_traffic_verbalts
+
+Running automatic evaluation...
+Loading weights:   0%|          | 0/197 [00:00<?, ?it/s]Loading weights: 100%|██████████| 197/197 [00:00<00:00, 4790.96it/s]
+[1mCLIPTextModelWithProjection LOAD REPORT[0m from: ./checkpoints/longclip
+Key                                                            | Status     |  | 
+---------------------------------------------------------------+------------+--+-
+vision_model.encoder.layers.{0...23}.layer_norm2.bias          | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.mlp.fc1.weight            | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.q_proj.bias     | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.k_proj.weight   | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.layer_norm1.weight        | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.q_proj.weight   | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.v_proj.bias     | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.mlp.fc1.bias              | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.mlp.fc2.weight            | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.layer_norm2.weight        | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.mlp.fc2.bias              | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.k_proj.bias     | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.v_proj.weight   | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.out_proj.bias   | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.self_attn.out_proj.weight | UNEXPECTED |  | 
+vision_model.post_layernorm.bias                               | UNEXPECTED |  | 
+vision_model.encoder.layers.{0...23}.layer_norm1.bias          | UNEXPECTED |  | 
+vision_model.post_layernorm.weight                             | UNEXPECTED |  | 
+vision_model.embeddings.position_embedding.weight              | UNEXPECTED |  | 
+visual_projection.weight                                       | UNEXPECTED |  | 
+vision_model.embeddings.class_embedding                        | UNEXPECTED |  | 
+vision_model.embeddings.patch_embedding.weight                 | UNEXPECTED |  | 
+vision_model.pre_layrnorm.weight                               | UNEXPECTED |  | 
+vision_model.pre_layrnorm.bias                                 | UNEXPECTED |  | 
+logit_scale                                                    | UNEXPECTED |  | 
+
+[3mNotes:
+- UNEXPECTED[3m	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.[0m
+[Evaluating (generating)] Starting (0/25)...
+[Evaluating (generating)] 1/25 (4%)
+[Evaluating (generating)] 3/25 (12%)
+[Evaluating (generating)] 5/25 (20%)
+[Evaluating (generating)] 8/25 (32%)
+[Evaluating (generating)] 10/25 (40%)
+[Evaluating (generating)] 13/25 (52%)
+[Evaluating (generating)] 16/25 (64%)
+[Evaluating (generating)] 18/25 (72%)
+[Evaluating (generating)] 20/25 (80%)
+[Evaluating (generating)] 23/25 (92%)
+[Evaluating (generating)] 25/25 (100%)
+[Evaluating (generating)] Completed (25 items)
+Evaluation results saved to: experiments/20260407_185034_istanbul_traffic_verbalts/results/eval_results.json
+          Evaluation Results           
+┏━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━┓
+┃ Metric                  ┃     Value ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━┩
+│ dtw                     │  4.831995 │
+│ wape                    │ 54.001690 │
+│ ed                      │  6.145154 │
+│ crps                    │  0.341976 │
+│ acd                     │  0.022425 │
+│ sd                      │  0.194651 │
+│ kd                      │  0.058120 │
+│ mdd                     │  0.010971 │
+│ fid                     │  0.704323 │
+│ jftsd                   │  1.066970 │
+│ cttp                    │  4.709201 │
+│ disc_auc                │  0.575818 │
+│ prdc_f1.f1              │  0.859895 │
+│ prdc_f1.precision       │  0.851050 │
+│ prdc_f1.recall          │  0.868924 │
+│ joint_prdc_f1.f1        │  0.848936 │
+│ joint_prdc_f1.precision │  0.805895 │
+│ joint_prdc_f1.recall    │  0.896833 │
+└─────────────────────────┴───────────┘
