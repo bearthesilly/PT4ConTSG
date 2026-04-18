@@ -43,7 +43,7 @@ class StatsCache:
     def __init__(
         self,
         cache_folder: Path,
-        embedder: "CLIPEmbedder",
+        embedder: Optional["CLIPEmbedder"] = None,
         use_longalign: bool = False,
         device: Optional[torch.device] = None,
     ):
@@ -52,7 +52,7 @@ class StatsCache:
 
         Args:
             cache_folder: Directory for cached statistics files
-            embedder: CLIPEmbedder for computing embeddings
+            embedder: CLIPEmbedder for FID/JFTSD (optional; SD/KD/MDD need only raw series)
             use_longalign: Whether using LongAlign mode (affects JFTSD cache path)
             device: Torch device for computation
         """
@@ -106,11 +106,32 @@ class StatsCache:
         Args:
             train_loader: DataLoader for training data
         """
+        if self.embedder is None:
+            self.load_or_compute_statistical_only(train_loader)
+            return
+
         if self._try_load():
             return
 
         logger.info("Cache miss - computing statistics from training set")
         self._compute_and_save(train_loader)
+
+    def load_or_compute_statistical_only(
+        self, train_loader: DataLoader, num_bins: int = 32
+    ) -> None:
+        """
+        Load or compute SD/KD/MDD reference stats only (no CTTP / Frechet).
+
+        Uses the same cache files as the full pipeline so a prior CTTP run's
+        sd_ref_skew.npy etc. are reused when CTTP is unavailable.
+        """
+        if self._try_load_statistical_from_disk():
+            logger.info("Loaded SD/KD/MDD reference statistics from cache (no CTTP)")
+            return
+
+        logger.info("Computing SD/KD/MDD reference statistics from training set (no CTTP)")
+        self._compute_statistical_only(train_loader, num_bins=num_bins)
+        self._save_statistical_only()
 
     def _try_load(self) -> bool:
         """Try to load cached statistics from disk."""
@@ -144,6 +165,30 @@ class StatsCache:
         except Exception as e:
             logger.warning(f"Failed to load cached statistics: {e}")
             return False
+
+    def _try_load_statistical_from_disk(self) -> bool:
+        """Return True if SD, KD, and MDD reference files are all present and loaded."""
+        if not self._cache_paths["sd_skew"].exists():
+            return False
+        if not self._cache_paths["kd_kurt"].exists():
+            return False
+        mdd_files = [
+            self._cache_paths["mdd_bin_edges"],
+            self._cache_paths["mdd_ref_hist"],
+            self._cache_paths["mdd_ref_tot"],
+        ]
+        if not all(p.exists() for p in mdd_files):
+            return False
+        try:
+            self._try_load_statistical_stats()
+        except Exception as e:
+            logger.warning(f"Failed to load SD/KD/MDD cache files: {e}")
+            return False
+        return (
+            self.sd_stats is not None
+            and self.kd_stats is not None
+            and self.mdd_stats is not None
+        )
 
     def _try_load_statistical_stats(self) -> None:
         """Try to load SD/KD/MDD statistics (optional)."""
@@ -291,15 +336,44 @@ class StatsCache:
         self.mdd_stats = (bin_edges, ref_hist, ref_tot)
         logger.info(f"MDD: L={L}, F={F}, bins={num_bins}")
 
+    def _compute_statistical_only(
+        self, train_loader: DataLoader, num_bins: int = 32
+    ) -> None:
+        """Collect raw training series and compute SD/KD/MDD references."""
+        all_ts_raw: List[Tensor] = []
+        all_ts_len: List[Tensor] = []
+
+        with torch.no_grad():
+            for batch in smart_tqdm(train_loader, desc="SD/KD/MDD reference data"):
+                ts = batch["ts"].to(self.device).float()
+                ts_len = batch.get("ts_len")
+                if ts_len is not None:
+                    ts_len = ts_len.to(self.device).int()
+                else:
+                    ts_len = torch.full(
+                        (ts.shape[0],), ts.shape[1], device=self.device, dtype=torch.int
+                    )
+                all_ts_raw.append(ts.cpu())
+                all_ts_len.append(ts_len.cpu())
+
+        self._compute_statistical_stats(all_ts_raw, all_ts_len, num_bins=num_bins)
+
     def _save_stats(self) -> None:
         """Save all computed statistics to cache files."""
         # Frechet stats
-        np.save(self._cache_paths["fid_mean"], self.fid_stats[0])
-        np.save(self._cache_paths["fid_cov"], self.fid_stats[1])
-        np.save(self._cache_paths["jftsd_mean"], self.jftsd_stats[0])
-        np.save(self._cache_paths["jftsd_cov"], self.jftsd_stats[1])
+        if self.fid_stats is not None and self.jftsd_stats is not None:
+            np.save(self._cache_paths["fid_mean"], self.fid_stats[0])
+            np.save(self._cache_paths["fid_cov"], self.fid_stats[1])
+            np.save(self._cache_paths["jftsd_mean"], self.jftsd_stats[0])
+            np.save(self._cache_paths["jftsd_cov"], self.jftsd_stats[1])
 
         # Statistical metrics stats
+        self._save_statistical_only()
+
+        logger.info(f"Saved all statistics to: {self.cache_folder}")
+
+    def _save_statistical_only(self) -> None:
+        """Persist SD/KD/MDD arrays only."""
         if self.sd_stats is not None:
             np.save(self._cache_paths["sd_skew"], self.sd_stats)
         if self.kd_stats is not None:
@@ -308,8 +382,6 @@ class StatsCache:
             np.save(self._cache_paths["mdd_bin_edges"], self.mdd_stats[0])
             np.save(self._cache_paths["mdd_ref_hist"], self.mdd_stats[1])
             np.save(self._cache_paths["mdd_ref_tot"], self.mdd_stats[2])
-
-        logger.info(f"Saved all statistics to: {self.cache_folder}")
 
 
 __all__ = ["StatsCache"]

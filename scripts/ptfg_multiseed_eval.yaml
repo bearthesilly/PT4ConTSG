@@ -1,0 +1,32 @@
+# List of PT-FG experiment directories (relative to repo root).
+# Each path is passed to: contsg evaluate <path> --seed <s> -o eval_seed<s>.json
+#
+# Paths below point at existing `*_pt_factor_generator` runs in this repo; replace
+# timestamps with your own checkpoints if you retrain.
+
+experiments:
+  # Synthetic (VerbalTS-style synth-u / synth-m data folders)
+  - rel_path: experiments/20260402_152251_synth-u_pt_factor_generator
+    label: Synth-U
+  - rel_path: experiments/20260404_201933_synth-m_pt_factor_generator
+    label: Synth-M
+  # Real / clinical
+  - rel_path: experiments/20260403_165923_airquality_beijing_pt_factor_generator
+    label: AirQuality Beijing
+  - rel_path: experiments/20260403_170059_ettm1_pt_factor_generator
+    label: ETTm1
+  - rel_path: experiments/20260403_171021_istanbul_traffic_pt_factor_generator
+    label: Istanbul Traffic
+  - rel_path: experiments/20260403_170813_telecomts_segment_pt_factor_generator
+    label: TelecomTS
+  - rel_path: experiments/20260403_171215_weather_concept_pt_factor_generator
+    label: Weather Conceptual
+  - rel_path: experiments/20260403_171344_weather_morphology_pt_factor_generator
+    label: Weather Morphological
+  # PTB-XL (concept = extrinsic captions, morphology = intrinsic)
+  - rel_path: experiments/20260403_170305_ptbxl_concept_pt_factor_generator
+    label: PTB-XL Conceptual
+  - rel_path: experiments/20260403_170623_ptbxl_morphology_pt_factor_generator
+    label: PTB-XL Morphological
+
+seeds: [42, 142, 242]

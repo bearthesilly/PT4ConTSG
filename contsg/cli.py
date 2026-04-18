@@ -512,6 +512,10 @@ def evaluate(
         None, "--output", "-o",
         help="Output filename for results (default: eval_results.json)",
     ),
+    seed: Optional[int] = typer.Option(
+        None, "--seed",
+        help="Random seed for evaluation (overrides config seed; affects sampling and seeded metrics)",
+    ),
 ):
     """
     Evaluate a trained model.
@@ -529,6 +533,8 @@ def evaluate(
         contsg evaluate experiments/exp1/ --cache-only  # Skip model loading, use cache only
 
         contsg evaluate experiments/exp1/ --use-cache --viz --viz-n-cases 10  # Save figures
+
+        contsg evaluate experiments/exp1/ --seed 142 -o eval_seed142.json  # Multi-seed eval
     """
     _ensure_imports()
 
@@ -588,6 +594,13 @@ def evaluate(
     except Exception as e:
         console.print(f"[red]Failed to load evaluator:[/red] {e}")
         raise typer.Exit(1)
+
+    eval_seed = int(seed) if seed is not None else int(config.seed)
+    evaluator.config = evaluator.config.model_copy(update={"seed": eval_seed})
+    import pytorch_lightning as pl
+
+    pl.seed_everything(eval_seed, workers=True)
+    console.print(f"[blue]Evaluation seed:[/blue] {eval_seed}")
 
     # Override visualization settings if requested (without mutating config.yaml)
     if viz:

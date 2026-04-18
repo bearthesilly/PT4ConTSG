@@ -367,6 +367,61 @@ class Evaluator:
 
         return cls(model, config, datamodule, device, cache_only_mode=cache_only)
 
+    def _get_train_dataloader(self) -> DataLoader:
+        """Training loader for reference statistics (SD/KD/MDD, FID cache)."""
+        if getattr(self.datamodule, "train_dataset", None) is not None:
+            return self.datamodule.train_dataloader()
+        self.datamodule.setup("fit")
+        return self.datamodule.train_dataloader()
+
+    def _distribution_metrics_need_train_cache(self, metrics: List[str]) -> bool:
+        if getattr(self.config.eval, "reference_split", "train") != "train":
+            return False
+        return bool({"sd", "kd", "mdd"} & set(metrics))
+
+    def _stats_cache_has_distribution_refs(self) -> bool:
+        if self.stats_cache is None:
+            return False
+        return (
+            self.stats_cache.sd_stats is not None
+            and self.stats_cache.kd_stats is not None
+            and self.stats_cache.mdd_stats is not None
+        )
+
+    def _ensure_statistical_reference_cache(self, metrics: List[str]) -> None:
+        """
+        When CTTP is unavailable or eval runs without CLIP, still load/compute
+        SD/KD/MDD train references if eval.cache_folder is set.
+        """
+        if not self._distribution_metrics_need_train_cache(metrics):
+            return
+        cache_folder = getattr(self.config.eval, "cache_folder", None)
+        if not cache_folder:
+            logger.warning(
+                "SD/KD/MDD use train reference but eval.cache_folder is unset; "
+                "those metrics may be NaN without pre-injected references."
+            )
+            return
+        if self._stats_cache_has_distribution_refs():
+            return
+        try:
+            from contsg.eval.stats_cache import StatsCache
+
+            if self.stats_cache is None:
+                self.stats_cache = StatsCache(
+                    cache_folder=Path(cache_folder),
+                    embedder=None,
+                    use_longalign=self.config.eval.use_longalign,
+                    device=self.device,
+                )
+            train_loader = self._get_train_dataloader()
+            self.stats_cache.load_or_compute_statistical_only(
+                train_loader,
+                num_bins=self.config.eval.mdd_bins,
+            )
+        except Exception as e:
+            logger.warning(f"Could not load/compute SD/KD/MDD reference cache: {e}")
+
     def init_clip(
         self,
         clip_config_path: Optional[Union[Path, str]] = None,
@@ -405,10 +460,10 @@ class Evaluator:
             logger.info("CLIP config/model paths not provided, skipping CLIP initialization")
             return False
 
-        try:
-            from contsg.eval.embedder import CLIPEmbedder
-            from contsg.eval.stats_cache import StatsCache
+        from contsg.eval.embedder import CLIPEmbedder
+        from contsg.eval.stats_cache import StatsCache
 
+        try:
             self.embedder = CLIPEmbedder(
                 clip_config_path=clip_config_path,
                 clip_model_path=clip_model_path,
@@ -416,7 +471,22 @@ class Evaluator:
                 use_longalign=use_longalign,
                 normalize_embeddings=normalize_embeddings,
             )
+        except FileNotFoundError as e:
+            logger.warning(f"CLIP files not found: {e}")
+            logger.warning("CLIP-dependent metrics will be skipped")
+            self.embedder = None
+            self.clip_available = False
+            self._init_statistical_cache_after_clip_failure(cache_folder, use_longalign)
+            return False
+        except Exception as e:
+            logger.warning(f"CLIP initialization failed: {e}")
+            logger.warning("CLIP-dependent metrics will be skipped")
+            self.embedder = None
+            self.clip_available = False
+            self._init_statistical_cache_after_clip_failure(cache_folder, use_longalign)
+            return False
 
+        try:
             if cache_folder:
                 self.stats_cache = StatsCache(
                     cache_folder=Path(cache_folder),
@@ -424,21 +494,47 @@ class Evaluator:
                     use_longalign=use_longalign,
                     device=self.device,
                 )
-                # Load or compute stats from training set
-                train_loader = self.datamodule.train_dataloader() if getattr(self.datamodule, "train_dataset", None) is not None else (self.datamodule.setup("fit") or self.datamodule.train_dataloader())
+                train_loader = self._get_train_dataloader()
                 self.stats_cache.load_or_compute(train_loader)
+            else:
+                self.stats_cache = None
 
             self.clip_available = True
             logger.info("CLIP embedder initialized successfully")
             return True
 
-        except FileNotFoundError as e:
-            logger.warning(f"CLIP files not found: {e}")
-            logger.warning("CLIP-dependent metrics will be skipped")
-            return False
         except Exception as e:
-            logger.warning(f"CLIP initialization failed: {e}")
-            return False
+            logger.warning(f"Statistics cache failed after CLIP load: {e}")
+            self.stats_cache = None
+            self.clip_available = True
+            return True
+
+    def _init_statistical_cache_after_clip_failure(
+        self,
+        cache_folder: Optional[Union[Path, str]],
+        use_longalign: bool,
+    ) -> None:
+        """Populate SD/KD/MDD references when CTTP cannot be loaded."""
+        if not cache_folder:
+            return
+        try:
+            from contsg.eval.stats_cache import StatsCache
+
+            self.stats_cache = StatsCache(
+                cache_folder=Path(cache_folder),
+                embedder=None,
+                use_longalign=use_longalign,
+                device=self.device,
+            )
+            train_loader = self._get_train_dataloader()
+            self.stats_cache.load_or_compute_statistical_only(
+                train_loader,
+                num_bins=self.config.eval.mdd_bins,
+            )
+            logger.info("SD/KD/MDD reference statistics ready without CTTP")
+        except Exception as e:
+            logger.warning(f"Could not initialize SD/KD/MDD cache without CTTP: {e}")
+            self.stats_cache = None
 
     # ==========================================================================
     # Prediction Caching
@@ -599,6 +695,8 @@ class Evaluator:
         # Initialize metric runner
         self.metric_runner = MetricRunner(metrics, metric_configs)
         self.metric_runner.reset_all()
+
+        self._ensure_statistical_reference_cache(metrics)
 
         # Set reference statistics if available
         if self.stats_cache is not None:

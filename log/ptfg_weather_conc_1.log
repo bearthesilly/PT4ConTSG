@@ -657,3 +657,22 @@ Evaluation results saved to: experiments/20260403_171215_weather_concept_pt_fact
 │ cttp          │       N/A │
 │ disc_auc      │  0.907553 │
 └───────────────┴───────────┘
+
+┏━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┓
+┃ Metric        ┃       Value ┃
+┡━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━┩
+│ dtw           │   10.328649 │
+│ wape          │   46.355675 │
+│ ed            │   11.028286 │
+│ crps          │    0.210518 │
+│ acd           │    0.070623 │
+│ sd            │   17.491746 │
+│ kd            │ 2280.071893 │
+│ mdd           │    0.006576 │
+│ fid           │         N/A │
+│ jftsd         │         N/A │
+│ prdc_f1       │         N/A │
+│ joint_prdc_f1 │         N/A │
+│ cttp          │         N/A │
+│ disc_auc      │    0.917759 │
+└───────────────┴─────────────┘
